@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import styles from "./nav-links.module.css";
 
 const links = [
@@ -12,18 +13,33 @@ const links = [
 
 export function NavLinks() {
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className={styles.nav}>
-      {links.map(({ href, label }) => (
-        <Link
-          key={href}
-          href={href}
-          className={`${styles.link} ${pathname.startsWith(href) ? styles.active : styles.inactive}`}
-        >
-          {label}
-        </Link>
-      ))}
-    </nav>
+    <>
+      <button
+        className={styles.burgerButton}
+        onClick={() => setIsOpen(!isOpen)}
+        aria-label="Toggle menu"
+        aria-expanded={isOpen}
+      >
+        <span className={`${styles.burgerLine} ${isOpen ? styles.burgerLineTop : ""}`} />
+        <span className={`${styles.burgerLine} ${isOpen ? styles.burgerLineMid : ""}`} />
+        <span className={`${styles.burgerLine} ${isOpen ? styles.burgerLineBot : ""}`} />
+      </button>
+
+      <nav className={`${styles.nav} ${isOpen ? styles.navOpen : ""}`}>
+        {links.map(({ href, label }) => (
+          <Link
+            key={href}
+            href={href}
+            className={`${styles.link} ${pathname.startsWith(href) ? styles.active : styles.inactive}`}
+            onClick={() => setIsOpen(false)}
+          >
+            {label}
+          </Link>
+        ))}
+      </nav>
+    </>
   );
 }

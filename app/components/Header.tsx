@@ -12,6 +12,7 @@ export function Header() {
           </span>
           <span className={styles.logoText}>Rick &amp; Morty</span>
         </Link>
+
         <NavLinks />
       </div>
     </header>

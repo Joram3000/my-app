@@ -1,3 +1,35 @@
+.burgerButton {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.burgerLine {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: var(--color-white);
+  border-radius: 2px;
+  transition: transform 0.25s, opacity 0.25s;
+}
+
+.burgerLineTop {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.burgerLineMid {
+  opacity: 0;
+}
+
+.burgerLineBot {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
 .nav {
   display: flex;
   align-items: center;
@@ -26,4 +58,32 @@
 .inactive:hover {
   background-color: var(--color-gray-800);
   color: var(--color-white);
+}
+
+@media (max-width: 640px) {
+  .burgerButton {
+    display: flex;
+  }
+
+  .nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    background-color: rgba(10, 10, 10, 0.98);
+    border-bottom: 1px solid var(--color-gray-800);
+    padding: 0.5rem;
+    backdrop-filter: blur(4px);
+  }
+
+  .navOpen {
+    display: flex;
+  }
+
+  .link {
+    padding: 0.75rem 1rem;
+  }
 }
