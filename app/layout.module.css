@@ -1,0 +1,32 @@
+.body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background-color: var(--color-gray-950);
+  font-family: var(--font-sans);
+  color: var(--color-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+.main {
+  flex: 1;
+  padding: 1.5rem 1rem;
+}
+
+@media (min-width: 640px) {
+  .main {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .main {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+

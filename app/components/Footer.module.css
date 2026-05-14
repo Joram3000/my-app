@@ -1,0 +1,27 @@
+.footer {
+  border-top: 1px solid var(--color-gray-800);
+  padding: 1.25rem 1rem;
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .footer {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+.footerText {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--color-gray-600);
+}
+
+.footerLink {
+  color: var(--color-green-700);
+  text-decoration: none;
+}
+
+.footerLink:hover {
+  color: var(--color-green-500);
+}
