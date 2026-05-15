@@ -64,7 +64,6 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: 0.875rem;
-  line-height: 1.25rem;
   font-weight: 600;
   color: var(--color-white);
 }
@@ -81,6 +80,5 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: 0.75rem;
-  line-height: 1rem;
   color: var(--color-gray-400);
 }

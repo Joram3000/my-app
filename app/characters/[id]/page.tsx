@@ -47,11 +47,9 @@ async function CharacterDetail({ params }: { params: Params }) {
         </div>
 
         <div className={styles.infoSection}>
-          <div>
+          <div className={styles.nameStatusWrapper}>
             <h1 className={styles.name}>{character.name}</h1>
-            <div className={styles.statusWrapper}>
-              {/* <StatusBadge status={character.status} /> */}
-            </div>
+            <p className={styles.status}>({character.status})</p>
           </div>
 
           <dl className={styles.infoGrid}>
