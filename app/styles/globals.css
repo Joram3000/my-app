@@ -36,6 +36,7 @@
   border-width: 0;
   border-style: solid;
   border-color: var(--color-gray-200);
+  outline: 1px dotted rgb(239, 4, 180);
 }
 
 html {
