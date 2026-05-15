@@ -1,21 +1,11 @@
 "use client";
 
-import { useCallback, useState } from "react";
 import { CharacterCard } from "./character-card";
 import styles from "./character-grid.module.css";
 import { Character } from "@/lib/api/rickMorty/rickMorty.types";
+import Link from "next/link";
 
 export function CharacterGrid({ characters }: { characters: Character[] }) {
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-
-  const handleSelect = useCallback(
-    (character: Character) => {
-      setSelectedIndex(characters.findIndex((c) => c.id === character.id));
-      console.log("handleSelect called with character:", character);
-    },
-    [characters],
-  );
-
   if (characters.length === 0) {
     return (
       <div className={styles.empty}>
@@ -28,11 +18,19 @@ export function CharacterGrid({ characters }: { characters: Character[] }) {
     <>
       <div className={styles.grid}>
         {characters.map((char) => (
-          <CharacterCard
+          <Link
+            href={`/characters/${char.id}`}
             key={char.id}
-            character={char}
-            onClick={handleSelect}
-          />
+            className={styles.link}
+          >
+            <CharacterCard
+              key={char.id}
+              character={char}
+              onClick={() => {
+                // open modal with character details
+              }}
+            />
+          </Link>
         ))}
       </div>
     </>
