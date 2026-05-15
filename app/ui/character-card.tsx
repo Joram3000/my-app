@@ -6,12 +6,13 @@ import { Character } from "@/lib/api/rickMorty/rickMorty.types";
 
 interface CharacterCardProps {
   character: Character;
+  onClick: (character: Character) => void;
 }
 
-export function CharacterCard({ character }: CharacterCardProps) {
+export function CharacterCard({ character, onClick }: CharacterCardProps) {
   return (
     <button
-      onClick={() => console.log(`Clicked on ${character.name}`, character)}
+      onClick={() => onClick(character)}
       className={styles.card}
       aria-label={`View ${character.name}`}
     >

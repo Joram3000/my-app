@@ -1,8 +1,16 @@
-.grid {
-  display: grid;
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(clamp(240px, 25vw, 240px), 1fr)
-  );
-  gap: clamp(1rem, 4vw, 1.5rem);
+.container {
+  margin: 0 auto;
+  max-width: 80rem;
+}
+
+.heading {
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+.count {
+  font-size: 0.875rem;
+  color: var(--color-gray-500);
 }
