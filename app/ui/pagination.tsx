@@ -18,7 +18,8 @@ export function Pagination({ info, currentPage, basePath }: PaginationProps) {
     return `${basePath}?${params}`;
   }
 
-  const pages = buildPageRange(currentPage, info.pages);
+  const pages = buildPageRange(currentPage, info.pages, 5);
+  const mobilePages = buildPageRange(currentPage, info.pages, 3);
 
   return (
     <nav className={styles.nav} aria-label="Pagination">
@@ -26,6 +27,7 @@ export function Pagination({ info, currentPage, basePath }: PaginationProps) {
         href={buildHref(1)}
         disabled={currentPage === 1}
         label="First page"
+        mobileHidden
       >
         «
       </PaginationLink>
@@ -38,16 +40,27 @@ export function Pagination({ info, currentPage, basePath }: PaginationProps) {
         ←
       </PaginationLink>
 
-      {pages.map((p) => (
-        <PaginationLink
-          key={p}
-          href={buildHref(p)}
-          active={p === currentPage}
-          label={`Page ${p}`}
-        >
-          {p}
-        </PaginationLink>
-      ))}
+      {pages.map((p, i) => {
+        const mid = (pages.length - 1) / 2;
+        const dist = i - mid;
+        const perspective = Math.abs(dist) > 0 ? 800 - Math.abs(dist) * 150 : 0;
+        const rotateY = dist * 12;
+        return (
+          <PaginationLink
+            key={p}
+            href={buildHref(p)}
+            active={p === currentPage}
+            label={`Page ${p}`}
+            style={
+              p !== currentPage
+                ? { "--perspective": `${perspective}px`, "--rotateY": `${rotateY}deg` } as React.CSSProperties
+                : undefined
+            }
+          >
+            {p}
+          </PaginationLink>
+        );
+      })}
 
       <PaginationLink
         href={buildHref(currentPage + 1)}
@@ -61,6 +74,7 @@ export function Pagination({ info, currentPage, basePath }: PaginationProps) {
         href={buildHref(info.pages)}
         disabled={currentPage === info.pages}
         label="Last page"
+        mobileHidden
       >
         »
       </PaginationLink>
@@ -73,20 +87,25 @@ function PaginationLink({
   disabled,
   active,
   label,
+  mobileHidden,
+  style,
   children,
 }: {
   href: string;
   disabled?: boolean;
   active?: boolean;
   label: string;
+  mobileHidden?: boolean;
+  style?: React.CSSProperties;
   children: React.ReactNode;
 }) {
+  const hiddenClass = mobileHidden ? styles.mobileHidden : "";
   if (disabled) {
     return (
       <button
         disabled
         aria-label={label}
-        className={`${styles.disabled} ${styles.tooltip}`}
+        className={`${styles.disabled} ${styles.tooltip} ${hiddenClass}`}
         data-tooltip={label}
       >
         {children}
@@ -98,16 +117,17 @@ function PaginationLink({
       href={href}
       aria-label={label}
       aria-current={active ? "page" : undefined}
-      className={`${styles.link} ${styles.tooltip} ${active ? styles.linkActive : styles.linkInactive}`}
+      className={`${styles.link} ${styles.tooltip} ${active ? styles.linkActive : styles.linkInactive} ${hiddenClass}`}
       data-tooltip={label}
+      style={style}
     >
       {children}
     </Link>
   );
 }
 
-function buildPageRange(current: number, total: number): number[] {
-  const count = Math.min(5, total);
+function buildPageRange(current: number, total: number, count = 5): number[] {
+  count = Math.min(count, total);
   let start = Math.max(1, current - Math.floor(count / 2));
   const end = Math.min(total, start + count - 1);
   start = Math.max(1, end - count + 1);

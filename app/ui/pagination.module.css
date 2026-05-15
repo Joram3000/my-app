@@ -1,28 +1,3 @@
-.tooltip {
-  position: relative;
-}
-
-.tooltip::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: calc(100% + 6px);
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: var(--color-gray-800, #1f2937);
-  color: var(--color-white, #fff);
-  font-size: 0.75rem;
-  white-space: nowrap;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.15s;
-}
-
-.tooltip:hover::after {
-  opacity: 1;
-}
-
 .nav {
   margin-top: 2rem;
   display: flex;
@@ -47,7 +22,8 @@
   text-decoration: none;
   transition:
     color 0.15s,
-    background-color 0.15s;
+    background-color 0.15s,
+    transform 0.15s;
 }
 
 .linkActive {
@@ -63,6 +39,17 @@
 .linkInactive:hover {
   background-color: var(--color-gray-500);
   color: var(--color-white);
+  transform: perspective(300px) rotateX(15deg);
+}
+
+@media (max-width: 640px) {
+  .nav {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .mobileHidden {
+    display: none;
+  }
 }
 
 .disabled {
@@ -75,4 +62,29 @@
   color: var(--color-gray-700);
   background: transparent;
   border: none;
+}
+
+.tooltip {
+  position: relative;
+}
+
+.tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-gray-800, #1f2937);
+  color: var(--color-white, #fff);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.tooltip:hover::after {
+  opacity: 1;
 }
