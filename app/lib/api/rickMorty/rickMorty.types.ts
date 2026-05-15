@@ -1,20 +1,20 @@
 export type CharacterStatus = "Alive" | "Dead" | "unknown";
 export type CharacterGender = "Female" | "Male" | "Genderless" | "unknown";
 
-export type Character = {
+export interface Character {
   id: number;
   name: string;
   status: CharacterStatus;
   species: string;
-  image: string;
   type: string;
   gender: CharacterGender;
-  // origin: [Object]; // name and link
-  // location: [Object]; name and link
-  // episode: Array; // aray of urls
+  origin: { name: string; url: string };
+  location: { name: string; url: string };
+  image: string;
+  episode: string[];
   url: string;
   created: string;
-};
+}
 
 export type PaginatedResponse<T> = {
   info: {

@@ -11,7 +11,7 @@ interface CharacterCardProps {
 export function CharacterCard({ character }: CharacterCardProps) {
   return (
     <button
-      onClick={() => console.log(`Clicked on ${character.name}`)}
+      onClick={() => console.log(`Clicked on ${character.name}`, character)}
       className={styles.card}
       aria-label={`View ${character.name}`}
     >

@@ -13,3 +13,11 @@ export async function fetchCharacters(
 
   return res.json() as Promise<PaginatedResponse<Character>>;
 }
+
+export async function fetchCharacter(id: number): Promise<Character | null> {
+  const res = await fetch(`${BASE_URL}/character/${id}`, {
+    next: { revalidate: 3600 },
+  });
+  if (!res.ok) return null;
+  return res.json();
+}
