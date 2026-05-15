@@ -36,10 +36,10 @@
   border-width: 0;
   border-style: solid;
   border-color: var(--color-gray-200);
+  outline: 1px dotted rgb(239, 4, 180);
 }
 
 html {
-  line-height: 1.5;
   -webkit-text-size-adjust: 100%;
   tab-size: 4;
   font-family: var(--font-sans);
@@ -48,7 +48,6 @@ html {
 
 body {
   margin: 0;
-  line-height: inherit;
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;

@@ -15,7 +15,9 @@
   height: 2px;
   background-color: var(--color-white);
   border-radius: 2px;
-  transition: transform 0.25s, opacity 0.25s;
+  transition:
+    transform 0.25s,
+    opacity 0.25s;
 }
 
 .burgerLineTop {
@@ -40,10 +42,11 @@
   border-radius: 0.5rem;
   padding: 0.375rem 0.75rem;
   font-size: 0.875rem;
-  line-height: 1.25rem;
   font-weight: 500;
   text-decoration: none;
-  transition: color 0.15s, background-color 0.15s;
+  transition:
+    color 0.15s,
+    background-color 0.15s;
 }
 
 .active {
