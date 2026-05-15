@@ -4,6 +4,7 @@ import { type Metadata } from "next";
 import { fetchCharacters } from "@/lib/api/rickMorty/rickMorty";
 import { CharacterGrid } from "@/ui/character-grid";
 import styles from "./page.module.css";
+import { Pagination } from "@/ui/pagination";
 
 export const metadata: Metadata = { title: "Characters" };
 
@@ -49,6 +50,11 @@ async function CharactersContent({
           : "No characters found"}
       </p>
       <CharacterGrid characters={data.results} />
+      <Pagination
+        info={data.info}
+        currentPage={currentPage}
+        basePath="/characters"
+      />
     </>
   );
 }

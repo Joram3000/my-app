@@ -1,6 +1,6 @@
 import type { Character, PaginatedResponse } from "./rickMorty.types";
 
-const BASE_URL = "https://rickandmortyapi.com/api";
+export const BASE_URL = "https://rickandmortyapi.com/api";
 
 export async function fetchCharacters(
   page = 1,
