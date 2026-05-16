@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { type Metadata } from "next";
 import styles from "./page.module.css";
 import { fetchCharacter } from "@/lib/api/rickMorty/rickMorty";
+import { InfoCard } from "@/ui/info-card";
 
 export const metadata: Metadata = { title: "Character" };
 
@@ -87,11 +88,3 @@ async function CharacterDetail({ params }: { params: Params }) {
   );
 }
 
-function InfoCard({ label, value }: { label: string; value: string }) {
-  return (
-    <div className={styles.infoCard}>
-      <dt className={styles.infoLabel}>{label}</dt>
-      <dd className={styles.infoValue}>{value}</dd>
-    </div>
-  );
-}

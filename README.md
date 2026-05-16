@@ -19,9 +19,11 @@ Location Detail page maken, en nav toevoegen
 Profile card locations ook linken
 
 Episodes route
-Episodes styling, via seasons, horizontaal scrolletje geven
+
+Optimizations even stashen om op eigen branche te pushen
 
 To DO's
+Episodes styling, via seasons, horizontaal scrolletje geven
 Perspectief effect Pagination
 Modal naar Carousel omzetten
 Loaders en Skeletons

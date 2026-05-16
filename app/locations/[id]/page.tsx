@@ -8,6 +8,7 @@ import {
   fetchLocation,
 } from "@/lib/api/rickMorty/rickMorty";
 import { CharacterGrid } from "@/ui/character-grid";
+import { InfoCard } from "@/ui/info-card";
 
 export const metadata: Metadata = { title: "Location" };
 
@@ -64,21 +65,14 @@ async function LocationDetail({ params }: { params: Params }) {
           <h2 className={styles.sectionHeading}>
             Residents
             {location.residents.length > 20 && (
-              <span className={styles.sectionNote}>(showing first 20)</span>
+              <span className={styles.sectionNote}>
+                (showing first 20 of {location.residents.length})
+              </span>
             )}
           </h2>
           <CharacterGrid characters={residents} />
         </section>
       )}
     </>
-  );
-}
-
-function InfoCard({ label, value }: { label: string; value: string }) {
-  return (
-    <div className={styles.infoCard}>
-      <dt className={styles.infoLabel}>{label}</dt>
-      <dd className={styles.infoValue}>{value}</dd>
-    </div>
   );
 }

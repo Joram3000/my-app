@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import Link from "next/link";
 import styles from "./episode-list.module.css";
 import { Episode, ApiInfo } from "@/lib/api/rickMorty/rickMorty.types";
+import { fetchEpisodes } from "@/lib/api/rickMorty/rickMorty";
 
 interface EpisodeListProps {
   initialEpisodes: Episode[];
@@ -21,17 +22,16 @@ export function EpisodeList({
 
   async function loadMore() {
     const nextPage = page + 1;
-    const params = new URLSearchParams({ page: String(nextPage) });
 
     startTransition(async () => {
-      const res = await fetch(
-        `https://rickandmortyapi.com/api/episode?${params}`,
-      );
-      if (!res.ok) return;
-      const data = await res.json();
-      setEpisodes((prev) => [...prev, ...data.results]);
-      setInfo(data.info);
-      setPage(nextPage);
+      try {
+        const data = await fetchEpisodes(nextPage);
+        setEpisodes((prev) => [...prev, ...data.results]);
+        setInfo(data.info);
+        setPage(nextPage);
+      } catch {
+        // silently ignore — button stays enabled for retry
+      }
     });
   }
 

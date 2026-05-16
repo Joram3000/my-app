@@ -37,6 +37,20 @@
   opacity: 0.5;
 }
 
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spinnerIcon {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 9999px;
+  border: 2px solid var(--color-green-500);
+  border-top-color: transparent;
+  animation: spin 0.6s linear infinite;
+}
+
 .count {
   margin-top: 1rem;
   text-align: center;
