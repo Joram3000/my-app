@@ -36,6 +36,9 @@
   border-width: 0;
   border-style: solid;
   border-color: var(--color-gray-200);
+}
+
+body.outline-enabled *:not([style*='border']):not([class*='border']):not(svg):not(svg *) {
   outline: 1px dotted rgb(239, 4, 180);
 }
 

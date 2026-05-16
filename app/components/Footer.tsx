@@ -5,7 +5,14 @@ import styles from "./Footer.module.css";
 export function Footer() {
   return (
     <footer className={styles.footer}>
-      <p className={styles.footerText}>Made by Joram Kroon</p>
+      <a
+        href="https://www.joramkroon.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={styles.footerText}
+      >
+        Made by Joram Kroon
+      </a>
     </footer>
   );
 }

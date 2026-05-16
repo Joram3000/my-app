@@ -12,9 +12,15 @@ Character card maken
 Character Detail page maken , en nav toevogen
 Pagination uitzoeken en werkend krijgen
 Modal bouwen, met navigation.
+Location page opzetten en data binnen halen
+Location Detail page maken, en nav toevoegen
 
 To DO's
 Perspectief effect Pagination
 Modal naar Carousel omzetten
 Loaders
 Icons toevoegen (pagination, pijlen)
+Profile card locations ook linken (want cool)
+
+Concerns:
+pagination op location

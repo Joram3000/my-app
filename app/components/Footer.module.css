@@ -1,10 +1,12 @@
 .footer {
   border-top: 1px solid var(--color-gray-800);
   padding: 1rem;
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
   text-align: center;
 }
 
 .footerText {
-  font-size: 0.75rem;
-  color: var(--color-gray-50);
+  text-decoration: none;
 }
