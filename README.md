@@ -11,9 +11,10 @@ Character page opzetten en data binnen halen
 Character card maken
 Character Detail page maken , en nav toevogen
 Pagination uitzoeken en werkend krijgen
-
-Modal bouwen
+Modal bouwen, met navigation.
 
 To DO's
 Perspectief effect Pagination
-ICONS goed zetten van pagination
+Modal naar Carousel omzetten
+Loaders
+Icons toevoegen (pagination, pijlen)

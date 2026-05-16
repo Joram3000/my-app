@@ -3,9 +3,19 @@
 import { CharacterCard } from "./character-card";
 import styles from "./character-grid.module.css";
 import { Character } from "@/lib/api/rickMorty/rickMorty.types";
-import Link from "next/link";
+import { CharacterModal } from "./character-modal";
+import { useCallback, useState } from "react";
 
 export function CharacterGrid({ characters }: { characters: Character[] }) {
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
+  const handleSelect = useCallback(
+    (character: Character) => {
+      setSelectedIndex(characters.findIndex((c) => c.id === character.id));
+    },
+    [characters],
+  );
+
   if (characters.length === 0) {
     return (
       <div className={styles.empty}>
@@ -14,25 +24,26 @@ export function CharacterGrid({ characters }: { characters: Character[] }) {
     );
   }
 
+  const selected = selectedIndex !== null ? characters[selectedIndex] : null;
+
   return (
     <>
       <div className={styles.grid}>
         {characters.map((char) => (
-          <Link
-            href={`/characters/${char.id}`}
+          <CharacterCard
             key={char.id}
-            className={styles.link}
-          >
-            <CharacterCard
-              key={char.id}
-              character={char}
-              onClick={() => {
-                // open modal with character details
-              }}
-            />
-          </Link>
+            character={char}
+            onClick={handleSelect}
+          />
         ))}
       </div>
+
+      {selected && selectedIndex !== null && (
+        <CharacterModal
+          character={selected}
+          onClose={() => setSelectedIndex(null)}
+        />
+      )}
     </>
   );
 }

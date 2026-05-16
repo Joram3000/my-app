@@ -16,7 +16,7 @@ export default function CharacterPage({ params }: { params: Params }) {
       <Link href="/characters" className={styles.backLink}>
         ← Back to characters
       </Link>
-      <Suspense fallback={null}>
+      <Suspense fallback={<p>...loading</p>}>
         <CharacterDetail params={params} />
       </Suspense>
     </div>
