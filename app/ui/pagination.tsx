@@ -19,7 +19,6 @@ export function Pagination({ info, currentPage, basePath }: PaginationProps) {
   }
 
   const pages = buildPageRange(currentPage, info.pages, 5);
-  const mobilePages = buildPageRange(currentPage, info.pages, 3);
 
   return (
     <nav className={styles.nav} aria-label="Pagination">
@@ -53,7 +52,10 @@ export function Pagination({ info, currentPage, basePath }: PaginationProps) {
             label={`Page ${p}`}
             style={
               p !== currentPage
-                ? { "--perspective": `${perspective}px`, "--rotateY": `${rotateY}deg` } as React.CSSProperties
+                ? ({
+                    "--perspective": `${perspective}px`,
+                    "--rotateY": `${rotateY}deg`,
+                  } as React.CSSProperties)
                 : undefined
             }
           >
