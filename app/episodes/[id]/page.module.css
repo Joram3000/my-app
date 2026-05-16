@@ -24,20 +24,41 @@
   padding: 1.5rem;
 }
 
+@media (min-width: 640px) {
+  .card {
+    padding: 2rem;
+  }
+}
+
 .cardHeader {
   display: flex;
   align-items: flex-start;
   gap: 1rem;
 }
 
-.locationName {
+.episodeBadge {
+  display: flex;
+  width: 3.5rem;
+  height: 3.5rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: rgba(34, 197, 94, 0.1);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-green-400);
+}
+
+.episodeName {
   font-size: 1.875rem;
   font-weight: 700;
   color: var(--color-white);
   margin: 0;
 }
 
-.locationResidents {
+.episodeDate {
   margin-top: 0.25rem;
   font-size: 0.875rem;
   color: var(--color-gray-500);
@@ -48,6 +69,12 @@
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
   gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .infoGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 .section {
@@ -66,13 +93,4 @@
   font-size: 0.875rem;
   font-weight: 400;
   color: var(--color-gray-500);
-}
-
-@media (min-width: 640px) {
-  .infoGrid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-  .card {
-    padding: 2rem;
-  }
 }

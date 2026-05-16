@@ -75,24 +75,6 @@
   gap: 0.75rem;
 }
 
-.infoCard {
-  border-radius: 0.5rem;
-  background-color: rgba(38, 38, 38, 0.5);
-  padding: 0.75rem;
-}
-
-.infoLabel {
-  font-size: 0.75rem;
-  color: var(--color-gray-300);
-}
-
-.infoValue {
-  margin-top: 0.125rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--color-white);
-}
-
 .episodesSection {
   border-top: 1px solid var(--color-gray-500);
   padding: 1.5rem;

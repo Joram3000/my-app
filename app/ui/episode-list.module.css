@@ -1,0 +1,142 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.loadMoreWrapper {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.loadMoreBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-gray-700);
+  background-color: var(--color-gray-900);
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-white);
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background-color 0.15s;
+}
+
+.loadMoreBtn:hover:not(:disabled) {
+  border-color: rgba(34, 197, 94, 0.5);
+  background-color: var(--color-gray-800);
+}
+
+.loadMoreBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spinnerIcon {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 9999px;
+  border: 2px solid var(--color-green-500);
+  border-top-color: transparent;
+  animation: spin 0.6s linear infinite;
+}
+
+.count {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--color-gray-600);
+}
+
+.empty {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  text-align: center;
+}
+
+.emptyText {
+  color: var(--color-gray-500);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-gray-800);
+  background-color: var(--color-gray-900);
+  padding: 1rem;
+  text-decoration: none;
+  transition:
+    border-color 0.15s,
+    background-color 0.15s;
+}
+
+.row:hover {
+  border-color: rgba(34, 197, 94, 0.4);
+  background-color: rgba(38, 38, 38, 0.8);
+}
+
+.episodeCode {
+  display: flex;
+  width: 3rem;
+  height: 3rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  background-color: rgba(34, 197, 94, 0.1);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-green-400);
+}
+
+.rowInfo {
+  min-width: 0;
+  flex: 1;
+}
+
+.rowTitle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+  color: var(--color-white);
+  transition: color 0.15s;
+}
+
+.row:hover .rowTitle {
+  color: var(--color-green-300);
+}
+
+.rowDate {
+  font-size: 0.875rem;
+  color: var(--color-gray-500);
+}
+
+.rowCount {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  color: var(--color-gray-600);
+}
+
+.rowArrow {
+  flex-shrink: 0;
+  color: var(--color-gray-600);
+  transition: transform 0.15s;
+}
+
+.row:hover .rowArrow {
+  transform: translateX(0.125rem);
+}
