@@ -14,14 +14,15 @@ Pagination uitzoeken en werkend krijgen
 Modal bouwen, met navigation.
 Location page opzetten en data binnen halen
 Location Detail page maken, en nav toevoegen
+Profile card locations ook linken
 
 To DO's
 Perspectief effect Pagination
 Modal naar Carousel omzetten
 Loaders
 Icons toevoegen (pagination, pijlen)
-Profile card locations ook linken (want cool)
 Location Characters ook pagination mee geven
+Filtering gebruiken, en als dat werkt location-characters zo weergeven zodat pagination werkt
 
 Concerns:
-pagination op location
+pagination op location moet op 10?

@@ -72,7 +72,16 @@ export function CharacterModal({ character, onClose }: CharacterModalProps) {
               )}
               <InfoRow label="Gender" value={character.gender} />
               <InfoRow label="Origin" value={character.origin.name} />
-              <InfoRow label="Location" value={character.location.name} />
+              <InfoRow
+                label="Location"
+                value={character.location.name}
+                href={
+                  character.location.url
+                    ? `/locations/${character.location.url.split("/").pop()}`
+                    : undefined
+                }
+                onLinkClick={onClose}
+              />
               <InfoRow
                 label="Episodes"
                 value={`Appears in ${character.episode.length} episode(s)`}
@@ -95,11 +104,33 @@ export function CharacterModal({ character, onClose }: CharacterModalProps) {
   );
 }
 
-function InfoRow({ label, value }: { label: string; value: string }) {
+function InfoRow({
+  label,
+  value,
+  href,
+  onLinkClick,
+}: {
+  label: string;
+  value: string;
+  href?: string;
+  onLinkClick?: () => void;
+}) {
   return (
     <div className={styles.infoRow}>
       <dt className={styles.infoLabel}>{label}</dt>
-      <dd className={styles.infoValue}>{value}</dd>
+      <dd className={styles.infoValue}>
+        {href ? (
+          <Link
+            href={href}
+            onClick={onLinkClick}
+            className={styles.locationLink}
+          >
+            {value}
+          </Link>
+        ) : (
+          value
+        )}
+      </dd>
     </div>
   );
 }
