@@ -3,6 +3,7 @@ import type {
   Character,
   PaginatedResponse,
   Location,
+  Episode,
 } from "./rickMorty.types";
 
 export const BASE_URL = "https://rickandmortyapi.com/api";
@@ -55,6 +56,16 @@ export async function fetchLocation(id: number): Promise<Location | null> {
     next: { revalidate: 3600 },
   });
   if (!res.ok) return null;
+  return res.json();
+}
+
+export async function fetchEpisodes(page = 1): Promise<ApiResponse<Episode>> {
+  const params = buildParams(page);
+  const res = await fetch(`${BASE_URL}/episode?${params}`, {
+    next: { revalidate: 3600 },
+  });
+  if (res.status === 404) return EMPTY_RESPONSE<Episode>();
+  if (!res.ok) throw new Error("Failed to fetch episodes");
   return res.json();
 }
 
