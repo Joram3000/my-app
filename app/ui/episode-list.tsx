@@ -1,0 +1,92 @@
+"use client";
+
+import { useState, useTransition } from "react";
+import Link from "next/link";
+import styles from "./episode-list.module.css";
+import { Episode, ApiInfo } from "@/lib/api/rickMorty/rickMorty.types";
+
+interface EpisodeListProps {
+  initialEpisodes: Episode[];
+  initialInfo: ApiInfo;
+}
+
+export function EpisodeList({
+  initialEpisodes,
+  initialInfo,
+}: EpisodeListProps) {
+  const [episodes, setEpisodes] = useState<Episode[]>(initialEpisodes);
+  const [info, setInfo] = useState<ApiInfo>(initialInfo);
+  const [page, setPage] = useState(1);
+  const [isPending, startTransition] = useTransition();
+
+  async function loadMore() {
+    const nextPage = page + 1;
+    const params = new URLSearchParams({ page: String(nextPage) });
+
+    startTransition(async () => {
+      const res = await fetch(
+        `https://rickandmortyapi.com/api/episode?${params}`,
+      );
+      if (!res.ok) return;
+      const data = await res.json();
+      setEpisodes((prev) => [...prev, ...data.results]);
+      setInfo(data.info);
+      setPage(nextPage);
+    });
+  }
+
+  if (episodes.length === 0) {
+    return (
+      <div className={styles.empty}>
+        <p className={styles.emptyText}>No episodes found.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className={styles.list}>
+        {episodes.map((ep) => (
+          <EpisodeRow key={ep.id} episode={ep} />
+        ))}
+      </div>
+
+      {info.next && (
+        <div className={styles.loadMoreWrapper}>
+          <button
+            onClick={loadMore}
+            disabled={isPending}
+            className={styles.loadMoreBtn}
+          >
+            {isPending ? (
+              <>
+                <span className={styles.spinnerIcon} />
+                Loading…
+              </>
+            ) : (
+              "Load more episodes"
+            )}
+          </button>
+        </div>
+      )}
+
+      <p className={styles.count}>
+        Showing {episodes.length} of {info.count} episodes
+      </p>
+    </div>
+  );
+}
+
+function EpisodeRow({ episode }: { episode: Episode }) {
+  return (
+    <Link href={`/episodes/${episode.id}`} className={styles.row}>
+      <div className={styles.episodeCode}>{episode.episode}</div>
+      <div className={styles.rowInfo}>
+        <h3 className={styles.rowTitle}>{episode.name}</h3>
+        <p className={styles.rowDate}>{episode.air_date}</p>
+      </div>
+      <div className={styles.rowCount}>{episode.characters.length} chars</div>
+      <span className={styles.rowArrow}>→</span>
+    </Link>
+  );
+}
