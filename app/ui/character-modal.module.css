@@ -126,6 +126,16 @@
   color: var(--color-green-300);
 }
 
+.locationLink {
+  color: var(--color-green-400);
+  text-decoration: none;
+}
+
+.locationLink:hover {
+  color: var(--color-green-300);
+  text-decoration: underline;
+}
+
 .infoRow {
   display: flex;
   gap: 0.5rem;
