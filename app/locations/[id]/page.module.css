@@ -1,0 +1,96 @@
+.container {
+  margin: 0 auto;
+  max-width: 80rem;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.875rem;
+  color: var(--color-gray-500);
+  text-decoration: none;
+}
+
+.backLink:hover {
+  color: var(--color-green-400);
+}
+
+.card {
+  margin-top: 1rem;
+  border-radius: 1rem;
+  border: 1px solid var(--color-gray-800);
+  background-color: var(--color-gray-900);
+  padding: 1.5rem;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.locationName {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--color-white);
+  margin: 0;
+}
+
+.locationResidents {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--color-gray-500);
+}
+
+.infoGrid {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.infoCard {
+  border-radius: 0.5rem;
+  background-color: rgba(38, 38, 38, 0.5);
+  padding: 0.75rem;
+}
+
+.infoLabel {
+  font-size: 0.75rem;
+  color: var(--color-gray-500);
+}
+
+.infoValue {
+  margin-top: 0.125rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-white);
+}
+
+.section {
+  margin-top: 2rem;
+}
+
+.sectionHeading {
+  margin-bottom: 1rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-white);
+}
+
+.sectionNote {
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--color-gray-500);
+}
+
+@media (min-width: 640px) {
+  .infoGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .card {
+    padding: 2rem;
+  }
+}

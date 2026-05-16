@@ -1,0 +1,119 @@
+.container {
+  margin: 0 auto;
+  max-width: 80rem;
+}
+
+.heading {
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+.count {
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  color: var(--color-gray-500);
+}
+
+.empty {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  text-align: center;
+}
+
+.emptyText {
+  color: var(--color-gray-500);
+}
+
+.grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.locationCard {
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-gray-800);
+  background-color: var(--color-gray-900);
+  padding: 1.25rem;
+  text-decoration: none;
+  transition:
+    border-color 0.15s,
+    background-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.locationCard:hover {
+  border-color: rgba(34, 197, 94, 0.4);
+  background-color: rgba(38, 38, 38, 0.8);
+  box-shadow: 0 4px 6px -1px rgba(34, 197, 94, 0.05);
+}
+
+.locationCardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.locationName {
+  font-weight: 600;
+  color: var(--color-white);
+  transition: color 0.15s;
+}
+
+.locationCard:hover .locationName {
+  color: var(--color-green-300);
+}
+
+.locationArrow {
+  flex-shrink: 0;
+  color: var(--color-gray-600);
+  transition: transform 0.15s;
+}
+
+.locationCard:hover .locationArrow {
+  transform: translateX(0.125rem);
+}
+
+.tagList {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  font-size: 0.875rem;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tagLabel {
+  width: 5rem;
+  flex-shrink: 0;
+  color: var(--color-gray-600);
+}
+
+.tagValue {
+  color: var(--color-gray-300);
+}
