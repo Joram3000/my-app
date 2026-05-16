@@ -21,6 +21,7 @@ Modal naar Carousel omzetten
 Loaders
 Icons toevoegen (pagination, pijlen)
 Profile card locations ook linken (want cool)
+Location Characters ook pagination mee geven
 
 Concerns:
 pagination op location
