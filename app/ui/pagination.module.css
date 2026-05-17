@@ -3,12 +3,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: clamp(0.2rem, 1.5vw, 1rem);
+  width: 100%;
 }
 
 .link {
   border-radius: 0.375rem;
-  padding: 1rem;
+  padding: clamp(0.4rem, 2.5vw, 1rem);
   outline: 1px solid var(--color-green-700);
   display: flex;
   align-items: center;
@@ -50,7 +51,7 @@
 .disabled {
   border-radius: 0.375rem;
   cursor: not-allowed;
-  padding: 1rem;
+  padding: clamp(0.4rem, 2.5vw, 1rem);
 
   color: var(--color-gray-700);
   background: transparent;

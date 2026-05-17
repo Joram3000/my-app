@@ -49,7 +49,11 @@ async function LocationsContent({
   const params = await searchParams;
   const currentPage = Math.max(1, parseInt(params.page ?? "1") || 1);
 
-  const data = await fetchLocations(currentPage);
+  const data = await fetchLocations(currentPage, {
+    name: params.name,
+    type: params.type,
+    dimension: params.dimension,
+  });
 
   return (
     <>
