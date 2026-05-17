@@ -4,7 +4,7 @@ import { type Metadata } from "next";
 
 import styles from "./page.module.css";
 import { fetchLocations } from "@/lib/api/rickMorty/rickMorty";
-import { LocationGridSkeleton } from "@/ui/skeletons";
+import { LocationGridSkeleton, FilterBarSkeleton } from "@/ui/skeletons";
 import { Pagination } from "@/ui/pagination";
 import { BiRightArrowAlt } from "react-icons/bi";
 import { FilterBar } from "@/ui/filter-bar";
@@ -32,7 +32,7 @@ export default function LocationsPage({
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>Locations</h1>
-      <Suspense>
+      <Suspense fallback={<FilterBarSkeleton filters={LOCATION_FILTERS} />}>
         <FilterBar filters={LOCATION_FILTERS} />
       </Suspense>
       <Suspense fallback={<LocationGridSkeleton />}>

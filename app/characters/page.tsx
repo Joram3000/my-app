@@ -3,7 +3,7 @@ import { type Metadata } from "next";
 
 import { fetchCharacters } from "@/lib/api/rickMorty/rickMorty";
 import { CharacterGrid } from "@/ui/character-grid";
-import { CharacterGridSkeleton } from "@/ui/skeletons";
+import { CharacterGridSkeleton, FilterBarSkeleton } from "@/ui/skeletons";
 import styles from "./page.module.css";
 import { Pagination } from "@/ui/pagination";
 import { FilterBar } from "@/ui/filter-bar";
@@ -43,7 +43,7 @@ export default function CharactersPage({
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>Characters</h1>
-      <Suspense>
+      <Suspense fallback={<FilterBarSkeleton filters={CHARACTER_FILTERS} />}>
         <FilterBar filters={CHARACTER_FILTERS} />
       </Suspense>
       <Suspense fallback={<CharacterGridSkeleton />}>

@@ -11,6 +11,28 @@
   border-radius: 0.25rem;
 }
 
+/* ── FilterBar skeleton ───────────────────────────────────── */
+.filterBar {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+.filterInput {
+  height: 2.125rem; /* matches padding 0.5rem * 2 + font 0.875rem line-height */
+  border-radius: 0.5rem;
+  min-width: 10rem;
+  flex: 1;
+}
+
+.filterSelect {
+  height: 2.125rem;
+  border-radius: 0.5rem;
+  min-width: 9rem;
+}
+
 /* ── Character card skeleton ──────────────────────────────── */
 .characterCard {
   overflow: hidden;
@@ -43,7 +65,7 @@
 /* ── Character grid skeleton ──────────────────────────────── */
 .characterGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(clamp(160px, 20vw, 240px), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(clamp(240px, 25vw, 240px), 1fr));
   gap: clamp(1rem, 4vw, 1.5rem);
 }
 

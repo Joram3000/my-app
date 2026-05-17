@@ -4,6 +4,25 @@ function Bone({ className }: { className?: string }) {
   return <div className={`${styles.bone} ${className ?? ""}`} />;
 }
 
+/* ── FilterBar skeleton ───────────────────────────────────── */
+type FilterDef =
+  | { type: "text" }
+  | { type: "select" };
+
+export function FilterBarSkeleton({ filters }: { filters: FilterDef[] }) {
+  return (
+    <div className={styles.filterBar}>
+      {filters.map((f, i) =>
+        f.type === "text" ? (
+          <Bone key={i} className={styles.filterInput} />
+        ) : (
+          <Bone key={i} className={styles.filterSelect} />
+        )
+      )}
+    </div>
+  );
+}
+
 /* ── Character card + grid ────────────────────────────────── */
 function CharacterCardSkeleton() {
   return (
