@@ -10,33 +10,63 @@ import {
 } from "@/lib/api/rickMorty/rickMorty";
 import { CharacterGrid } from "@/ui/character-grid";
 import { InfoCard } from "@/ui/info-card";
+import { Pagination } from "@/ui/pagination";
 
 export const metadata: Metadata = { title: "Location" };
 
-type Params = Promise<{ id: string }>;
+const PAGE_SIZE = 20;
 
-export default function LocationPage({ params }: { params: Params }) {
+type Params = Promise<{ id: string }>;
+type SearchParams = Promise<{ page?: string }>;
+
+export default function LocationPage({
+  params,
+  searchParams,
+}: {
+  params: Params;
+  searchParams: SearchParams;
+}) {
   return (
     <div className={styles.container}>
       <Link href="/locations" className={styles.backLink}>
         <BiLeftArrowAlt /> Back to locations
       </Link>
       <Suspense fallback={<p>Loading...</p>}>
-        <LocationDetail params={params} />
+        <LocationDetail params={params} searchParams={searchParams} />
       </Suspense>
     </div>
   );
 }
 
-async function LocationDetail({ params }: { params: Params }) {
+async function LocationDetail({
+  params,
+  searchParams,
+}: {
+  params: Params;
+  searchParams: SearchParams;
+}) {
   const { id } = await params;
-  const location = await fetchLocation(Number(id));
+  const { page: pageParam } = await searchParams;
+  const currentPage = Math.max(1, Number(pageParam) || 1);
 
+  const location = await fetchLocation(Number(id));
   if (!location) notFound();
 
+  const totalResidents = location.residents.length;
+  const totalPages = Math.ceil(totalResidents / PAGE_SIZE);
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const end = start + PAGE_SIZE;
+
   const residents = await fetchCharactersByUrls(
-    location.residents.slice(0, 20),
+    location.residents.slice(start, end),
   );
+
+  const info = {
+    count: totalResidents,
+    pages: totalPages,
+    next: currentPage < totalPages ? String(currentPage + 1) : null,
+    prev: currentPage > 1 ? String(currentPage - 1) : null,
+  };
 
   return (
     <>
@@ -45,8 +75,8 @@ async function LocationDetail({ params }: { params: Params }) {
           <div>
             <h1 className={styles.locationName}>{location.name}</h1>
             <p className={styles.locationResidents}>
-              {location.residents.length} known resident
-              {location.residents.length !== 1 ? "s" : ""}
+              {totalResidents} known resident
+              {totalResidents !== 1 ? "s" : ""}
             </p>
           </div>
         </div>
@@ -54,24 +84,20 @@ async function LocationDetail({ params }: { params: Params }) {
         <dl className={styles.infoGrid}>
           <InfoCard label="Type" value={location.type || "—"} />
           <InfoCard label="Dimension" value={location.dimension || "—"} />
-          <InfoCard
-            label="Residents"
-            value={String(location.residents.length)}
-          />
+          <InfoCard label="Residents" value={String(totalResidents)} />
         </dl>
       </div>
 
       {residents.length > 0 && (
         <section className={styles.section}>
-          <h2 className={styles.sectionHeading}>
-            Residents
-            {location.residents.length > 20 && (
-              <span className={styles.sectionNote}>
-                (showing first 20 of {location.residents.length})
-              </span>
-            )}
-          </h2>
+          <h2 className={styles.sectionHeading}>Residents</h2>
           <CharacterGrid characters={residents} />
+
+          <Pagination
+            info={info}
+            currentPage={currentPage}
+            basePath={`/locations/${id}`}
+          />
         </section>
       )}
     </>

@@ -21,18 +21,23 @@ Episodes route
 Optimizations even stashen om op eigen branche te pushen
 Icons toevoegen (pagination, pijlen)
 Filtering
+Modal naar Carousel omzetten
+Accessability tabs op modal
+Pagination 'first en last' buttons alleen bij meer dan x aantal pages
+Filtering gebruiken, en als dat werkt location-characters zo weergeven zodat pagination werkt
+Verplaats tooltip naar global
 
 To DO's
-Filtering gebruiken, en als dat werkt location-characters zo weergeven zodat pagination werkt
 Algemene loader maken
 Loaders en Skeletons
 Episodes styling, via seasons, horizontaal scrolletje geven
-Modal naar Carousel omzetten
 Perspectief effect Pagination
 Grid nalopen op redundancy, of global maken
 Hover state constant maken, of global maken
 Location-Characters ook pagination mee geven
 UI styling aanpassen, minder kleuren, leesbaarder
+
+Modal Kruisje is niet mooi en status label wrapt nog niet goed
 
 Concerns:
 pagination op location moet op 10?

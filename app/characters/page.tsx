@@ -75,7 +75,12 @@ async function CharactersContent({
           ? `${data.info.count} characters found`
           : "No characters found"}
       </p>
-      <CharacterGrid characters={data.results} />
+      <CharacterGrid
+        characters={data.results}
+        info={data.info}
+        currentPage={currentPage}
+        filters={filters}
+      />
       <Pagination
         info={data.info}
         currentPage={currentPage}

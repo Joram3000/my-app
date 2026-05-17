@@ -2,107 +2,244 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./character-modal.module.css";
 import { Character } from "@/lib/api/rickMorty/rickMorty.types";
-import { BiRightArrowAlt } from "react-icons/bi";
+import {
+  BiRightArrowAlt,
+  BiChevronLeft,
+  BiChevronRight,
+  BiX,
+} from "react-icons/bi";
 
 interface CharacterModalProps {
-  character: Character;
+  characters: Character[];
+  initialIndex: number;
   onClose: () => void;
+  isLoadingNext?: boolean;
+  isLoadingPrev?: boolean;
 }
 
-export function CharacterModal({ character, onClose }: CharacterModalProps) {
+export function CharacterModal({
+  characters,
+  initialIndex,
+  onClose,
+  isLoadingNext,
+  isLoadingPrev,
+}: CharacterModalProps) {
+  const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const slidesRef = useRef<HTMLDivElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    dialogRef.current?.querySelector<HTMLElement>("button, a[href]")?.focus();
     return () => {
       document.body.style.overflow = prev;
     };
   }, []);
 
+  const scrollTo = useCallback((index: number) => {
+    const container = slidesRef.current;
+    if (!container) return;
+    container.scrollTo({
+      left: index * container.clientWidth,
+      behavior: "smooth",
+    });
+    setCurrentIndex(index);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        scrollTo(Math.max(0, currentIndex - 1));
+      } else if (e.key === "ArrowRight") {
+        scrollTo(Math.min(characters.length - 1, currentIndex + 1));
+      } else if (e.key === "Escape") {
+        onClose();
+      } else if (e.key === "Tab") {
+        const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(
+          "a[href]:not([inert] *), button:not([disabled]):not([inert] *)",
+        );
+        if (!focusable?.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [currentIndex, characters.length, onClose, scrollTo]);
+
+  useEffect(() => {
+    const container = slidesRef.current;
+    if (!container) return;
+    container.scrollTo({
+      left: initialIndex * container.clientWidth,
+      behavior: "instant" as ScrollBehavior,
+    });
+    setCurrentIndex(initialIndex);
+  }, [initialIndex]);
+
+  const handleScroll = () => {
+    const container = slidesRef.current;
+    if (!container) return;
+    setCurrentIndex(Math.round(container.scrollLeft / container.clientWidth));
+  };
+
   return (
     <div
+      ref={dialogRef}
       className={styles.overlay}
       role="dialog"
-      aria-modal
-      aria-label={character.name}
+      aria-modal="true"
+      aria-label={characters[currentIndex].name}
     >
+      <p className={styles.srOnly} aria-live="polite" aria-atomic="true">
+        {characters[currentIndex].name}, {currentIndex + 1} of{" "}
+        {characters.length}
+      </p>
+
       <div className={styles.backdrop} onClick={onClose} />
 
-      <div className={styles.modal}>
-        <button
-          onClick={onClose}
-          className={styles.closeButton}
-          aria-label="Close"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className={styles.closeIcon}
-            aria-hidden="true"
+      <NavButton
+        direction="prev"
+        onClick={
+          currentIndex > 0 ? () => scrollTo(currentIndex - 1) : undefined
+        }
+        isLoading={currentIndex === 0 && isLoadingPrev}
+      />
+
+      <NavButton
+        direction="next"
+        onClick={
+          currentIndex < characters.length - 1
+            ? () => scrollTo(currentIndex + 1)
+            : undefined
+        }
+        isLoading={currentIndex === characters.length - 1 && isLoadingNext}
+      />
+
+      <div className={styles.slides} ref={slidesRef} onScroll={handleScroll} onClick={onClose}>
+        {characters.map((char, i) => (
+          <div
+            key={char.id}
+            className={styles.slide}
+            role="group"
+            aria-roledescription="slide"
+            aria-label={`${char.name}, ${i + 1} of ${characters.length}`}
+            inert={i !== currentIndex || undefined}
           >
-            <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
-          </svg>
-        </button>
+            <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+              <button
+                onClick={onClose}
+                className={styles.closeButton}
+                aria-label="Close dialog"
+              >
+                <BiX />
+              </button>
+              <div className={styles.body}>
+                <div className={styles.imageWrapper}>
+                  <Image
+                    src={char.image}
+                    alt={char.name}
+                    fill
+                    className={styles.image}
+                    sizes="(max-width: 640px) 100vw, 192px"
+                  />
+                </div>
 
-        <div key={character.id} className={styles.body}>
-          <div className={styles.imageWrapper}>
-            <Image
-              src={character.image}
-              alt={character.name}
-              fill
-              className={styles.image}
-              sizes="(max-width: 640px) 100vw, 192px"
-            />
-          </div>
+                <div className={styles.infoSection}>
+                  <div className={styles.nameStatusWrapper}>
+                    <h1 className={styles.name}>{char.name}</h1>
+                    <p className={styles.status}>({char.status})</p>
+                  </div>
 
-          <div className={styles.infoSection}>
-            <div>
-              <div className={styles.nameStatusWrapper}>
-                <h1 className={styles.name}>{character.name}</h1>
-                <p className={styles.status}>({character.status})</p>
+                  <dl className={styles.dl}>
+                    <InfoRow label="Species" value={char.species} />
+                    {char.type && <InfoRow label="Type" value={char.type} />}
+                    <InfoRow label="Gender" value={char.gender} />
+                    <InfoRow label="Origin" value={char.origin.name} />
+                    <InfoRow
+                      label="Location"
+                      value={char.location.name}
+                      href={
+                        char.location.url
+                          ? `/locations/${char.location.url.split("/").pop()}`
+                          : undefined
+                      }
+                      onLinkClick={onClose}
+                    />
+                    <InfoRow
+                      label="Episodes"
+                      value={`Appears in ${char.episode.length} episode(s)`}
+                    />
+                  </dl>
+
+                  <div className={styles.footer}>
+                    <Link
+                      href={`/characters/${char.id}`}
+                      onClick={onClose}
+                      className={styles.profileLink}
+                    >
+                      View full profile
+                      <BiRightArrowAlt />
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
-
-            <dl className={styles.dl}>
-              <InfoRow label="Species" value={character.species} />
-              {character.type && (
-                <InfoRow label="Type" value={character.type} />
-              )}
-              <InfoRow label="Gender" value={character.gender} />
-              <InfoRow label="Origin" value={character.origin.name} />
-              <InfoRow
-                label="Location"
-                value={character.location.name}
-                href={
-                  character.location.url
-                    ? `/locations/${character.location.url.split("/").pop()}`
-                    : undefined
-                }
-                onLinkClick={onClose}
-              />
-              <InfoRow
-                label="Episodes"
-                value={`Appears in ${character.episode.length} episode(s)`}
-              />
-            </dl>
-
-            <div className={styles.footer}>
-              <Link
-                href={`/characters/${character.id}`}
-                onClick={onClose}
-                className={styles.profileLink}
-              >
-                View full profile
-                <BiRightArrowAlt />
-              </Link>
-            </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
+  );
+}
+
+function NavButton({
+  direction,
+  onClick,
+  isLoading,
+}: {
+  direction: "prev" | "next";
+  onClick?: () => void;
+  isLoading?: boolean | null;
+}) {
+  if (!onClick && !isLoading) return null;
+  const isPrev = direction === "prev";
+  return (
+    <button
+      className={`${styles.navButton} ${isPrev ? styles.navPrev : styles.navNext} tooltip`}
+      onClick={onClick}
+      disabled={!!isLoading}
+      data-tooltip={isPrev ? "Previous character" : "Next character"}
+      aria-label={
+        isLoading
+          ? "Loading more characters"
+          : isPrev
+            ? "Previous character"
+            : "Next character"
+      }
+    >
+      {isLoading ? (
+        <span className={styles.spinner} />
+      ) : isPrev ? (
+        <BiChevronLeft />
+      ) : (
+        <BiChevronRight />
+      )}
+    </button>
   );
 }
 
