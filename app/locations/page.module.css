@@ -28,25 +28,11 @@
 
 .grid {
   display: grid;
-  gap: 0.75rem;
-}
-
-@media (min-width: 640px) {
-  .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 1280px) {
-  .grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(clamp(240px, 25vw, 240px), 1fr)
+  );
+  gap: clamp(1rem, 4vw, 1.5rem);
 }
 
 .locationCard {
@@ -86,7 +72,6 @@
 
 .locationArrow {
   flex-shrink: 0;
-  color: var(--color-gray-600);
   transition: transform 0.15s;
 }
 

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 import styles from "./character-modal.module.css";
 import { Character } from "@/lib/api/rickMorty/rickMorty.types";
+import { BiRightArrowAlt } from "react-icons/bi";
 
 interface CharacterModalProps {
   character: Character;
@@ -94,7 +95,8 @@ export function CharacterModal({ character, onClose }: CharacterModalProps) {
                 onClick={onClose}
                 className={styles.profileLink}
               >
-                View full profile →
+                View full profile
+                <BiRightArrowAlt />
               </Link>
             </div>
           </div>

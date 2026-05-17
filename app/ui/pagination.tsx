@@ -1,7 +1,12 @@
 import Link from "next/link";
 import styles from "./pagination.module.css";
 import { ApiInfo } from "@/lib/api/rickMorty/rickMorty.types";
-
+import {
+  BiArrowToRight,
+  BiArrowToLeft,
+  BiLeftArrowAlt,
+  BiRightArrowAlt,
+} from "react-icons/bi";
 interface PaginationProps {
   info: ApiInfo;
   currentPage: number;
@@ -28,7 +33,7 @@ export function Pagination({ info, currentPage, basePath }: PaginationProps) {
         label="First page"
         mobileHidden
       >
-        «
+        <BiArrowToLeft />
       </PaginationLink>
 
       <PaginationLink
@@ -36,7 +41,7 @@ export function Pagination({ info, currentPage, basePath }: PaginationProps) {
         disabled={!info.prev}
         label="Previous"
       >
-        ←
+        <BiLeftArrowAlt />
       </PaginationLink>
 
       {pages.map((p, i) => {
@@ -69,7 +74,7 @@ export function Pagination({ info, currentPage, basePath }: PaginationProps) {
         disabled={!info.next}
         label="Next"
       >
-        →
+        <BiRightArrowAlt />
       </PaginationLink>
 
       <PaginationLink
@@ -78,7 +83,7 @@ export function Pagination({ info, currentPage, basePath }: PaginationProps) {
         label="Last page"
         mobileHidden
       >
-        »
+        <BiArrowToRight />
       </PaginationLink>
     </nav>
   );
@@ -128,7 +133,11 @@ function PaginationLink({
   );
 }
 
-function buildPageRange(current: number, total: number, count = 5): number[] {
+function buildPageRange(
+  current: number,
+  total: number,
+  count: number,
+): number[] {
   count = Math.min(count, total);
   let start = Math.max(1, current - Math.floor(count / 2));
   const end = Math.min(total, start + count - 1);

@@ -5,6 +5,7 @@ import Link from "next/link";
 import styles from "./episode-list.module.css";
 import { Episode, ApiInfo } from "@/lib/api/rickMorty/rickMorty.types";
 import { fetchEpisodes } from "@/lib/api/rickMorty/rickMorty";
+import { BiRightArrowAlt } from "react-icons/bi";
 
 interface EpisodeListProps {
   initialEpisodes: Episode[];
@@ -85,8 +86,9 @@ function EpisodeRow({ episode }: { episode: Episode }) {
         <h3 className={styles.rowTitle}>{episode.name}</h3>
         <p className={styles.rowDate}>{episode.air_date}</p>
       </div>
-      <div className={styles.rowCount}>{episode.characters.length} chars</div>
-      <span className={styles.rowArrow}>→</span>
+      <span className={styles.rowArrow}>
+        <BiRightArrowAlt />
+      </span>
     </Link>
   );
 }

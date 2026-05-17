@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { type Metadata } from "next";
+import { BiLeftArrowAlt } from "react-icons/bi";
 import styles from "./page.module.css";
 import {
   fetchCharactersByUrls,
@@ -18,7 +19,7 @@ export default function LocationPage({ params }: { params: Params }) {
   return (
     <div className={styles.container}>
       <Link href="/locations" className={styles.backLink}>
-        ← Back to locations
+        <BiLeftArrowAlt /> Back to locations
       </Link>
       <Suspense fallback={<p>Loading...</p>}>
         <LocationDetail params={params} />

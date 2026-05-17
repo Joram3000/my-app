@@ -10,6 +10,7 @@ import {
 } from "@/lib/api/rickMorty/rickMorty";
 import { CharacterGrid } from "@/ui/character-grid";
 import { InfoCard } from "@/ui/info-card";
+import { BiLeftArrowAlt } from "react-icons/bi";
 
 export const metadata: Metadata = { title: "Episode" };
 
@@ -19,7 +20,7 @@ export default function EpisodePage({ params }: { params: Params }) {
   return (
     <div className={styles.container}>
       <Link href="/episodes" className={styles.backLink}>
-        ← Back to episodes
+        <BiLeftArrowAlt /> Back to episodes
       </Link>
       <Suspense fallback={<p>...loading</p>}>
         <EpisodeDetail params={params} />

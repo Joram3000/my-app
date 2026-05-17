@@ -17,20 +17,22 @@ Modal bouwen, met navigation.
 Location page opzetten en data binnen halen
 Location Detail page maken, en nav toevoegen
 Profile card locations ook linken
-
 Episodes route
-
 Optimizations even stashen om op eigen branche te pushen
+Icons toevoegen (pagination, pijlen)
 
 To DO's
-Episodes styling, via seasons, horizontaal scrolletje geven
-Perspectief effect Pagination
-Modal naar Carousel omzetten
+Filtering
+Algemene loader maken
 Loaders en Skeletons
-Icons toevoegen (pagination, pijlen)
-Hover state constant maken
+Episodes styling, via seasons, horizontaal scrolletje geven
+Modal naar Carousel omzetten
+Perspectief effect Pagination
+Grid nalopen op redundancy, of global maken
+Hover state constant maken, of global maken
 Location-Characters ook pagination mee geven
 Filtering gebruiken, en als dat werkt location-characters zo weergeven zodat pagination werkt
 UI styling aanpassen, minder kleuren, leesbaarder
+
 Concerns:
 pagination op location moet op 10?

@@ -6,6 +6,7 @@ import { type Metadata } from "next";
 import styles from "./page.module.css";
 import { fetchCharacter } from "@/lib/api/rickMorty/rickMorty";
 import { InfoCard } from "@/ui/info-card";
+import { BiLeftArrowAlt } from "react-icons/bi";
 
 export const metadata: Metadata = { title: "Character" };
 
@@ -15,7 +16,7 @@ export default function CharacterPage({ params }: { params: Params }) {
   return (
     <div className={styles.container}>
       <Link href="/characters" className={styles.backLink}>
-        ← Back to characters
+        <BiLeftArrowAlt /> Back to characters
       </Link>
       <Suspense fallback={<p>...loading</p>}>
         <CharacterDetail params={params} />
@@ -87,4 +88,3 @@ async function CharacterDetail({ params }: { params: Params }) {
     </div>
   );
 }
-

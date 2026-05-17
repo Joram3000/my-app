@@ -5,6 +5,7 @@ import { type Metadata } from "next";
 import styles from "./page.module.css";
 import { fetchLocations } from "@/lib/api/rickMorty/rickMorty";
 import { Pagination } from "@/ui/pagination";
+import { BiRightArrowAlt } from "react-icons/bi";
 
 export const metadata: Metadata = { title: "Locations" };
 
@@ -62,7 +63,9 @@ async function LocationsContent({
             >
               <div className={styles.locationCardHeader}>
                 <h3 className={styles.locationName}>{loc.name}</h3>
-                <span className={styles.locationArrow}>→</span>
+                <span className={styles.locationArrow}>
+                  <BiRightArrowAlt />
+                </span>
               </div>
               <div className={styles.tagList}>
                 <Tag label="Type" value={loc.type || "unknown"} />
