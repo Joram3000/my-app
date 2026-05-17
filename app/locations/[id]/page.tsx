@@ -10,6 +10,7 @@ import {
 } from "@/lib/api/rickMorty/rickMorty";
 import { CharacterGrid } from "@/ui/character-grid";
 import { InfoCard } from "@/ui/info-card";
+import { DetailHeaderSkeleton, InfoGridSkeleton } from "@/ui/skeletons";
 import { Pagination } from "@/ui/pagination";
 
 export const metadata: Metadata = { title: "Location" };
@@ -18,6 +19,17 @@ const PAGE_SIZE = 20;
 
 type Params = Promise<{ id: string }>;
 type SearchParams = Promise<{ page?: string }>;
+
+function LocationDetailSkeleton() {
+  return (
+    <div className={styles.card}>
+      <DetailHeaderSkeleton badge={false} />
+      <div className={styles.infoGrid}>
+        <InfoGridSkeleton count={3} />
+      </div>
+    </div>
+  );
+}
 
 export default function LocationPage({
   params,
@@ -31,7 +43,7 @@ export default function LocationPage({
       <Link href="/locations" className={styles.backLink}>
         <BiLeftArrowAlt /> Back to locations
       </Link>
-      <Suspense fallback={<p>Loading...</p>}>
+      <Suspense fallback={<LocationDetailSkeleton />}>
         <LocationDetail params={params} searchParams={searchParams} />
       </Suspense>
     </div>

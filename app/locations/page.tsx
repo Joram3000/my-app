@@ -4,6 +4,7 @@ import { type Metadata } from "next";
 
 import styles from "./page.module.css";
 import { fetchLocations } from "@/lib/api/rickMorty/rickMorty";
+import { LocationGridSkeleton } from "@/ui/skeletons";
 import { Pagination } from "@/ui/pagination";
 import { BiRightArrowAlt } from "react-icons/bi";
 import { FilterBar } from "@/ui/filter-bar";
@@ -34,7 +35,7 @@ export default function LocationsPage({
       <Suspense>
         <FilterBar filters={LOCATION_FILTERS} />
       </Suspense>
-      <Suspense fallback={<p>...loading</p>}>
+      <Suspense fallback={<LocationGridSkeleton />}>
         <LocationsContent searchParams={searchParams} />
       </Suspense>
     </div>

@@ -10,11 +10,25 @@ import {
 } from "@/lib/api/rickMorty/rickMorty";
 import { CharacterGrid } from "@/ui/character-grid";
 import { InfoCard } from "@/ui/info-card";
+import { DetailHeaderSkeleton, InfoGridSkeleton } from "@/ui/skeletons";
 import { BiLeftArrowAlt } from "react-icons/bi";
 
 export const metadata: Metadata = { title: "Episode" };
 
 type Params = Promise<{ id: string }>;
+
+function EpisodeDetailSkeleton() {
+  return (
+    <div className={styles.card}>
+      <div className={styles.cardHeader}>
+        <DetailHeaderSkeleton badge />
+      </div>
+      <div className={styles.infoGrid}>
+        <InfoGridSkeleton count={3} />
+      </div>
+    </div>
+  );
+}
 
 export default function EpisodePage({ params }: { params: Params }) {
   return (
@@ -22,7 +36,7 @@ export default function EpisodePage({ params }: { params: Params }) {
       <Link href="/episodes" className={styles.backLink}>
         <BiLeftArrowAlt /> Back to episodes
       </Link>
-      <Suspense fallback={<p>...loading</p>}>
+      <Suspense fallback={<EpisodeDetailSkeleton />}>
         <EpisodeDetail params={params} />
       </Suspense>
     </div>

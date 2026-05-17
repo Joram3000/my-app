@@ -3,6 +3,7 @@ import { type Metadata } from "next";
 
 import { fetchCharacters } from "@/lib/api/rickMorty/rickMorty";
 import { CharacterGrid } from "@/ui/character-grid";
+import { CharacterGridSkeleton } from "@/ui/skeletons";
 import styles from "./page.module.css";
 import { Pagination } from "@/ui/pagination";
 import { FilterBar } from "@/ui/filter-bar";
@@ -45,7 +46,7 @@ export default function CharactersPage({
       <Suspense>
         <FilterBar filters={CHARACTER_FILTERS} />
       </Suspense>
-      <Suspense fallback={<p>...loading</p>}>
+      <Suspense fallback={<CharacterGridSkeleton />}>
         <CharactersContent searchParams={searchParams} />
       </Suspense>
     </div>

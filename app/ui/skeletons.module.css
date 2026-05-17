@@ -1,0 +1,227 @@
+/* Shared pulse animation */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+/* ── Base skeleton block ──────────────────────────────────── */
+.bone {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  background-color: var(--color-gray-800);
+  border-radius: 0.25rem;
+}
+
+/* ── Character card skeleton ──────────────────────────────── */
+.characterCard {
+  overflow: hidden;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-gray-800);
+  background-color: var(--color-gray-900);
+}
+
+.characterImage {
+  aspect-ratio: 1 / 1;
+}
+
+.characterBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+}
+
+.characterLine1 {
+  height: 0.875rem;
+  width: 75%;
+}
+
+.characterLine2 {
+  height: 0.75rem;
+  width: 50%;
+}
+
+/* ── Character grid skeleton ──────────────────────────────── */
+.characterGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(clamp(160px, 20vw, 240px), 1fr));
+  gap: clamp(1rem, 4vw, 1.5rem);
+}
+
+/* ── Location card skeleton ───────────────────────────────── */
+.locationCard {
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-gray-800);
+  background-color: var(--color-gray-900);
+  padding: 1.25rem;
+}
+
+.locationName {
+  height: 1.25rem;
+  width: 66%;
+}
+
+.locationLines {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.locationLine1 { height: 0.875rem; width: 100%; }
+.locationLine2 { height: 0.875rem; width: 83%; }
+.locationLine3 { height: 0.875rem; width: 50%; }
+
+/* ── Location grid skeleton ───────────────────────────────── */
+.locationGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(clamp(240px, 25vw, 320px), 1fr));
+  gap: 0.75rem;
+}
+
+/* ── InfoGrid skeleton (detail pages) ────────────────────── */
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: 0.75rem;
+}
+
+.infoBlock {
+  height: 3.5rem;
+  border-radius: 0.5rem;
+}
+
+/* ── Detail card skeleton wrapper ────────────────────────── */
+.detailCard {
+  margin-top: 1rem;
+  overflow: hidden;
+  border-radius: 1rem;
+  border: 1px solid var(--color-gray-800);
+  background-color: var(--color-gray-900);
+  padding: 1.5rem;
+}
+
+/* ── Header (badge + text) ────────────────────────────────── */
+.detailHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.detailBadge {
+  width: 3.5rem;
+  height: 3.5rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+}
+
+.detailTextGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detailTitle {
+  height: 2rem;
+  width: 12rem;
+}
+
+.detailSubtitle {
+  height: 1rem;
+  width: 6rem;
+}
+
+/* ── Character detail card ────────────────────────────────── */
+.characterDetailCard {
+  margin-top: 1rem;
+  overflow: hidden;
+  border-radius: 1rem;
+  border: 1px solid var(--color-gray-800);
+  background-color: var(--color-gray-900);
+}
+
+.characterDetailInner {
+  display: flex;
+  flex-direction: column;
+}
+
+.characterDetailImage {
+  height: 16rem;
+  flex-shrink: 0;
+}
+
+.characterDetailInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.characterDetailName {
+  height: 2.25rem;
+  width: 55%;
+}
+
+.characterDetailStatus {
+  height: 1rem;
+  width: 4rem;
+}
+
+/* ── Episode scroll-row skeleton ─────────────────────────── */
+.episodeNav {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.episodeNavBtn {
+  height: 2rem;
+  width: 5rem;
+  border-radius: 9999px;
+}
+
+.episodeScrollRow {
+  display: flex;
+  gap: 1rem;
+  overflow: hidden;
+  padding: 0.75rem 0;
+}
+
+.episodeCard {
+  flex-shrink: 0;
+  width: 11rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-gray-800);
+  background-color: var(--color-gray-900);
+  overflow: hidden;
+}
+
+.episodeCardTop {
+  height: 3.5rem;
+}
+
+.episodeCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.75rem;
+}
+
+.episodeCardLine1 { height: 0.625rem; width: 40%; }
+.episodeCardLine2 { height: 0.75rem;  width: 90%; }
+.episodeCardLine3 { height: 0.625rem; width: 55%; }
+
+@media (min-width: 640px) {
+  .characterDetailInner {
+    flex-direction: row;
+  }
+
+  .characterDetailImage {
+    height: auto;
+    width: 16rem;
+  }
+
+  .detailCard {
+    padding: 2rem;
+  }
+}
