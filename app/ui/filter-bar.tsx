@@ -4,7 +4,7 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useCallback, useState, useEffect, useRef } from "react";
 import styles from "./filter-bar.module.css";
 
-type FilterDef =
+export type FilterDef =
   | { type: "text"; key: string; placeholder: string }
   | { type: "select"; key: string; label: string; options: string[] };
 

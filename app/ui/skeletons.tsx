@@ -1,24 +1,21 @@
 import styles from "./skeletons.module.css";
+import { type FilterDef } from "./filter-bar";
 
-function Bone({ className }: { className?: string }) {
-  return <div className={`${styles.bone} ${className ?? ""}`} />;
+function Bone({ className }: { className: string }) {
+  return <div className={`${styles.bone} ${className}`} />;
 }
 
-/* ── FilterBar skeleton ───────────────────────────────────── */
-type FilterDef =
-  | { type: "text" }
-  | { type: "select" };
+function bones(n: number, className: string) {
+  return Array.from({ length: n }, (_, i) => <Bone key={i} className={className} />);
+}
 
+/* ── FilterBar ────────────────────────────────────────────── */
 export function FilterBarSkeleton({ filters }: { filters: FilterDef[] }) {
   return (
     <div className={styles.filterBar}>
-      {filters.map((f, i) =>
-        f.type === "text" ? (
-          <Bone key={i} className={styles.filterInput} />
-        ) : (
-          <Bone key={i} className={styles.filterSelect} />
-        )
-      )}
+      {filters.map((f, i) => (
+        <Bone key={i} className={f.type === "text" ? styles.filterInput : styles.filterSelect} />
+      ))}
     </div>
   );
 }
@@ -27,7 +24,7 @@ export function FilterBarSkeleton({ filters }: { filters: FilterDef[] }) {
 function CharacterCardSkeleton() {
   return (
     <div className={styles.characterCard}>
-      <Bone className={`${styles.characterImage}`} />
+      <Bone className={styles.characterImage} />
       <div className={styles.characterBody}>
         <Bone className={styles.characterLine1} />
         <Bone className={styles.characterLine2} />
@@ -39,9 +36,7 @@ function CharacterCardSkeleton() {
 export function CharacterGridSkeleton({ count = 20 }: { count?: number }) {
   return (
     <div className={styles.characterGrid}>
-      {Array.from({ length: count }).map((_, i) => (
-        <CharacterCardSkeleton key={i} />
-      ))}
+      {Array.from({ length: count }, (_, i) => <CharacterCardSkeleton key={i} />)}
     </div>
   );
 }
@@ -52,9 +47,7 @@ function LocationCardSkeleton() {
     <div className={styles.locationCard}>
       <Bone className={styles.locationName} />
       <div className={styles.locationLines}>
-        <Bone className={styles.locationLine1} />
-        <Bone className={styles.locationLine2} />
-        <Bone className={styles.locationLine3} />
+        {bones(3, styles.locationLine)}
       </div>
     </div>
   );
@@ -63,60 +56,45 @@ function LocationCardSkeleton() {
 export function LocationGridSkeleton({ count = 20 }: { count?: number }) {
   return (
     <div className={styles.locationGrid}>
-      {Array.from({ length: count }).map((_, i) => (
-        <LocationCardSkeleton key={i} />
-      ))}
+      {Array.from({ length: count }, (_, i) => <LocationCardSkeleton key={i} />)}
     </div>
   );
 }
 
-/* ── Info grid (3-column detail cards) ───────────────────── */
-export function InfoGridSkeleton({ count = 3 }: { count?: number }) {
+/* ── Info grid ────────────────────────────────────────────── */
+function InfoGridSkeleton({ count }: { count: number }) {
   return (
     <div className={styles.infoGrid}>
-      {Array.from({ length: count }).map((_, i) => (
-        <Bone key={i} className={styles.infoBlock} />
-      ))}
+      {bones(count, styles.infoBlock)}
     </div>
   );
 }
 
-/* ── Detail card header (badge + title + subtitle) ────────── */
-export function DetailHeaderSkeleton({ badge = true }: { badge?: boolean }) {
+/* ── Episode list ─────────────────────────────────────────── */
+function EpisodeCardSkeleton() {
   return (
-    <div className={styles.detailHeader}>
-      {badge && <Bone className={`${styles.detailBadge}`} />}
-      <div className={styles.detailTextGroup}>
-        <Bone className={styles.detailTitle} />
-        <Bone className={styles.detailSubtitle} />
+    <div className={styles.episodeCard}>
+      <Bone className={styles.episodeCardTop} />
+      <div className={styles.episodeCardBody}>
+        <Bone className={styles.episodeCardLine1} />
+        <Bone className={styles.episodeCardLine2} />
+        <Bone className={styles.episodeCardLine3} />
       </div>
     </div>
   );
 }
 
-/* ── Episode list skeleton ────────────────────────────────── */
 export function EpisodeListSkeleton({ seasons = 5, cardsPerSeason = 6 }: { seasons?: number; cardsPerSeason?: number }) {
   return (
     <div>
       <div className={styles.episodeNav}>
-        {Array.from({ length: seasons + 1 }).map((_, i) => (
-          <Bone key={i} className={styles.episodeNavBtn} />
-        ))}
+        {bones(seasons + 1, styles.episodeNavBtn)}
       </div>
-      {Array.from({ length: seasons }).map((_, s) => (
-        <div key={s} style={{ marginBottom: "2.5rem" }}>
-          <Bone style={{ height: "1.25rem", width: "5rem", marginBottom: "1rem" }} className="" />
+      {Array.from({ length: seasons }, (_, s) => (
+        <div key={s} className={styles.episodeSeason}>
+          <Bone className={styles.episodeSeasonTitle} />
           <div className={styles.episodeScrollRow}>
-            {Array.from({ length: cardsPerSeason }).map((_, i) => (
-              <div key={i} className={styles.episodeCard}>
-                <Bone className={styles.episodeCardTop} />
-                <div className={styles.episodeCardBody}>
-                  <Bone className={styles.episodeCardLine1} />
-                  <Bone className={styles.episodeCardLine2} />
-                  <Bone className={styles.episodeCardLine3} />
-                </div>
-              </div>
-            ))}
+            {Array.from({ length: cardsPerSeason }, (_, i) => <EpisodeCardSkeleton key={i} />)}
           </div>
         </div>
       ))}
@@ -124,20 +102,45 @@ export function EpisodeListSkeleton({ seasons = 5, cardsPerSeason = 6 }: { seaso
   );
 }
 
-/* ── Character detail page skeleton ──────────────────────── */
+/* ── Detail skeletons ─────────────────────────────────────── */
 export function CharacterDetailSkeleton() {
   return (
     <div className={styles.characterDetailCard}>
       <div className={styles.characterDetailInner}>
         <Bone className={styles.characterDetailImage} />
         <div className={styles.characterDetailInfo}>
-          <div className={styles.detailTextGroup}>
-            <Bone className={styles.characterDetailName} />
-            <Bone className={styles.characterDetailStatus} />
-          </div>
+          <Bone className={styles.characterDetailName} />
+          <Bone className={styles.characterDetailStatus} />
           <InfoGridSkeleton count={6} />
         </div>
       </div>
+    </div>
+  );
+}
+
+export function EpisodeDetailSkeleton() {
+  return (
+    <div className={styles.detailCard}>
+      <div className={styles.detailHeader}>
+        <Bone className={styles.detailBadge} />
+        <div className={styles.detailTextGroup}>
+          <Bone className={styles.detailTitle} />
+          <Bone className={styles.detailSubtitle} />
+        </div>
+      </div>
+      <InfoGridSkeleton count={3} />
+    </div>
+  );
+}
+
+export function LocationDetailSkeleton() {
+  return (
+    <div className={styles.detailCard}>
+      <div className={styles.detailTextGroup}>
+        <Bone className={styles.detailTitle} />
+        <Bone className={styles.detailSubtitle} />
+      </div>
+      <InfoGridSkeleton count={3} />
     </div>
   );
 }

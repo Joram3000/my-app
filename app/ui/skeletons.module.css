@@ -1,17 +1,15 @@
-/* Shared pulse animation */
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.4; }
 }
 
-/* ── Base skeleton block ──────────────────────────────────── */
 .bone {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   background-color: var(--color-gray-800);
   border-radius: 0.25rem;
 }
 
-/* ── FilterBar skeleton ───────────────────────────────────── */
+/* ── FilterBar ────────────────────────────────────────────── */
 .filterBar {
   margin-bottom: 1.5rem;
   display: flex;
@@ -21,7 +19,7 @@
 }
 
 .filterInput {
-  height: 2.125rem; /* matches padding 0.5rem * 2 + font 0.875rem line-height */
+  height: 2.125rem;
   border-radius: 0.5rem;
   min-width: 10rem;
   flex: 1;
@@ -33,7 +31,7 @@
   min-width: 9rem;
 }
 
-/* ── Character card skeleton ──────────────────────────────── */
+/* ── Character card ───────────────────────────────────────── */
 .characterCard {
   overflow: hidden;
   border-radius: 0.75rem;
@@ -43,6 +41,7 @@
 
 .characterImage {
   aspect-ratio: 1 / 1;
+  border-radius: 0;
 }
 
 .characterBody {
@@ -52,24 +51,17 @@
   padding: 0.75rem;
 }
 
-.characterLine1 {
-  height: 0.875rem;
-  width: 75%;
-}
+.characterLine1 { height: 0.875rem; width: 75%; }
+.characterLine2 { height: 0.75rem;  width: 50%; }
 
-.characterLine2 {
-  height: 0.75rem;
-  width: 50%;
-}
-
-/* ── Character grid skeleton ──────────────────────────────── */
+/* ── Character grid ───────────────────────────────────────── */
 .characterGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(clamp(240px, 25vw, 240px), 1fr));
   gap: clamp(1rem, 4vw, 1.5rem);
 }
 
-/* ── Location card skeleton ───────────────────────────────── */
+/* ── Location card ────────────────────────────────────────── */
 .locationCard {
   border-radius: 0.75rem;
   border: 1px solid var(--color-gray-800);
@@ -89,22 +81,25 @@
   gap: 0.5rem;
 }
 
-.locationLine1 { height: 0.875rem; width: 100%; }
-.locationLine2 { height: 0.875rem; width: 83%; }
-.locationLine3 { height: 0.875rem; width: 50%; }
+.locationLine { height: 0.875rem; }
 
-/* ── Location grid skeleton ───────────────────────────────── */
+.locationLine:nth-child(1) { width: 100%; }
+.locationLine:nth-child(2) { width: 83%; }
+.locationLine:nth-child(3) { width: 50%; }
+
+/* ── Location grid ────────────────────────────────────────── */
 .locationGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(clamp(240px, 25vw, 320px), 1fr));
   gap: 0.75rem;
 }
 
-/* ── InfoGrid skeleton (detail pages) ────────────────────── */
+/* ── Info grid ────────────────────────────────────────────── */
 .infoGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
   gap: 0.75rem;
+  margin-top: 1.5rem;
 }
 
 .infoBlock {
@@ -112,17 +107,67 @@
   border-radius: 0.5rem;
 }
 
-/* ── Detail card skeleton wrapper ────────────────────────── */
+/* ── Episode list ─────────────────────────────────────────── */
+.episodeNav {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.episodeNavBtn {
+  height: 2rem;
+  width: 5rem;
+  border-radius: 9999px;
+}
+
+.episodeSeason {
+  margin-bottom: 2.5rem;
+}
+
+.episodeSeasonTitle {
+  height: 1.25rem;
+  width: 5rem;
+  margin-bottom: 1rem;
+}
+
+.episodeScrollRow {
+  display: flex;
+  gap: 1rem;
+  overflow: hidden;
+  padding: 0.75rem 0;
+}
+
+.episodeCard {
+  flex-shrink: 0;
+  width: 11rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-gray-800);
+  background-color: var(--color-gray-900);
+  overflow: hidden;
+}
+
+.episodeCardTop   { height: 3.5rem; border-radius: 0; }
+.episodeCardLine1 { height: 0.625rem; width: 40%; }
+.episodeCardLine2 { height: 0.75rem;  width: 90%; }
+.episodeCardLine3 { height: 0.625rem; width: 55%; }
+
+.episodeCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.75rem;
+}
+
+/* ── Detail card (episodes + locations) ───────────────────── */
 .detailCard {
   margin-top: 1rem;
-  overflow: hidden;
   border-radius: 1rem;
   border: 1px solid var(--color-gray-800);
   background-color: var(--color-gray-900);
   padding: 1.5rem;
 }
 
-/* ── Header (badge + text) ────────────────────────────────── */
 .detailHeader {
   display: flex;
   align-items: flex-start;
@@ -142,15 +187,8 @@
   gap: 0.5rem;
 }
 
-.detailTitle {
-  height: 2rem;
-  width: 12rem;
-}
-
-.detailSubtitle {
-  height: 1rem;
-  width: 6rem;
-}
+.detailTitle    { height: 2rem; width: 12rem; }
+.detailSubtitle { height: 1rem; width: 6rem; }
 
 /* ── Character detail card ────────────────────────────────── */
 .characterDetailCard {
@@ -169,6 +207,7 @@
 .characterDetailImage {
   height: 16rem;
   flex-shrink: 0;
+  border-radius: 0;
 }
 
 .characterDetailInfo {
@@ -178,60 +217,8 @@
   padding: 1.5rem;
 }
 
-.characterDetailName {
-  height: 2.25rem;
-  width: 55%;
-}
-
-.characterDetailStatus {
-  height: 1rem;
-  width: 4rem;
-}
-
-/* ── Episode scroll-row skeleton ─────────────────────────── */
-.episodeNav {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  margin-bottom: 1rem;
-}
-
-.episodeNavBtn {
-  height: 2rem;
-  width: 5rem;
-  border-radius: 9999px;
-}
-
-.episodeScrollRow {
-  display: flex;
-  gap: 1rem;
-  overflow: hidden;
-  padding: 0.75rem 0;
-}
-
-.episodeCard {
-  flex-shrink: 0;
-  width: 11rem;
-  border-radius: 0.75rem;
-  border: 1px solid var(--color-gray-800);
-  background-color: var(--color-gray-900);
-  overflow: hidden;
-}
-
-.episodeCardTop {
-  height: 3.5rem;
-}
-
-.episodeCardBody {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  padding: 0.75rem;
-}
-
-.episodeCardLine1 { height: 0.625rem; width: 40%; }
-.episodeCardLine2 { height: 0.75rem;  width: 90%; }
-.episodeCardLine3 { height: 0.625rem; width: 55%; }
+.characterDetailName   { height: 2.25rem; width: 55%; }
+.characterDetailStatus { height: 1rem;    width: 4rem; }
 
 @media (min-width: 640px) {
   .characterDetailInner {

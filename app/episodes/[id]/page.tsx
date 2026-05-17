@@ -4,31 +4,15 @@ import { Suspense } from "react";
 import { type Metadata } from "next";
 
 import styles from "./page.module.css";
-import {
-  fetchCharactersByUrls,
-  fetchEpisode,
-} from "@/lib/api/rickMorty/rickMorty";
+import { fetchCharactersByUrls, fetchEpisode } from "@/lib/api/rickMorty/rickMorty";
 import { CharacterGrid } from "@/ui/character-grid";
 import { InfoCard } from "@/ui/info-card";
-import { DetailHeaderSkeleton, InfoGridSkeleton } from "@/ui/skeletons";
+import { EpisodeDetailSkeleton } from "@/ui/skeletons";
 import { BiLeftArrowAlt } from "react-icons/bi";
 
 export const metadata: Metadata = { title: "Episode" };
 
 type Params = Promise<{ id: string }>;
-
-function EpisodeDetailSkeleton() {
-  return (
-    <div className={styles.card}>
-      <div className={styles.cardHeader}>
-        <DetailHeaderSkeleton badge />
-      </div>
-      <div className={styles.infoGrid}>
-        <InfoGridSkeleton count={3} />
-      </div>
-    </div>
-  );
-}
 
 export default function EpisodePage({ params }: { params: Params }) {
   return (
@@ -48,9 +32,7 @@ async function EpisodeDetail({ params }: { params: Params }) {
   const episode = await fetchEpisode(Number(id));
   if (!episode) notFound();
 
-  const characters = await fetchCharactersByUrls(
-    episode.characters.slice(0, 20),
-  );
+  const characters = await fetchCharactersByUrls(episode.characters.slice(0, 20));
 
   return (
     <>
@@ -66,10 +48,7 @@ async function EpisodeDetail({ params }: { params: Params }) {
         <dl className={styles.infoGrid}>
           <InfoCard label="Episode" value={episode.episode} />
           <InfoCard label="Air date" value={episode.air_date} />
-          <InfoCard
-            label="Characters"
-            value={String(episode.characters.length)}
-          />
+          <InfoCard label="Characters" value={String(episode.characters.length)} />
         </dl>
       </div>
 
