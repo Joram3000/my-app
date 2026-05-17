@@ -20,9 +20,10 @@ Profile card locations ook linken
 Episodes route
 Optimizations even stashen om op eigen branche te pushen
 Icons toevoegen (pagination, pijlen)
+Filtering
 
 To DO's
-Filtering
+Filtering gebruiken, en als dat werkt location-characters zo weergeven zodat pagination werkt
 Algemene loader maken
 Loaders en Skeletons
 Episodes styling, via seasons, horizontaal scrolletje geven
@@ -31,7 +32,6 @@ Perspectief effect Pagination
 Grid nalopen op redundancy, of global maken
 Hover state constant maken, of global maken
 Location-Characters ook pagination mee geven
-Filtering gebruiken, en als dat werkt location-characters zo weergeven zodat pagination werkt
 UI styling aanpassen, minder kleuren, leesbaarder
 
 Concerns:

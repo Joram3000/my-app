@@ -3,22 +3,35 @@ import type {
   Character,
   Location,
   Episode,
+  LocationFilters,
+  CharacterFilters,
+  EpisodeFilters,
 } from "./rickMorty.types";
 
 export const BASE_URL = "https://rickandmortyapi.com/api";
 
 export async function fetchCharacters(
   page = 1,
+  filters: CharacterFilters = {},
 ): Promise<ApiResponse<Character>> {
-  const res = await fetch(`${BASE_URL}/character?page=${page}`, {
+  const params = buildParams(
+    page,
+    filters as Record<string, string | undefined>,
+  );
+  const res = await fetch(`${BASE_URL}/character?${params}`, {
     next: { revalidate: 3600 },
   });
+  if (res.status === 404) return EMPTY_RESPONSE<Character>();
+  if (!res.ok) throw new Error("Failed to fetch characters");
+  return res.json();
+}
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch characters");
-  }
-
-  return res.json() as Promise<ApiResponse<Character>>;
+export async function fetchCharacter(id: number): Promise<Character | null> {
+  const res = await fetch(`${BASE_URL}/character/${id}`, {
+    next: { revalidate: 3600 },
+  });
+  if (!res.ok) return null;
+  return res.json();
 }
 
 export async function fetchCharactersByUrls(
@@ -34,16 +47,14 @@ export async function fetchCharactersByUrls(
   return Array.isArray(data) ? data : [data];
 }
 
-export async function fetchCharacter(id: number): Promise<Character | null> {
-  const res = await fetch(`${BASE_URL}/character/${id}`, {
-    next: { revalidate: 3600 },
-  });
-  if (!res.ok) return null;
-  return res.json();
-}
-
-export async function fetchLocations(page = 1): Promise<ApiResponse<Location>> {
-  const params = new URLSearchParams({ page: String(page) });
+export async function fetchLocations(
+  page = 1,
+  filters: LocationFilters = {},
+): Promise<ApiResponse<Location>> {
+  const params = buildParams(
+    page,
+    filters as Record<string, string | undefined>,
+  );
   const res = await fetch(`${BASE_URL}/location?${params}`, {
     next: { revalidate: 3600 },
   });
@@ -60,8 +71,14 @@ export async function fetchLocation(id: number): Promise<Location | null> {
   return res.json();
 }
 
-export async function fetchEpisodes(page = 1): Promise<ApiResponse<Episode>> {
-  const params = new URLSearchParams({ page: String(page) });
+export async function fetchEpisodes(
+  page = 1,
+  filters: EpisodeFilters = {},
+): Promise<ApiResponse<Episode>> {
+  const params = buildParams(
+    page,
+    filters as Record<string, string | undefined>,
+  );
   const res = await fetch(`${BASE_URL}/episode?${params}`, {
     next: { revalidate: 3600 },
   });
@@ -82,3 +99,14 @@ const EMPTY_RESPONSE = <T>(): ApiResponse<T> => ({
   info: { count: 0, pages: 0, next: null, prev: null },
   results: [],
 });
+
+function buildParams(
+  page: number,
+  filters: Record<string, string | undefined>,
+) {
+  const params = new URLSearchParams({ page: String(page) });
+  for (const [key, value] of Object.entries(filters)) {
+    if (value) params.set(key, value);
+  }
+  return params;
+}

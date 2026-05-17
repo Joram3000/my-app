@@ -6,8 +6,15 @@ import styles from "./page.module.css";
 import { fetchLocations } from "@/lib/api/rickMorty/rickMorty";
 import { Pagination } from "@/ui/pagination";
 import { BiRightArrowAlt } from "react-icons/bi";
+import { FilterBar } from "@/ui/filter-bar";
 
 export const metadata: Metadata = { title: "Locations" };
+
+const LOCATION_FILTERS = [
+  { type: "text" as const, key: "name", placeholder: "Search by name…" },
+  { type: "text" as const, key: "type", placeholder: "Type…" },
+  { type: "text" as const, key: "dimension", placeholder: "Dimension…" },
+];
 
 type SearchParams = Promise<{
   page?: string;
@@ -24,6 +31,9 @@ export default function LocationsPage({
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>Locations</h1>
+      <Suspense>
+        <FilterBar filters={LOCATION_FILTERS} />
+      </Suspense>
       <Suspense fallback={<p>...loading</p>}>
         <LocationsContent searchParams={searchParams} />
       </Suspense>

@@ -47,3 +47,21 @@ export interface ApiResponse<T> {
   info: ApiInfo;
   results: T[];
 }
+
+export interface CharacterFilters {
+  name?: string;
+  status?: string;
+  species?: string;
+  gender?: string;
+}
+
+export interface LocationFilters {
+  name?: string;
+  type?: string;
+  dimension?: string;
+}
+
+export interface EpisodeFilters {
+  name?: string;
+  episode?: string;
+}

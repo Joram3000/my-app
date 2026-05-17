@@ -5,8 +5,26 @@ import { fetchCharacters } from "@/lib/api/rickMorty/rickMorty";
 import { CharacterGrid } from "@/ui/character-grid";
 import styles from "./page.module.css";
 import { Pagination } from "@/ui/pagination";
+import { FilterBar } from "@/ui/filter-bar";
 
 export const metadata: Metadata = { title: "Characters" };
+
+const CHARACTER_FILTERS = [
+  { type: "text" as const, key: "name", placeholder: "Search by name…" },
+  {
+    type: "select" as const,
+    key: "status",
+    label: "Status",
+    options: ["Alive", "Dead", "unknown"],
+  },
+  { type: "text" as const, key: "species", placeholder: "Species…" },
+  {
+    type: "select" as const,
+    key: "gender",
+    label: "Gender",
+    options: ["Female", "Male", "Genderless", "unknown"],
+  },
+];
 
 type SearchParams = Promise<{
   page?: string;
@@ -24,7 +42,9 @@ export default function CharactersPage({
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>Characters</h1>
-
+      <Suspense>
+        <FilterBar filters={CHARACTER_FILTERS} />
+      </Suspense>
       <Suspense fallback={<p>...loading</p>}>
         <CharactersContent searchParams={searchParams} />
       </Suspense>
@@ -39,8 +59,14 @@ async function CharactersContent({
 }) {
   const params = await searchParams;
   const currentPage = Math.max(1, parseInt(params.page ?? "1") || 1);
+  const filters = {
+    name: params.name,
+    status: params.status,
+    species: params.species,
+    gender: params.gender,
+  };
 
-  const data = await fetchCharacters(currentPage);
+  const data = await fetchCharacters(currentPage, filters);
 
   return (
     <>
