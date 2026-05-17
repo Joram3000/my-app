@@ -1,21 +1,14 @@
-import { Suspense } from "react";
 import Link from "next/link";
 import { type Metadata } from "next";
 
 import styles from "./page.module.css";
 import { fetchLocations } from "@/lib/api/rickMorty/rickMorty";
-import { LocationGridSkeleton, FilterBarSkeleton } from "@/ui/skeletons";
 import { Pagination } from "@/ui/pagination";
 import { BiRightArrowAlt } from "react-icons/bi";
 import { FilterBar } from "@/ui/filter-bar";
+import { LOCATION_FILTERS } from "@/lib/filters";
 
 export const metadata: Metadata = { title: "Locations" };
-
-const LOCATION_FILTERS = [
-  { type: "text" as const, key: "name", placeholder: "Search by name…" },
-  { type: "text" as const, key: "type", placeholder: "Type…" },
-  { type: "text" as const, key: "dimension", placeholder: "Dimension…" },
-];
 
 type SearchParams = Promise<{
   page?: string;
@@ -32,12 +25,8 @@ export default function LocationsPage({
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>Locations</h1>
-      <Suspense fallback={<FilterBarSkeleton filters={LOCATION_FILTERS} />}>
-        <FilterBar filters={LOCATION_FILTERS} />
-      </Suspense>
-      <Suspense fallback={<LocationGridSkeleton />}>
-        <LocationsContent searchParams={searchParams} />
-      </Suspense>
+      <FilterBar filters={LOCATION_FILTERS} />
+      <LocationsContent searchParams={searchParams} />
     </div>
   );
 }

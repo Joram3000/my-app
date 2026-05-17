@@ -9,6 +9,11 @@ function bones(n: number, className: string) {
   return Array.from({ length: n }, (_, i) => <Bone key={i} className={className} />);
 }
 
+/* ── Count line ───────────────────────────────────────────── */
+export function CountSkeleton() {
+  return <Bone className={styles.count} />;
+}
+
 /* ── FilterBar ────────────────────────────────────────────── */
 export function FilterBarSkeleton({ filters }: { filters: FilterDef[] }) {
   return (

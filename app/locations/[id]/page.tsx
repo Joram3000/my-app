@@ -3,14 +3,12 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { type Metadata } from "next";
 import { BiLeftArrowAlt } from "react-icons/bi";
+
 import styles from "./page.module.css";
-import {
-  fetchCharactersByUrls,
-  fetchLocation,
-} from "@/lib/api/rickMorty/rickMorty";
+import { fetchCharactersByUrls, fetchLocation } from "@/lib/api/rickMorty/rickMorty";
 import { CharacterGrid } from "@/ui/character-grid";
 import { InfoCard } from "@/ui/info-card";
-import { DetailHeaderSkeleton, InfoGridSkeleton } from "@/ui/skeletons";
+import { LocationDetailSkeleton } from "@/ui/skeletons";
 import { Pagination } from "@/ui/pagination";
 
 export const metadata: Metadata = { title: "Location" };
@@ -19,17 +17,6 @@ const PAGE_SIZE = 20;
 
 type Params = Promise<{ id: string }>;
 type SearchParams = Promise<{ page?: string }>;
-
-function LocationDetailSkeleton() {
-  return (
-    <div className={styles.card}>
-      <DetailHeaderSkeleton badge={false} />
-      <div className={styles.infoGrid}>
-        <InfoGridSkeleton count={3} />
-      </div>
-    </div>
-  );
-}
 
 export default function LocationPage({
   params,
@@ -67,10 +54,9 @@ async function LocationDetail({
   const totalResidents = location.residents.length;
   const totalPages = Math.ceil(totalResidents / PAGE_SIZE);
   const start = (currentPage - 1) * PAGE_SIZE;
-  const end = start + PAGE_SIZE;
 
   const residents = await fetchCharactersByUrls(
-    location.residents.slice(start, end),
+    location.residents.slice(start, start + PAGE_SIZE),
   );
 
   const info = {
@@ -87,8 +73,7 @@ async function LocationDetail({
           <div>
             <h1 className={styles.locationName}>{location.name}</h1>
             <p className={styles.locationResidents}>
-              {totalResidents} known resident
-              {totalResidents !== 1 ? "s" : ""}
+              {totalResidents} known resident{totalResidents !== 1 ? "s" : ""}
             </p>
           </div>
         </div>
@@ -104,12 +89,7 @@ async function LocationDetail({
         <section className={styles.section}>
           <h2 className={styles.sectionHeading}>Residents</h2>
           <CharacterGrid characters={residents} />
-
-          <Pagination
-            info={info}
-            currentPage={currentPage}
-            basePath={`/locations/${id}`}
-          />
+          <Pagination info={info} currentPage={currentPage} basePath={`/locations/${id}`} />
         </section>
       )}
     </>

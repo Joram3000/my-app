@@ -1,31 +1,13 @@
-import { Suspense } from "react";
 import { type Metadata } from "next";
 
 import { fetchCharacters } from "@/lib/api/rickMorty/rickMorty";
 import { CharacterGrid } from "@/ui/character-grid";
-import { CharacterGridSkeleton, FilterBarSkeleton } from "@/ui/skeletons";
 import styles from "./page.module.css";
 import { Pagination } from "@/ui/pagination";
 import { FilterBar } from "@/ui/filter-bar";
+import { CHARACTER_FILTERS } from "@/lib/filters";
 
 export const metadata: Metadata = { title: "Characters" };
-
-const CHARACTER_FILTERS = [
-  { type: "text" as const, key: "name", placeholder: "Search by name…" },
-  {
-    type: "select" as const,
-    key: "status",
-    label: "Status",
-    options: ["Alive", "Dead", "unknown"],
-  },
-  { type: "text" as const, key: "species", placeholder: "Species…" },
-  {
-    type: "select" as const,
-    key: "gender",
-    label: "Gender",
-    options: ["Female", "Male", "Genderless", "unknown"],
-  },
-];
 
 type SearchParams = Promise<{
   page?: string;
@@ -43,12 +25,8 @@ export default function CharactersPage({
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>Characters</h1>
-      <Suspense fallback={<FilterBarSkeleton filters={CHARACTER_FILTERS} />}>
-        <FilterBar filters={CHARACTER_FILTERS} />
-      </Suspense>
-      <Suspense fallback={<CharacterGridSkeleton />}>
-        <CharactersContent searchParams={searchParams} />
-      </Suspense>
+      <FilterBar filters={CHARACTER_FILTERS} />
+      <CharactersContent searchParams={searchParams} />
     </div>
   );
 }
