@@ -29,7 +29,7 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(
-    auto-fit,
+    auto-fill,
     minmax(clamp(240px, 25vw, 240px), 1fr)
   );
   gap: clamp(1rem, 4vw, 1.5rem);
