@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { type Metadata } from "next";
 
 import styles from "./page.module.css";
@@ -6,6 +7,7 @@ import { SeasonBrowser } from "@/ui/season-browser";
 import { FilterBar } from "@/ui/filter-bar";
 import { Episode } from "@/lib/api/rickMorty/rickMorty.types";
 import { EPISODE_FILTERS } from "@/lib/filters";
+import { CountSkeleton, EpisodeListSkeleton } from "@/ui/skeletons";
 
 export const metadata: Metadata = { title: "Episodes" };
 
@@ -20,7 +22,9 @@ export default function EpisodesPage({
     <div className={styles.container}>
       <h1 className={styles.heading}>Episodes</h1>
       <FilterBar filters={EPISODE_FILTERS} />
-      <EpisodesContent searchParams={searchParams} />
+      <Suspense fallback={<><CountSkeleton /><EpisodeListSkeleton /></>}>
+        <EpisodesContent searchParams={searchParams} />
+      </Suspense>
     </div>
   );
 }

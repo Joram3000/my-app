@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import { type Metadata } from "next";
 
@@ -7,6 +8,7 @@ import { Pagination } from "@/ui/pagination";
 import { BiRightArrowAlt } from "react-icons/bi";
 import { FilterBar } from "@/ui/filter-bar";
 import { LOCATION_FILTERS } from "@/lib/filters";
+import { CountSkeleton, LocationGridSkeleton } from "@/ui/skeletons";
 
 export const metadata: Metadata = { title: "Locations" };
 
@@ -26,7 +28,9 @@ export default function LocationsPage({
     <div className={styles.container}>
       <h1 className={styles.heading}>Locations</h1>
       <FilterBar filters={LOCATION_FILTERS} />
-      <LocationsContent searchParams={searchParams} />
+      <Suspense fallback={<><CountSkeleton /><LocationGridSkeleton /></>}>
+        <LocationsContent searchParams={searchParams} />
+      </Suspense>
     </div>
   );
 }

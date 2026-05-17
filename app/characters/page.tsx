@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { type Metadata } from "next";
 
 import { fetchCharacters } from "@/lib/api/rickMorty/rickMorty";
@@ -6,6 +7,7 @@ import styles from "./page.module.css";
 import { Pagination } from "@/ui/pagination";
 import { FilterBar } from "@/ui/filter-bar";
 import { CHARACTER_FILTERS } from "@/lib/filters";
+import { CharacterGridSkeleton, CountSkeleton } from "@/ui/skeletons";
 
 export const metadata: Metadata = { title: "Characters" };
 
@@ -26,7 +28,9 @@ export default function CharactersPage({
     <div className={styles.container}>
       <h1 className={styles.heading}>Characters</h1>
       <FilterBar filters={CHARACTER_FILTERS} />
-      <CharactersContent searchParams={searchParams} />
+      <Suspense fallback={<><CountSkeleton /><CharacterGridSkeleton /></>}>
+        <CharactersContent searchParams={searchParams} />
+      </Suspense>
     </div>
   );
 }

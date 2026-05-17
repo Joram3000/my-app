@@ -1,33 +1,18 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 import { type Metadata } from "next";
 
 import styles from "./page.module.css";
 import { fetchCharactersByUrls, fetchEpisode } from "@/lib/api/rickMorty/rickMorty";
 import { CharacterGrid } from "@/ui/character-grid";
 import { InfoCard } from "@/ui/info-card";
-import { EpisodeDetailSkeleton } from "@/ui/skeletons";
 import { BiLeftArrowAlt } from "react-icons/bi";
 
 export const metadata: Metadata = { title: "Episode" };
 
 type Params = Promise<{ id: string }>;
 
-export default function EpisodePage({ params }: { params: Params }) {
-  return (
-    <div className={styles.container}>
-      <Link href="/episodes" className={styles.backLink}>
-        <BiLeftArrowAlt /> Back to episodes
-      </Link>
-      <Suspense fallback={<EpisodeDetailSkeleton />}>
-        <EpisodeDetail params={params} />
-      </Suspense>
-    </div>
-  );
-}
-
-async function EpisodeDetail({ params }: { params: Params }) {
+export default async function EpisodePage({ params }: { params: Params }) {
   const { id } = await params;
   const episode = await fetchEpisode(Number(id));
   if (!episode) notFound();
@@ -35,7 +20,11 @@ async function EpisodeDetail({ params }: { params: Params }) {
   const characters = await fetchCharactersByUrls(episode.characters.slice(0, 20));
 
   return (
-    <>
+    <div className={styles.container}>
+      <Link href="/episodes" className={styles.backLink}>
+        <BiLeftArrowAlt /> Back to episodes
+      </Link>
+
       <div className={styles.card}>
         <div className={styles.cardHeader}>
           <div className={styles.episodeBadge}>{episode.episode}</div>
@@ -65,6 +54,6 @@ async function EpisodeDetail({ params }: { params: Params }) {
           <CharacterGrid characters={characters} />
         </section>
       )}
-    </>
+    </div>
   );
 }
