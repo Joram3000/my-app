@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
-import { useCallback, useState, useEffect, useRef } from 'react';
-import styles from './filter-bar.module.css';
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useCallback, useState, useEffect, useRef } from "react";
+import styles from "./filter-bar.module.css";
 
 type FilterDef =
-  | { type: 'text'; key: string; placeholder: string }
-  | { type: 'select'; key: string; label: string; options: string[] };
+  | { type: "text"; key: string; placeholder: string }
+  | { type: "select"; key: string; label: string; options: string[] };
 
 interface FilterBarProps {
   filters: FilterDef[];
@@ -20,7 +20,7 @@ export function FilterBar({ filters }: FilterBarProps) {
   const [textValues, setTextValues] = useState<Record<string, string>>(() => {
     const init: Record<string, string> = {};
     for (const f of filters) {
-      if (f.type === 'text') init[f.key] = searchParams.get(f.key) ?? '';
+      if (f.type === "text") init[f.key] = searchParams.get(f.key) ?? "";
     }
     return init;
   });
@@ -32,7 +32,7 @@ export function FilterBar({ filters }: FilterBarProps) {
   useEffect(() => {
     const fromUrl: Record<string, string> = {};
     for (const f of filters) {
-      if (f.type === 'text') fromUrl[f.key] = searchParams.get(f.key) ?? '';
+      if (f.type === "text") fromUrl[f.key] = searchParams.get(f.key) ?? "";
     }
     const changed = Object.keys(fromUrl).some(
       (k) => fromUrl[k] !== textValuesRef.current[k],
@@ -58,7 +58,7 @@ export function FilterBar({ filters }: FilterBarProps) {
           if (v) params.set(k, v);
           else params.delete(k);
         }
-        params.delete('page');
+        params.delete("page");
         router.push(`${pathname}?${params}`);
       }, 300);
     },
@@ -70,7 +70,7 @@ export function FilterBar({ filters }: FilterBarProps) {
       const params = new URLSearchParams(searchParams.toString());
       if (value) params.set(key, value);
       else params.delete(key);
-      params.delete('page');
+      params.delete("page");
       router.push(`${pathname}?${params}`);
     },
     [router, pathname, searchParams],
@@ -83,17 +83,17 @@ export function FilterBar({ filters }: FilterBarProps) {
 
   const hasFilters =
     Object.values(textValues).some(Boolean) ||
-    filters.some((f) => f.type === 'select' && searchParams.has(f.key));
+    filters.some((f) => f.type === "select" && searchParams.has(f.key));
 
   return (
     <div className={styles.bar}>
       {filters.map((filter) =>
-        filter.type === 'text' ? (
+        filter.type === "text" ? (
           <div key={filter.key} className={styles.textField}>
             <input
               type="text"
               placeholder={filter.placeholder}
-              value={textValues[filter.key] ?? ''}
+              value={textValues[filter.key] ?? ""}
               onChange={(e) => handleTextChange(filter.key, e.target.value)}
               className={styles.input}
             />
@@ -101,7 +101,7 @@ export function FilterBar({ filters }: FilterBarProps) {
         ) : (
           <div key={filter.key} className={styles.selectField}>
             <select
-              value={searchParams.get(filter.key) ?? ''}
+              value={searchParams.get(filter.key) ?? ""}
               onChange={(e) => updateSelect(filter.key, e.target.value)}
               className={styles.select}
             >

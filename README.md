@@ -26,6 +26,7 @@ Accessability tabs op modal
 Pagination 'first en last' buttons alleen bij meer dan x aantal pages
 Filtering gebruiken, en als dat werkt location-characters zo weergeven zodat pagination werkt
 Verplaats tooltip naar global
+Favicon
 
 To DO's
 Algemene loader maken
@@ -36,8 +37,14 @@ Grid nalopen op redundancy, of global maken
 Hover state constant maken, of global maken
 Location-Characters ook pagination mee geven
 UI styling aanpassen, minder kleuren, leesbaarder
-
 Modal Kruisje is niet mooi en status label wrapt nog niet goed
+Audio toevoegen, volume toevoegen, samples toevoegen
+Cursor veranderen in raketje, alleen voor desktop
+Splashscreen
+Son of a bitch I'm in sample
+Tool tip bij cursor
+Select dingetje is niet mooi
+2 bugs op mobile: tooltip blijft staan, en kan niet verdr naar rechts dan de volgende page, hoe kot dat?
 
 Concerns:
 pagination op location moet op 10?

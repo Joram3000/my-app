@@ -38,6 +38,11 @@
   min-width: 9rem;
 }
 
+.select:hover {
+  color: var(--color-white);
+  cursor: pointer;
+}
+
 .select {
   width: 100%;
   border-radius: 0.5rem;
