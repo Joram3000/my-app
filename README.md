@@ -31,6 +31,8 @@ Algemene loader maken
 Loaders en Skeletons
 
 To DO's
+Last known location ook doorlinken
+Goed kijken hoe we verder dingen kunnen doorlinken
 Episodes styling, via seasons, horizontaal scrolletje geven
 Perspectief effect Pagination
 Grid nalopen op redundancy, of global maken
