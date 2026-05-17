@@ -131,7 +131,7 @@ export function CharacterModal({
         isLoading={currentIndex === characters.length - 1 && isLoadingNext}
       />
 
-      <div className={styles.slides} ref={slidesRef} onScroll={handleScroll}>
+      <div className={styles.slides} ref={slidesRef} onScroll={handleScroll} onClick={onClose}>
         {characters.map((char, i) => (
           <div
             key={char.id}
@@ -141,7 +141,7 @@ export function CharacterModal({
             aria-label={`${char.name}, ${i + 1} of ${characters.length}`}
             inert={i !== currentIndex || undefined}
           >
-            <div className={styles.modal}>
+            <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
               <button
                 onClick={onClose}
                 className={styles.closeButton}
