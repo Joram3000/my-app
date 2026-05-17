@@ -220,7 +220,7 @@ function NavButton({
   const isPrev = direction === "prev";
   return (
     <button
-      className={`${styles.navButton} ${isPrev ? styles.navPrev : styles.navNext} ${styles.tooltip}`}
+      className={`${styles.navButton} ${isPrev ? styles.navPrev : styles.navNext} tooltip`}
       onClick={onClick}
       disabled={!!isLoading}
       data-tooltip={isPrev ? "Previous character" : "Next character"}

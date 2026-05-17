@@ -27,14 +27,16 @@ export function Pagination({ info, currentPage, basePath }: PaginationProps) {
 
   return (
     <nav className={styles.nav} aria-label="Pagination">
-      <PaginationLink
-        href={buildHref(1)}
-        disabled={currentPage === 1}
-        label="First page"
-        mobileHidden
-      >
-        <BiArrowToLeft />
-      </PaginationLink>
+      {info.pages >= 5 && (
+        <PaginationLink
+          href={buildHref(1)}
+          disabled={currentPage === 1}
+          label="First page"
+          mobileHidden
+        >
+          <BiArrowToLeft />
+        </PaginationLink>
+      )}
 
       <PaginationLink
         href={buildHref(currentPage - 1)}
@@ -77,14 +79,16 @@ export function Pagination({ info, currentPage, basePath }: PaginationProps) {
         <BiRightArrowAlt />
       </PaginationLink>
 
-      <PaginationLink
-        href={buildHref(info.pages)}
-        disabled={currentPage === info.pages}
-        label="Last page"
-        mobileHidden
-      >
-        <BiArrowToRight />
-      </PaginationLink>
+      {info.pages >= 5 && (
+        <PaginationLink
+          href={buildHref(info.pages)}
+          disabled={currentPage === info.pages}
+          label="Last page"
+          mobileHidden
+        >
+          <BiArrowToRight />
+        </PaginationLink>
+      )}
     </nav>
   );
 }
@@ -112,7 +116,7 @@ function PaginationLink({
       <button
         disabled
         aria-label={label}
-        className={`${styles.disabled} ${styles.tooltip} ${hiddenClass}`}
+        className={`${styles.disabled} tooltip ${hiddenClass}`}
         data-tooltip={label}
       >
         {children}
@@ -124,7 +128,7 @@ function PaginationLink({
       href={href}
       aria-label={label}
       aria-current={active ? "page" : undefined}
-      className={`${styles.link} ${styles.tooltip} ${active ? styles.linkActive : styles.linkInactive} ${hiddenClass}`}
+      className={`${styles.link} tooltip ${active ? styles.linkActive : styles.linkInactive} ${hiddenClass}`}
       data-tooltip={label}
       style={style}
     >

@@ -56,28 +56,3 @@
   color: var(--color-gray-700);
   background: transparent;
 }
-
-.tooltip {
-  position: relative;
-}
-
-.tooltip::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: calc(100% + 6px);
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: var(--color-gray-800, #1f2937);
-  color: var(--color-white, #fff);
-  font-size: 0.75rem;
-  white-space: nowrap;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.25s;
-}
-
-.tooltip:hover::after {
-  opacity: 1;
-}
