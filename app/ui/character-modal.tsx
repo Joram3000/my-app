@@ -177,12 +177,15 @@ export function CharacterModal({
                 </div>
 
                 <div className={styles.infoSection}>
-                  <div className={styles.nameStatusWrapper}>
-                    <h1 className={styles.name}>{char.name}</h1>
-                    <p className={styles.status}>({char.status})</p>
-                  </div>
+                  <h1 className={styles.name}>{char.name}</h1>
 
                   <dl className={styles.dl}>
+                    <InfoRow
+                      label="Status"
+                      value={char.status}
+                      href={`/characters?status=${encodeURIComponent(char.status)}`}
+                      onLinkClick={onClose}
+                    />
                     <InfoRow
                       label="Species"
                       value={char.species}

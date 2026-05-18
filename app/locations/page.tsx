@@ -1,12 +1,15 @@
 import { Suspense } from "react";
 import { type Metadata } from "next";
 
-import styles from "./page.module.css";
 import { fetchLocations } from "@/lib/api/rickMorty/rickMorty";
 import { Pagination } from "@/ui/pagination";
 import { FilterBar } from "@/ui/filter-bar";
-import { LOCATION_FILTERS } from "@/lib/filters";
-import { CountSkeleton, LocationGridSkeleton, FilterBarSkeleton } from "@/ui/skeletons";
+import { LOCATION_FILTERS } from "@/lib/api/rickMorty/filters";
+import {
+  CountSkeleton,
+  LocationGridSkeleton,
+  FilterBarSkeleton,
+} from "@/ui/skeletons";
 import { TiltGrid } from "@/ui/tilt-grid";
 import { LocationCard } from "@/ui/location-card";
 
@@ -25,8 +28,8 @@ export default function LocationsPage({
   searchParams: SearchParams;
 }) {
   return (
-    <div className={styles.container}>
-      <h1 className={styles.heading}>Locations</h1>
+    <div className="pageContainer">
+      <h1 className="pageHeading">Locations</h1>
       <Suspense fallback={<FilterBarSkeleton filters={LOCATION_FILTERS} />}>
         <FilterBar filters={LOCATION_FILTERS} />
       </Suspense>
@@ -60,15 +63,15 @@ async function LocationsContent({
 
   return (
     <>
-      <p className={styles.count}>
+      <p className="pageCount">
         {data.info.count > 0
           ? `${data.info.count} locations found`
           : "No locations found"}
       </p>
 
       {data.results.length === 0 ? (
-        <div className={styles.empty}>
-          <p className={styles.emptyText}>No locations found.</p>
+        <div className="emptyState">
+          <p className="emptyStateText">No locations found.</p>
         </div>
       ) : (
         <TiltGrid minColWidth={280}>

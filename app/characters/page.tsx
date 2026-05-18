@@ -3,11 +3,14 @@ import { type Metadata } from "next";
 
 import { fetchCharacters } from "@/lib/api/rickMorty/rickMorty";
 import { CharacterGrid } from "@/ui/character-grid";
-import styles from "./page.module.css";
 import { Pagination } from "@/ui/pagination";
 import { FilterBar } from "@/ui/filter-bar";
-import { CHARACTER_FILTERS } from "@/lib/filters";
-import { CharacterGridSkeleton, CountSkeleton, FilterBarSkeleton } from "@/ui/skeletons";
+import { CHARACTER_FILTERS } from "@/lib/api/rickMorty/filters";
+import {
+  CharacterGridSkeleton,
+  CountSkeleton,
+  FilterBarSkeleton,
+} from "@/ui/skeletons";
 
 export const metadata: Metadata = { title: "Characters" };
 
@@ -25,12 +28,19 @@ export default function CharactersPage({
   searchParams: SearchParams;
 }) {
   return (
-    <div className={styles.container}>
-      <h1 className={styles.heading}>Characters</h1>
+    <div className="pageContainer">
+      <h1 className="pageHeading">Characters</h1>
       <Suspense fallback={<FilterBarSkeleton filters={CHARACTER_FILTERS} />}>
         <FilterBar filters={CHARACTER_FILTERS} />
       </Suspense>
-      <Suspense fallback={<><CountSkeleton /><CharacterGridSkeleton /></>}>
+      <Suspense
+        fallback={
+          <>
+            <CountSkeleton />
+            <CharacterGridSkeleton />
+          </>
+        }
+      >
         <CharactersContent searchParams={searchParams} />
       </Suspense>
     </div>
@@ -55,7 +65,7 @@ async function CharactersContent({
 
   return (
     <>
-      <p className={styles.count}>
+      <p className="pageCount">
         {data.info.count > 0
           ? `${data.info.count} characters found`
           : "No characters found"}

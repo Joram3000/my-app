@@ -10,7 +10,6 @@
 
 .code {
   font-size: 3.75rem;
-  line-height: 1;
   font-weight: 700;
   color: var(--color-green-500);
 }
@@ -18,7 +17,6 @@
 .title {
   margin-top: 1rem;
   font-size: 1.25rem;
-  line-height: 1.75rem;
   font-weight: 600;
   color: var(--color-white);
 }
@@ -35,7 +33,6 @@
   border: 1px solid var(--color-green-300);
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
-  line-height: 1.25rem;
   font-weight: 500;
   color: var(--color-green-400);
   text-decoration: none;

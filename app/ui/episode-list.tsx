@@ -39,8 +39,8 @@ export function EpisodeList({
 
   if (episodes.length === 0) {
     return (
-      <div className={styles.empty}>
-        <p className={styles.emptyText}>No episodes found.</p>
+      <div className="emptyState">
+        <p className="emptyStateText">No episodes found.</p>
       </div>
     );
   }

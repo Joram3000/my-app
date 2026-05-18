@@ -166,7 +166,6 @@
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  line-height: 1.3;
   transition: color 0.15s;
 }
 
@@ -180,10 +179,6 @@
   margin: 0;
   margin-top: auto;
   padding-top: 0.5rem;
-}
-
-.cardArrow {
-  display: none;
 }
 
 /* ── Infinite scroll sentinel ───────────────────────────── */

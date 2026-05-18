@@ -62,16 +62,6 @@
   color: var(--color-gray-600);
 }
 
-.empty {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
-  text-align: center;
-}
-
-.emptyText {
-  color: var(--color-gray-500);
-}
-
 .row {
   display: flex;
   align-items: center;

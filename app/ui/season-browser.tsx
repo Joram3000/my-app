@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Episode, ApiInfo } from "@/lib/api/rickMorty/rickMorty.types";
 import { fetchEpisodes } from "@/lib/api/rickMorty/rickMorty";
-import { BiRightArrowAlt } from "react-icons/bi";
 import styles from "./season-browser.module.css";
 
 interface SeasonBrowserProps {
@@ -205,9 +204,6 @@ function EpisodeCard({ episode }: { episode: Episode }) {
         <h3 className={styles.cardTitle}>{episode.name}</h3>
         <p className={styles.cardDate}>{episode.air_date}</p>
       </div>
-      <span className={styles.cardArrow}>
-        <BiRightArrowAlt />
-      </span>
     </Link>
   );
 }

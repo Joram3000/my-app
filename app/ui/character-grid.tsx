@@ -2,8 +2,11 @@
 
 import { CharacterCard } from "./character-card";
 import { TiltGrid } from "./tilt-grid";
-import styles from "./character-grid.module.css";
-import { Character, ApiInfo, CharacterFilters } from "@/lib/api/rickMorty/rickMorty.types";
+import {
+  Character,
+  ApiInfo,
+  CharacterFilters,
+} from "@/lib/api/rickMorty/rickMorty.types";
 import { BASE_URL } from "@/lib/api/rickMorty/rickMorty";
 import { CharacterModal } from "./character-modal";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -15,13 +18,18 @@ interface CharacterGridProps {
   filters?: CharacterFilters;
 }
 
-export function CharacterGrid({ characters, info, currentPage, filters }: CharacterGridProps) {
+export function CharacterGrid({
+  characters,
+  info,
+  currentPage,
+  filters,
+}: CharacterGridProps) {
   const [allCharacters, setAllCharacters] = useState(characters);
   const [nextPage, setNextPage] = useState<number | null>(() =>
-    info?.next ? currentPage! + 1 : null
+    info?.next ? currentPage! + 1 : null,
   );
   const [prevPage, setPrevPage] = useState<number | null>(() =>
-    info?.prev ? currentPage! - 1 : null
+    info?.prev ? currentPage! - 1 : null,
   );
   const [isLoadingNext, setIsLoadingNext] = useState(false);
   const [isLoadingPrev, setIsLoadingPrev] = useState(false);
@@ -42,21 +50,28 @@ export function CharacterGrid({ characters, info, currentPage, filters }: Charac
     [allCharacters],
   );
 
-  const fetchPage = useCallback(async (page: number) => {
-    if (!filters) return null;
-    const params = new URLSearchParams({ page: String(page) });
-    for (const [key, value] of Object.entries(filters)) {
-      if (value) params.set(key, value);
-    }
-    const res = await fetch(`${BASE_URL}/character?${params}`);
-    if (!res.ok) return null;
-    return res.json();
-  }, [filters]);
+  const fetchPage = useCallback(
+    async (page: number) => {
+      if (!filters) return null;
+      const params = new URLSearchParams({ page: String(page) });
+      for (const [key, value] of Object.entries(filters)) {
+        if (value) params.set(key, value);
+      }
+      const res = await fetch(`${BASE_URL}/character?${params}`);
+      if (!res.ok) return null;
+      return res.json();
+    },
+    [filters],
+  );
 
   const nextPageRef = useRef(nextPage);
   const prevPageRef = useRef(prevPage);
-  useEffect(() => { nextPageRef.current = nextPage; }, [nextPage]);
-  useEffect(() => { prevPageRef.current = prevPage; }, [prevPage]);
+  useEffect(() => {
+    nextPageRef.current = nextPage;
+  }, [nextPage]);
+  useEffect(() => {
+    prevPageRef.current = prevPage;
+  }, [prevPage]);
 
   const loadNext = useCallback(async () => {
     if (loadingNextRef.current || nextPageRef.current === null) return;
@@ -97,18 +112,23 @@ export function CharacterGrid({ characters, info, currentPage, filters }: Charac
   }, [fetchPage]);
 
   const allCharactersLengthRef = useRef(allCharacters.length);
-  useEffect(() => { allCharactersLengthRef.current = allCharacters.length; }, [allCharacters.length]);
+  useEffect(() => {
+    allCharactersLengthRef.current = allCharacters.length;
+  }, [allCharacters.length]);
 
-  const handleModalIndexChange = useCallback((index: number) => {
-    setSelectedIndex(index);
-    if (index >= allCharactersLengthRef.current - 5) loadNext();
-    if (index <= 4) loadPrev();
-  }, [loadNext, loadPrev]);
+  const handleModalIndexChange = useCallback(
+    (index: number) => {
+      setSelectedIndex(index);
+      if (index >= allCharactersLengthRef.current - 5) loadNext();
+      if (index <= 4) loadPrev();
+    },
+    [loadNext, loadPrev],
+  );
 
   if (characters.length === 0) {
     return (
-      <div className={styles.empty}>
-        <p className={styles.emptyText}>No characters found.</p>
+      <div className="emptyState">
+        <p className="emptyStateText">No characters found.</p>
       </div>
     );
   }

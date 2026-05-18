@@ -8,8 +8,12 @@ import { SeasonBrowser } from "@/ui/season-browser";
 import { EpisodeList } from "@/ui/episode-list";
 import { FilterBar } from "@/ui/filter-bar";
 
-import { EPISODE_FILTERS } from "@/lib/filters";
-import { CountSkeleton, EpisodeListSkeleton, FilterBarSkeleton } from "@/ui/skeletons";
+import { EPISODE_FILTERS } from "@/lib/api/rickMorty/filters";
+import {
+  CountSkeleton,
+  EpisodeListSkeleton,
+  FilterBarSkeleton,
+} from "@/ui/skeletons";
 
 export const metadata: Metadata = { title: "Episodes" };
 
@@ -26,8 +30,8 @@ export default function EpisodesPage({
   searchParams: SearchParams;
 }) {
   return (
-    <div className={styles.container}>
-      <h1 className={styles.heading}>Episodes</h1>
+    <div className="pageContainer">
+      <h1 className="pageHeading">Episodes</h1>
       <Suspense fallback={<FilterBarSkeleton filters={EPISODE_FILTERS} />}>
         <FilterBar filters={EPISODE_FILTERS} />
       </Suspense>
@@ -51,13 +55,16 @@ async function EpisodesContent({
   searchParams: SearchParams;
 }) {
   const params = await searchParams;
-  const view = params.view === "list" ? "list" : "season";
+  const view = params.view === "season" ? "season" : "list";
   const activeSeason = params.season ? Number(params.season) : null;
 
   const toggleHref = buildToggleHref(params, view);
 
   if (view === "list") {
-    const data = await fetchEpisodes(1, { name: params.name, episode: params.episode });
+    const data = await fetchEpisodes(1, {
+      name: params.name,
+      episode: params.episode,
+    });
     return (
       <>
         <ViewToggle view={view} toggleHref={toggleHref} />
@@ -66,12 +73,15 @@ async function EpisodesContent({
     );
   }
 
-  const data = await fetchEpisodes(1, { name: params.name, episode: params.episode });
+  const data = await fetchEpisodes(1, {
+    name: params.name,
+    episode: params.episode,
+  });
 
   return (
     <>
       <ViewToggle view={view} toggleHref={toggleHref} />
-      <p className={styles.count}>
+      <p className="pageCount">
         {data.info.count > 0
           ? `${data.info.count} episodes`
           : "No episodes found"}
@@ -99,7 +109,9 @@ function ViewToggle({
       <Link
         href={toggleHref}
         className={styles.toggleBtn}
-        title={view === "season" ? "Switch to list view" : "Switch to season view"}
+        title={
+          view === "season" ? "Switch to list view" : "Switch to season view"
+        }
       >
         {view === "season" ? "List view" : "Season view"}
       </Link>
@@ -118,4 +130,3 @@ function buildToggleHref(
   search.set("view", nextView);
   return `/episodes?${search.toString()}`;
 }
-
