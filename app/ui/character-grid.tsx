@@ -1,6 +1,7 @@
 "use client";
 
 import { CharacterCard } from "./character-card";
+import { TiltGrid } from "./tilt-grid";
 import styles from "./character-grid.module.css";
 import { Character, ApiInfo, CharacterFilters } from "@/lib/api/rickMorty/rickMorty.types";
 import { BASE_URL } from "@/lib/api/rickMorty/rickMorty";
@@ -100,7 +101,7 @@ export function CharacterGrid({ characters, info, currentPage, filters }: Charac
 
   return (
     <>
-      <div className={styles.grid}>
+      <TiltGrid minColWidth={240}>
         {characters.map((char) => (
           <CharacterCard
             key={char.id}
@@ -108,7 +109,7 @@ export function CharacterGrid({ characters, info, currentPage, filters }: Charac
             onClick={handleSelect}
           />
         ))}
-      </div>
+      </TiltGrid>
 
       {selectedIndex !== null && (
         <CharacterModal
