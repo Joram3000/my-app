@@ -43,7 +43,9 @@ export function CharacterModal({
   }, []);
 
   const onIndexChangeRef = useRef(onIndexChange);
-  useEffect(() => { onIndexChangeRef.current = onIndexChange; }, [onIndexChange]);
+  useEffect(() => {
+    onIndexChangeRef.current = onIndexChange;
+  }, [onIndexChange]);
 
   const scrollTo = useCallback((index: number) => {
     const container = slidesRef.current;
@@ -155,7 +157,9 @@ export function CharacterModal({
           >
             <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
               <button
-                onClick={onClose}
+                onClick={() => {
+                  onClose();
+                }}
                 className={styles.closeButton}
                 aria-label="Close dialog"
               >

@@ -105,3 +105,8 @@ button {
 .tooltip:focus-visible::after {
   opacity: 1;
 }
+
+.tooltip--below::after {
+  bottom: auto;
+  top: 100%;
+}

@@ -34,21 +34,21 @@ Location-Characters ook pagination mee geven
 Last known location ook doorlinken
 Goed kijken hoe we verder dingen kunnen doorlinken
 Grid nalopen op redundancy, of global maken
+Audio toevoegen, volume toevoegen, samples toevoegen
+Cursor veranderen in raketje, alleen voor desktop
+Tooltip bij cursor
 
 To DO's
 Hover state constant maken, of global maken
 Loader maken
-UI styling aanpassen, minder kleuren, leesbaarder
 Modal Kruisje is niet mooi en status label wrapt nog niet goed
-Audio toevoegen, volume toevoegen, samples toevoegen
-Cursor veranderen in raketje, alleen voor desktop
+UI styling aanpassen, minder kleuren, leesbaarder
 Splashscreen & Son of a bitch I'm in sample als je op 'met Audio' drukt
-Tooltip bij cursor
 Select dingetje is niet mooi
 
 2 bugs op mobile: tooltip blijft staan, en kan niet verdr naar rechts dan de
 
-volgende page, hoe kot dat?
+volgende page, hoe komt dat?
 Location-Characters op mobile een kleiner kaartje geven
 
 Concerns:

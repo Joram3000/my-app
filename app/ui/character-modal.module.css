@@ -148,12 +148,12 @@
 
 .navPrev {
   left: 0.75rem;
-  --tooltip-nudge: 1rem;
+  --tooltip-nudge: 2rem;
 }
 
 .navNext {
   right: 0.75rem;
-  --tooltip-nudge: -1rem;
+  --tooltip-nudge: -2rem;
 }
 
 .body {
