@@ -7,7 +7,7 @@ import styles from "./page.module.css";
 import { Pagination } from "@/ui/pagination";
 import { FilterBar } from "@/ui/filter-bar";
 import { CHARACTER_FILTERS } from "@/lib/filters";
-import { CharacterGridSkeleton, CountSkeleton } from "@/ui/skeletons";
+import { CharacterGridSkeleton, CountSkeleton, FilterBarSkeleton } from "@/ui/skeletons";
 
 export const metadata: Metadata = { title: "Characters" };
 
@@ -27,7 +27,9 @@ export default function CharactersPage({
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>Characters</h1>
-      <FilterBar filters={CHARACTER_FILTERS} />
+      <Suspense fallback={<FilterBarSkeleton filters={CHARACTER_FILTERS} />}>
+        <FilterBar filters={CHARACTER_FILTERS} />
+      </Suspense>
       <Suspense fallback={<><CountSkeleton /><CharacterGridSkeleton /></>}>
         <CharactersContent searchParams={searchParams} />
       </Suspense>

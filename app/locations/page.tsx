@@ -6,7 +6,7 @@ import { fetchLocations } from "@/lib/api/rickMorty/rickMorty";
 import { Pagination } from "@/ui/pagination";
 import { FilterBar } from "@/ui/filter-bar";
 import { LOCATION_FILTERS } from "@/lib/filters";
-import { CountSkeleton, LocationGridSkeleton } from "@/ui/skeletons";
+import { CountSkeleton, LocationGridSkeleton, FilterBarSkeleton } from "@/ui/skeletons";
 import { TiltGrid } from "@/ui/tilt-grid";
 import { LocationCard } from "@/ui/location-card";
 
@@ -27,7 +27,9 @@ export default function LocationsPage({
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>Locations</h1>
-      <FilterBar filters={LOCATION_FILTERS} />
+      <Suspense fallback={<FilterBarSkeleton filters={LOCATION_FILTERS} />}>
+        <FilterBar filters={LOCATION_FILTERS} />
+      </Suspense>
       <Suspense
         fallback={
           <>

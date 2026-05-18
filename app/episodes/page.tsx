@@ -9,7 +9,7 @@ import { EpisodeList } from "@/ui/episode-list";
 import { FilterBar } from "@/ui/filter-bar";
 
 import { EPISODE_FILTERS } from "@/lib/filters";
-import { CountSkeleton, EpisodeListSkeleton } from "@/ui/skeletons";
+import { CountSkeleton, EpisodeListSkeleton, FilterBarSkeleton } from "@/ui/skeletons";
 
 export const metadata: Metadata = { title: "Episodes" };
 
@@ -28,7 +28,9 @@ export default function EpisodesPage({
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>Episodes</h1>
-      <FilterBar filters={EPISODE_FILTERS} />
+      <Suspense fallback={<FilterBarSkeleton filters={EPISODE_FILTERS} />}>
+        <FilterBar filters={EPISODE_FILTERS} />
+      </Suspense>
       <Suspense
         fallback={
           <>
