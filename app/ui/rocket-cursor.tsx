@@ -6,7 +6,6 @@ import { useCursor } from "@/context/ui-context";
 
 export function RocketCursor() {
   const { rocketActive } = useCursor();
-  const { play } = useSound("/sounds/oowee1.mp3");
 
   useEffect(() => {
     if (!rocketActive) return;
@@ -43,46 +42,17 @@ export function RocketCursor() {
 
     let hideTimeout = 0;
 
-    function onClick(e: MouseEvent) {
-      play();
-      style.textContent = "* { cursor: none !important; }";
-      clearTimeout(hideTimeout);
-      hideTimeout = window.setTimeout(() => render(), 350);
-
-      const el = document.createElement("div");
-      el.textContent = "💥";
-      el.style.cssText = `
-        position: fixed;
-        left: ${e.clientX}px;
-        top: ${e.clientY}px;
-        font-size: 236px;
-        pointer-events: none;
-        transform: translate(-50%, -50%) scale(0.5);
-        z-index: 9999;
-      `;
-      document.body.appendChild(el);
-      el.animate(
-        [
-          { transform: "translate(-50%, -50%) scale(0.5)", opacity: 1 },
-          { transform: "translate(-50%, -50%) scale(1.6)", opacity: 0.4 },
-        ],
-        { duration: 350, easing: "ease-out" },
-      ).onfinish = () => el.remove();
-    }
-
     render();
     window.addEventListener("mousemove", onMove);
-    window.addEventListener("click", onClick);
 
     return () => {
       window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("click", onClick);
       cancelAnimationFrame(raf);
       clearTimeout(hideTimeout);
       document.head.removeChild(style);
       document.body.style.cursor = "";
     };
-  }, [rocketActive, play]);
+  }, [rocketActive]);
 
   return null;
 }

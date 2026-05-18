@@ -23,15 +23,20 @@ export function Header() {
         </Link>
         <div className={styles.nav}>
           <button
-            className={styles.cursor}
+            className={`${styles.sound} tooltip tooltip--below`}
             aria-label="Toggle sound"
-            onClick={() => { if (!soundActive) playRaw(); toggleSound(); }}
+            data-tooltip={soundActive ? "Toggle Sound off" : "Toggle Sound on"}
+            onClick={() => {
+              if (!soundActive) playRaw();
+              toggleSound();
+            }}
           >
             {soundActive ? <BiVolumeFull /> : <BiVolume />}
           </button>
           <button
-            className={styles.cursor}
+            className={`${styles.cursor} tooltip tooltip--below`}
             aria-label="Toggle cursor"
+            data-tooltip={rocketActive ? "Toggle cursor" : "Toggle rocket"}
             onClick={toggleRocket}
           >
             {rocketActive ? <BiRocket /> : <BiPointer />}

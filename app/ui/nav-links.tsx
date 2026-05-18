@@ -23,9 +23,15 @@ export function NavLinks() {
         aria-label="Toggle menu"
         aria-expanded={isOpen}
       >
-        <span className={`${styles.burgerLine} ${isOpen ? styles.burgerLineTop : ""}`} />
-        <span className={`${styles.burgerLine} ${isOpen ? styles.burgerLineMid : ""}`} />
-        <span className={`${styles.burgerLine} ${isOpen ? styles.burgerLineBot : ""}`} />
+        <span
+          className={`${styles.burgerLine} ${isOpen ? styles.burgerLineTop : ""}`}
+        />
+        <span
+          className={`${styles.burgerLine} ${isOpen ? styles.burgerLineMid : ""}`}
+        />
+        <span
+          className={`${styles.burgerLine} ${isOpen ? styles.burgerLineBot : ""}`}
+        />
       </button>
 
       <nav className={`${styles.nav} ${isOpen ? styles.navOpen : ""}`}>
