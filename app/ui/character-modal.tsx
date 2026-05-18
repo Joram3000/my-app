@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./character-modal.module.css";
 import { Character } from "@/lib/api/rickMorty/rickMorty.types";
-import { useSound } from "@/hooks/use-sound";
 import {
   BiRightArrowAlt,
   BiChevronLeft,
@@ -33,7 +32,6 @@ export function CharacterModal({
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const slidesRef = useRef<HTMLDivElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
-  const { play: playClose } = useSound("/sounds/oowee1.mp3");
 
   useEffect(() => {
     const prev = document.body.style.overflow;
@@ -45,7 +43,9 @@ export function CharacterModal({
   }, []);
 
   const onIndexChangeRef = useRef(onIndexChange);
-  useEffect(() => { onIndexChangeRef.current = onIndexChange; }, [onIndexChange]);
+  useEffect(() => {
+    onIndexChangeRef.current = onIndexChange;
+  }, [onIndexChange]);
 
   const scrollTo = useCallback((index: number) => {
     const container = slidesRef.current;
@@ -157,7 +157,9 @@ export function CharacterModal({
           >
             <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
               <button
-                onClick={() => { playClose(); onClose(); }}
+                onClick={() => {
+                  onClose();
+                }}
                 className={styles.closeButton}
                 aria-label="Close dialog"
               >

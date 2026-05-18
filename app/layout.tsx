@@ -6,7 +6,8 @@ import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { DevOutlineToggle } from "./components/DevOutlineToggle";
 import { RocketCursor } from "./ui/rocket-cursor";
-import { CursorProvider } from "./context/cursor-context";
+import { GlobalSound } from "./ui/global-sound";
+import { UIProvider } from "./context/ui-context";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -24,13 +25,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={styles.body}>
-        <CursorProvider>
+        <UIProvider>
           {isDev && <DevOutlineToggle />}
           <RocketCursor />
+          <GlobalSound />
           <Header />
           <main className={styles.main}>{children}</main>
           <Footer />
-        </CursorProvider>
+        </UIProvider>
       </body>
     </html>
   );
