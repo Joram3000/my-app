@@ -16,6 +16,7 @@ interface CharacterGridProps {
   info?: ApiInfo;
   currentPage?: number;
   filters?: CharacterFilters;
+  minColWidth?: number;
 }
 
 export function CharacterGrid({
@@ -23,6 +24,7 @@ export function CharacterGrid({
   info,
   currentPage,
   filters,
+  minColWidth = 240,
 }: CharacterGridProps) {
   const [allCharacters, setAllCharacters] = useState(characters);
   const [nextPage, setNextPage] = useState<number | null>(() =>
@@ -135,7 +137,7 @@ export function CharacterGrid({
 
   return (
     <>
-      <TiltGrid minColWidth={240}>
+      <TiltGrid minColWidth={minColWidth}>
         {characters.map((char) => (
           <CharacterCard
             key={char.id}
