@@ -227,12 +227,12 @@
   color: var(--color-green-300);
 }
 
-.locationLink {
+.valueLink {
   color: var(--color-green-400);
   text-decoration: none;
 }
 
-.locationLink:hover {
+.valueLink:hover {
   color: var(--color-green-300);
   text-decoration: underline;
 }

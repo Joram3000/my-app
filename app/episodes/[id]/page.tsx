@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { type Metadata } from "next";
 
 import styles from "./page.module.css";
+import shared from "@/ui/detail-page.module.css";
 import { fetchCharactersByUrls, fetchEpisode } from "@/lib/api/rickMorty/rickMorty";
 import { CharacterGrid } from "@/ui/character-grid";
 import { InfoCard } from "@/ui/info-card";
@@ -20,12 +21,12 @@ export default async function EpisodePage({ params }: { params: Params }) {
   const characters = await fetchCharactersByUrls(episode.characters.slice(0, 20));
 
   return (
-    <div className={styles.container}>
-      <Link href="/episodes" className={styles.backLink}>
+    <div className={shared.container}>
+      <Link href="/episodes" className={shared.backLink}>
         <BiLeftArrowAlt /> Back to episodes
       </Link>
 
-      <div className={styles.card}>
+      <div className={shared.card}>
         <div className={styles.cardHeader}>
           <div className={styles.episodeBadge}>{episode.episode}</div>
           <div>
@@ -34,7 +35,7 @@ export default async function EpisodePage({ params }: { params: Params }) {
           </div>
         </div>
 
-        <dl className={styles.infoGrid}>
+        <dl className={`${shared.infoGrid} ${shared.infoGrid3col}`}>
           <InfoCard label="Episode" value={episode.episode} />
           <InfoCard label="Air date" value={episode.air_date} />
           <InfoCard label="Characters" value={String(episode.characters.length)} />
@@ -42,8 +43,8 @@ export default async function EpisodePage({ params }: { params: Params }) {
       </div>
 
       {characters.length > 0 && (
-        <section className={styles.section}>
-          <h2 className={styles.sectionHeading}>
+        <section className={shared.section}>
+          <h2 className={shared.sectionHeading}>
             Characters in this episode
             {episode.characters.length > 20 && (
               <span className={styles.sectionNote}>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { type Metadata } from "next";
 import styles from "./page.module.css";
+import shared from "@/ui/detail-page.module.css";
 import { fetchCharacter } from "@/lib/api/rickMorty/rickMorty";
 import { InfoCard } from "@/ui/info-card";
 import { BiLeftArrowAlt } from "react-icons/bi";
@@ -22,8 +23,8 @@ export default async function CharacterPage({ params }: { params: Params }) {
   );
 
   return (
-    <div className={styles.container}>
-      <Link href="/characters" className={styles.backLink}>
+    <div className={shared.container}>
+      <Link href="/characters" className={shared.backLink}>
         <BiLeftArrowAlt /> Back to characters
       </Link>
 
@@ -45,7 +46,7 @@ export default async function CharacterPage({ params }: { params: Params }) {
               <p className={styles.status}>({character.status})</p>
             </div>
 
-            <dl className={styles.infoGrid}>
+            <dl className={`${shared.infoGrid} ${shared.infoGrid2col}`}>
               <InfoCard
                 label="Species"
                 value={character.species}

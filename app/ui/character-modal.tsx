@@ -131,7 +131,12 @@ export function CharacterModal({
         isLoading={currentIndex === characters.length - 1 && isLoadingNext}
       />
 
-      <div className={styles.slides} ref={slidesRef} onScroll={handleScroll} onClick={onClose}>
+      <div
+        className={styles.slides}
+        ref={slidesRef}
+        onScroll={handleScroll}
+        onClick={onClose}
+      >
         {characters.map((char, i) => (
           <div
             key={char.id}
@@ -278,11 +283,7 @@ function InfoRow({
       <dt className={styles.infoLabel}>{label}</dt>
       <dd className={styles.infoValue}>
         {href ? (
-          <Link
-            href={href}
-            onClick={onLinkClick}
-            className={styles.locationLink}
-          >
+          <Link href={href} onClick={onLinkClick} className={styles.valueLink}>
             {value}
           </Link>
         ) : (
