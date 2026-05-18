@@ -6,25 +6,10 @@ import { CharacterGrid } from "@/ui/character-grid";
 import styles from "./page.module.css";
 import { Pagination } from "@/ui/pagination";
 import { FilterBar } from "@/ui/filter-bar";
+import { CHARACTER_FILTERS } from "@/lib/filters";
+import { CharacterGridSkeleton, CountSkeleton, FilterBarSkeleton } from "@/ui/skeletons";
 
 export const metadata: Metadata = { title: "Characters" };
-
-const CHARACTER_FILTERS = [
-  { type: "text" as const, key: "name", placeholder: "Search by name…" },
-  {
-    type: "select" as const,
-    key: "status",
-    label: "Status",
-    options: ["Alive", "Dead", "unknown"],
-  },
-  { type: "text" as const, key: "species", placeholder: "Species…" },
-  {
-    type: "select" as const,
-    key: "gender",
-    label: "Gender",
-    options: ["Female", "Male", "Genderless", "unknown"],
-  },
-];
 
 type SearchParams = Promise<{
   page?: string;
@@ -42,10 +27,10 @@ export default function CharactersPage({
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>Characters</h1>
-      <Suspense>
+      <Suspense fallback={<FilterBarSkeleton filters={CHARACTER_FILTERS} />}>
         <FilterBar filters={CHARACTER_FILTERS} />
       </Suspense>
-      <Suspense fallback={<p>...loading</p>}>
+      <Suspense fallback={<><CountSkeleton /><CharacterGridSkeleton /></>}>
         <CharactersContent searchParams={searchParams} />
       </Suspense>
     </div>

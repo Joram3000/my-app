@@ -27,24 +27,26 @@ Pagination 'first en last' buttons alleen bij meer dan x aantal pages
 Filtering gebruiken, en als dat werkt location-characters zo weergeven zodat pagination werkt
 Verplaats tooltip naar global
 Favicon
-
-To DO's
 Algemene loader maken
 Loaders en Skeletons
 Episodes styling, via seasons, horizontaal scrolletje geven
-Perspectief effect Pagination
+Location-Characters ook pagination mee geven
+Last known location ook doorlinken
+Goed kijken hoe we verder dingen kunnen doorlinken
+
+To DO's
 Grid nalopen op redundancy, of global maken
 Hover state constant maken, of global maken
-Location-Characters ook pagination mee geven
 UI styling aanpassen, minder kleuren, leesbaarder
 Modal Kruisje is niet mooi en status label wrapt nog niet goed
 Audio toevoegen, volume toevoegen, samples toevoegen
 Cursor veranderen in raketje, alleen voor desktop
-Splashscreen
-Son of a bitch I'm in sample
-Tool tip bij cursor
+Splashscreen & Son of a bitch I'm in sample als je op 'met Audio' drukt
+Tooltip bij cursor
 Select dingetje is niet mooi
+kaartje voor info-card en info-row
 2 bugs op mobile: tooltip blijft staan, en kan niet verdr naar rechts dan de volgende page, hoe kot dat?
+Location-Characters op mobile een kleiner kaartje geven
 
 Concerns:
 pagination op location moet op 10?

@@ -6,6 +6,7 @@ import styles from "./episode-list.module.css";
 import { Episode, ApiInfo } from "@/lib/api/rickMorty/rickMorty.types";
 import { fetchEpisodes } from "@/lib/api/rickMorty/rickMorty";
 import { BiRightArrowAlt } from "react-icons/bi";
+import { TiltGrid } from "./tilt-grid";
 
 interface EpisodeListProps {
   initialEpisodes: Episode[];
@@ -45,11 +46,13 @@ export function EpisodeList({
   }
 
   return (
-    <div>
+    <>
       <div className={styles.list}>
-        {episodes.map((ep) => (
-          <EpisodeRow key={ep.id} episode={ep} />
-        ))}
+        <TiltGrid>
+          {episodes.map((ep) => (
+            <EpisodeRow key={ep.id} episode={ep} />
+          ))}
+        </TiltGrid>
       </div>
 
       {info.next && (
@@ -74,7 +77,7 @@ export function EpisodeList({
       <p className={styles.count}>
         Showing {episodes.length} of {info.count} episodes
       </p>
-    </div>
+    </>
   );
 }
 
