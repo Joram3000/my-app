@@ -16,6 +16,7 @@ interface CharacterModalProps {
   characters: Character[];
   initialIndex: number;
   onClose: () => void;
+  onIndexChange?: (index: number) => void;
   isLoadingNext?: boolean;
   isLoadingPrev?: boolean;
 }
@@ -24,6 +25,7 @@ export function CharacterModal({
   characters,
   initialIndex,
   onClose,
+  onIndexChange,
   isLoadingNext,
   isLoadingPrev,
 }: CharacterModalProps) {
@@ -40,6 +42,9 @@ export function CharacterModal({
     };
   }, []);
 
+  const onIndexChangeRef = useRef(onIndexChange);
+  useEffect(() => { onIndexChangeRef.current = onIndexChange; }, [onIndexChange]);
+
   const scrollTo = useCallback((index: number) => {
     const container = slidesRef.current;
     if (!container) return;
@@ -48,6 +53,7 @@ export function CharacterModal({
       behavior: "smooth",
     });
     setCurrentIndex(index);
+    onIndexChangeRef.current?.(index);
   }, []);
 
   useEffect(() => {
@@ -89,13 +95,14 @@ export function CharacterModal({
       left: initialIndex * container.clientWidth,
       behavior: "instant" as ScrollBehavior,
     });
-    setCurrentIndex(initialIndex);
-  }, [initialIndex]);
+  }, []);
 
   const handleScroll = () => {
     const container = slidesRef.current;
     if (!container) return;
-    setCurrentIndex(Math.round(container.scrollLeft / container.clientWidth));
+    const index = Math.round(container.scrollLeft / container.clientWidth);
+    setCurrentIndex(index);
+    onIndexChangeRef.current?.(index);
   };
 
   return (

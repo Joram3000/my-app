@@ -12,7 +12,7 @@
   position: relative;
   height: 100%;
   transform-style: preserve-3d;
-  transition: transform 0.2s;
+  transition: transform 0.3s;
 }
 
 .cube:hover {
@@ -24,7 +24,9 @@
   height: 100%;
   position: relative;
   z-index: 1;
-  transform: translateZ(1px);
+  border: 2px solid var(--color-gray-700);
+  background-color: var(--color-gray-900);
+  transition: border-color 0.3s;
 }
 
 /* All faces extend backward (-Z) from their respective card edge.
@@ -36,7 +38,7 @@
 .faceRight {
   position: absolute;
   pointer-events: none;
-
+  transition: border-color 0.3s;
 }
 
 /* Top edge → extends into screen, visible for cards below center */
@@ -47,6 +49,7 @@
   height: 100px;
   background: var(--color-gray-500);
   border: 2px solid var(--color-gray-700);
+  border-top: none;
   transform-origin: top center;
   transform: rotateX(-90deg);
 }
@@ -60,6 +63,7 @@
   background: var(--color-gray-600);
   transform-origin: bottom center;
   border: 2px solid var(--color-gray-700);
+  border-bottom: none;
   transform: rotateX(90deg);
 }
 
@@ -71,6 +75,7 @@
   width: 100px;
   background: var(--color-gray-600);
   border: 2px solid var(--color-gray-700);
+  border-left: none;
   transform-origin: left center;
   transform: rotateY(90deg);
 }
@@ -83,6 +88,7 @@
   width: 100px;
   background: var(--color-gray-700);
   border: 2px solid var(--color-gray-700);
+  border-right: none;
   transform-origin: right center;
   transform: rotateY(-90deg);
 }
@@ -90,6 +96,7 @@
 .cube:hover .faceTop,
 .cube:hover .faceBottom,
 .cube:hover .faceLeft,
-.cube:hover .faceRight {
+.cube:hover .faceRight,
+.cube:hover .front {
   border-color: var(--color-green-400);
 }

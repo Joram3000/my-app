@@ -53,43 +53,57 @@ export function CharacterGrid({ characters, info, currentPage, filters }: Charac
     return res.json();
   }, [filters]);
 
+  const nextPageRef = useRef(nextPage);
+  const prevPageRef = useRef(prevPage);
+  useEffect(() => { nextPageRef.current = nextPage; }, [nextPage]);
+  useEffect(() => { prevPageRef.current = prevPage; }, [prevPage]);
+
   const loadNext = useCallback(async () => {
-    if (loadingNextRef.current || nextPage === null) return;
+    if (loadingNextRef.current || nextPageRef.current === null) return;
     loadingNextRef.current = true;
     setIsLoadingNext(true);
+    const page = nextPageRef.current;
     try {
-      const data = await fetchPage(nextPage);
+      const data = await fetchPage(page);
       if (!data) return;
       setAllCharacters((prev) => [...prev, ...data.results]);
-      setNextPage(data.info.next ? nextPage + 1 : null);
+      const newNext = data.info.next ? page + 1 : null;
+      setNextPage(newNext);
+      nextPageRef.current = newNext;
     } finally {
       loadingNextRef.current = false;
       setIsLoadingNext(false);
     }
-  }, [nextPage, fetchPage]);
+  }, [fetchPage]);
 
   const loadPrev = useCallback(async () => {
-    if (loadingPrevRef.current || prevPage === null) return;
+    if (loadingPrevRef.current || prevPageRef.current === null) return;
     loadingPrevRef.current = true;
     setIsLoadingPrev(true);
+    const page = prevPageRef.current;
     try {
-      const data = await fetchPage(prevPage);
+      const data = await fetchPage(page);
       if (!data) return;
       const prepended = data.results as Character[];
       setAllCharacters((prev) => [...prepended, ...prev]);
       setSelectedIndex((i) => (i !== null ? i + prepended.length : i));
-      setPrevPage(data.info.prev ? prevPage - 1 : null);
+      const newPrev = data.info.prev ? page - 1 : null;
+      setPrevPage(newPrev);
+      prevPageRef.current = newPrev;
     } finally {
       loadingPrevRef.current = false;
       setIsLoadingPrev(false);
     }
-  }, [prevPage, fetchPage]);
+  }, [fetchPage]);
 
-  useEffect(() => {
-    if (selectedIndex === null) return;
-    if (selectedIndex >= allCharacters.length - 5) loadNext();
-    if (selectedIndex <= 4) loadPrev();
-  }, [selectedIndex, allCharacters.length, loadNext, loadPrev]);
+  const allCharactersLengthRef = useRef(allCharacters.length);
+  useEffect(() => { allCharactersLengthRef.current = allCharacters.length; }, [allCharacters.length]);
+
+  const handleModalIndexChange = useCallback((index: number) => {
+    setSelectedIndex(index);
+    if (index >= allCharactersLengthRef.current - 5) loadNext();
+    if (index <= 4) loadPrev();
+  }, [loadNext, loadPrev]);
 
   if (characters.length === 0) {
     return (
@@ -116,6 +130,7 @@ export function CharacterGrid({ characters, info, currentPage, filters }: Charac
           characters={allCharacters}
           initialIndex={selectedIndex}
           onClose={() => setSelectedIndex(null)}
+          onIndexChange={handleModalIndexChange}
           isLoadingNext={isLoadingNext}
           isLoadingPrev={isLoadingPrev}
         />

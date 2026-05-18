@@ -37,7 +37,7 @@ Grid nalopen op redundancy, of global maken
 
 To DO's
 Hover state constant maken, of global maken
-
+Loader maken
 UI styling aanpassen, minder kleuren, leesbaarder
 Modal Kruisje is niet mooi en status label wrapt nog niet goed
 Audio toevoegen, volume toevoegen, samples toevoegen
