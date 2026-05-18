@@ -12,7 +12,7 @@ import {
   FilterBarSkeleton,
 } from "@/ui/skeletons";
 
-export const metadata: Metadata = { title: "Characters" };
+export const metadata: Metadata = { title: "Rick & Morty - Characters" };
 
 type SearchParams = Promise<{
   page?: string;

@@ -9,7 +9,7 @@ import { CharacterGrid } from "@/ui/character-grid";
 import { InfoCard } from "@/ui/info-card";
 import { BiLeftArrowAlt } from "react-icons/bi";
 
-export const metadata: Metadata = { title: "Episode" };
+export const metadata: Metadata = { title: "Rick & Morty - Episode" };
 
 type Params = Promise<{ id: string }>;
 

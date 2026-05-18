@@ -46,9 +46,7 @@ Hover state constant maken, of global maken
 Loader maken
 UI styling aanpassen, minder kleuren, leesbaarder
 Splashscreen & Son of a bitch I'm in sample als je op 'met Audio' drukt
-Select dingetje is niet mooi
-
-
+Select dingetje is niet mooi, evt laten
 Location-Characters op mobile een kleiner kaartje geven
 
 Concerns:

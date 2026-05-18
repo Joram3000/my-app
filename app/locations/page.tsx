@@ -13,7 +13,7 @@ import {
 import { TiltGrid } from "@/ui/tilt-grid";
 import { LocationCard } from "@/ui/location-card";
 
-export const metadata: Metadata = { title: "Locations" };
+export const metadata: Metadata = { title: "Rick & Morty - Locations" };
 
 type SearchParams = Promise<{
   page?: string;

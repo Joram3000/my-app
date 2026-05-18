@@ -6,13 +6,16 @@ import { BiLeftArrowAlt } from "react-icons/bi";
 
 import styles from "./page.module.css";
 import shared from "@/ui/detail-page.module.css";
-import { fetchCharactersByUrls, fetchLocation } from "@/lib/api/rickMorty/rickMorty";
+import {
+  fetchCharactersByUrls,
+  fetchLocation,
+} from "@/lib/api/rickMorty/rickMorty";
 import { CharacterGrid } from "@/ui/character-grid";
 import { InfoCard } from "@/ui/info-card";
 import { CharacterGridSkeleton } from "@/ui/skeletons";
 import { Pagination } from "@/ui/pagination";
 
-export const metadata: Metadata = { title: "Location" };
+export const metadata: Metadata = { title: "Rick & Morty - Location" };
 
 const PAGE_SIZE = 20;
 

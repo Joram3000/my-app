@@ -8,7 +8,7 @@ import { fetchCharacter } from "@/lib/api/rickMorty/rickMorty";
 import { InfoCard } from "@/ui/info-card";
 import { BiLeftArrowAlt } from "react-icons/bi";
 
-export const metadata: Metadata = { title: "Character" };
+export const metadata: Metadata = { title: "Rick & Morty - Character" };
 
 type Params = Promise<{ id: string }>;
 

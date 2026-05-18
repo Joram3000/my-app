@@ -15,7 +15,7 @@ import {
   FilterBarSkeleton,
 } from "@/ui/skeletons";
 
-export const metadata: Metadata = { title: "Episodes" };
+export const metadata: Metadata = { title: "Rick & Morty - Episodes" };
 
 type SearchParams = Promise<{
   name?: string;
