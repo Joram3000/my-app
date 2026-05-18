@@ -167,10 +167,29 @@ export function CharacterModal({
                   </div>
 
                   <dl className={styles.dl}>
-                    <InfoRow label="Species" value={char.species} />
+                    <InfoRow
+                      label="Species"
+                      value={char.species}
+                      href={`/characters?species=${encodeURIComponent(char.species)}`}
+                      onLinkClick={onClose}
+                    />
                     {char.type && <InfoRow label="Type" value={char.type} />}
-                    <InfoRow label="Gender" value={char.gender} />
-                    <InfoRow label="Origin" value={char.origin.name} />
+                    <InfoRow
+                      label="Gender"
+                      value={char.gender}
+                      href={`/characters?gender=${encodeURIComponent(char.gender)}`}
+                      onLinkClick={onClose}
+                    />
+                    <InfoRow
+                      label="Origin"
+                      value={char.origin.name}
+                      href={
+                        char.origin.url
+                          ? `/locations/${char.origin.url.split("/").pop()}`
+                          : undefined
+                      }
+                      onLinkClick={onClose}
+                    />
                     <InfoRow
                       label="Location"
                       value={char.location.name}

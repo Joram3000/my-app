@@ -46,13 +46,36 @@ export default async function CharacterPage({ params }: { params: Params }) {
             </div>
 
             <dl className={styles.infoGrid}>
-              <InfoCard label="Species" value={character.species} />
-              {character.type && <InfoCard label="Type" value={character.type} />}
-              <InfoCard label="Gender" value={character.gender} />
-              <InfoCard label="Origin" value={character.origin.name} />
+              <InfoCard
+                label="Species"
+                value={character.species}
+                href={`/characters?species=${encodeURIComponent(character.species)}`}
+              />
+              {character.type && (
+                <InfoCard label="Type" value={character.type} />
+              )}
+              <InfoCard
+                label="Gender"
+                value={character.gender}
+                href={`/characters?gender=${encodeURIComponent(character.gender)}`}
+              />
+              <InfoCard
+                label="Origin"
+                value={character.origin.name}
+                href={
+                  character.origin.url
+                    ? `/locations/${character.origin.url.split("/").pop()}`
+                    : undefined
+                }
+              />
               <InfoCard
                 label="Last known location"
                 value={character.location.name}
+                href={
+                  character.location.url
+                    ? `/locations/${character.location.url.split("/").pop()}`
+                    : undefined
+                }
               />
               <InfoCard
                 label="Episodes"
