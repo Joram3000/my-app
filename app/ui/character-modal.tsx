@@ -17,6 +17,7 @@ interface CharacterModalProps {
   characters: Character[];
   initialIndex: number;
   onClose: () => void;
+  onIndexChange?: (index: number) => void;
   isLoadingNext?: boolean;
   isLoadingPrev?: boolean;
 }
@@ -25,6 +26,7 @@ export function CharacterModal({
   characters,
   initialIndex,
   onClose,
+  onIndexChange,
   isLoadingNext,
   isLoadingPrev,
 }: CharacterModalProps) {
@@ -42,6 +44,9 @@ export function CharacterModal({
     };
   }, []);
 
+  const onIndexChangeRef = useRef(onIndexChange);
+  useEffect(() => { onIndexChangeRef.current = onIndexChange; }, [onIndexChange]);
+
   const scrollTo = useCallback((index: number) => {
     const container = slidesRef.current;
     if (!container) return;
@@ -50,6 +55,7 @@ export function CharacterModal({
       behavior: "smooth",
     });
     setCurrentIndex(index);
+    onIndexChangeRef.current?.(index);
   }, []);
 
   useEffect(() => {
@@ -91,13 +97,14 @@ export function CharacterModal({
       left: initialIndex * container.clientWidth,
       behavior: "instant" as ScrollBehavior,
     });
-    setCurrentIndex(initialIndex);
-  }, [initialIndex]);
+  }, []);
 
   const handleScroll = () => {
     const container = slidesRef.current;
     if (!container) return;
-    setCurrentIndex(Math.round(container.scrollLeft / container.clientWidth));
+    const index = Math.round(container.scrollLeft / container.clientWidth);
+    setCurrentIndex(index);
+    onIndexChangeRef.current?.(index);
   };
 
   return (
@@ -133,7 +140,12 @@ export function CharacterModal({
         isLoading={currentIndex === characters.length - 1 && isLoadingNext}
       />
 
-      <div className={styles.slides} ref={slidesRef} onScroll={handleScroll} onClick={onClose}>
+      <div
+        className={styles.slides}
+        ref={slidesRef}
+        onScroll={handleScroll}
+        onClick={onClose}
+      >
         {characters.map((char, i) => (
           <div
             key={char.id}
@@ -169,10 +181,29 @@ export function CharacterModal({
                   </div>
 
                   <dl className={styles.dl}>
-                    <InfoRow label="Species" value={char.species} />
+                    <InfoRow
+                      label="Species"
+                      value={char.species}
+                      href={`/characters?species=${encodeURIComponent(char.species)}`}
+                      onLinkClick={onClose}
+                    />
                     {char.type && <InfoRow label="Type" value={char.type} />}
-                    <InfoRow label="Gender" value={char.gender} />
-                    <InfoRow label="Origin" value={char.origin.name} />
+                    <InfoRow
+                      label="Gender"
+                      value={char.gender}
+                      href={`/characters?gender=${encodeURIComponent(char.gender)}`}
+                      onLinkClick={onClose}
+                    />
+                    <InfoRow
+                      label="Origin"
+                      value={char.origin.name}
+                      href={
+                        char.origin.url
+                          ? `/locations/${char.origin.url.split("/").pop()}`
+                          : undefined
+                      }
+                      onLinkClick={onClose}
+                    />
                     <InfoRow
                       label="Location"
                       value={char.location.name}
@@ -261,11 +292,7 @@ function InfoRow({
       <dt className={styles.infoLabel}>{label}</dt>
       <dd className={styles.infoValue}>
         {href ? (
-          <Link
-            href={href}
-            onClick={onLinkClick}
-            className={styles.locationLink}
-          >
+          <Link href={href} onClick={onLinkClick} className={styles.valueLink}>
             {value}
           </Link>
         ) : (

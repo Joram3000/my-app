@@ -1,6 +1,6 @@
 .container {
   margin: 0 auto;
-  max-width: 48rem;
+  max-width: var(--max-width);
 }
 
 .heading {
@@ -14,4 +14,29 @@
   margin-bottom: 1.5rem;
   font-size: 0.875rem;
   color: var(--color-gray-500);
+}
+
+.viewToggle {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.toggleBtn {
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-gray-700);
+  background-color: var(--color-gray-900);
+  padding: 0.375rem 0.875rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-gray-300);
+  text-decoration: none;
+  transition:
+    border-color 0.15s,
+    color 0.15s;
+}
+
+.toggleBtn:hover {
+  border-color: var(--color-green-400);
+  color: var(--color-green-300);
 }

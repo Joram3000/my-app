@@ -35,7 +35,7 @@
   box-sizing: border-box;
   border-width: 0;
   border-style: solid;
-  border-color: var(--color-gray-200);
+  border-color: transparent;
 }
 
 body.outline-enabled
@@ -96,6 +96,12 @@ button {
   transition: opacity 1s;
 }
 
-.tooltip:hover::after {
+@media (hover: hover) {
+  .tooltip:hover::after {
+    opacity: 1;
+  }
+}
+
+.tooltip:focus-visible::after {
   opacity: 1;
 }

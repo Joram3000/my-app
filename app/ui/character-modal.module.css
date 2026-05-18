@@ -53,7 +53,10 @@
 .modal {
   position: relative;
   width: 100%;
-  max-width: 32rem;
+  max-width: 38rem;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   border-radius: 1rem;
   border: 1px solid var(--color-gray-800);
@@ -76,14 +79,14 @@
   background: none;
   border: none;
   cursor: pointer;
-  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 1))
-    drop-shadow(0 0 1px rgba(0, 0, 0, 1));
-  -webkit-filter: drop-shadow(0 0 1px rgba(0, 0, 0, 1))
-    drop-shadow(0 0 1px rgba(0, 0, 0, 1));
+  filter: drop-shadow(1px 0px 0px rgba(0, 0, 0, 0.6))
+    drop-shadow(-1px 0px 0px rgba(0, 0, 0, 0.6))
+    drop-shadow(0px 1px 0px rgba(0, 0, 0, 0.6))
+    drop-shadow(0px -1px 0px rgba(0, 0, 0, 0.6));
 
   transition:
-    color 0.15s,
-    background-color 0.15s;
+    color 0.3s,
+    background-color 0.3s;
 }
 
 .closeButton:hover {
@@ -156,6 +159,7 @@
 .body {
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .imageWrapper {
@@ -165,12 +169,16 @@
 }
 
 .image {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  object-position: center;
 }
 
 .infoSection {
   display: flex;
   flex-direction: column;
+  flex: 1;
   gap: 1rem;
   padding: 1.5rem;
 }
@@ -178,8 +186,9 @@
 .nameStatusWrapper {
   display: flex;
   align-items: center;
-  gap: 0rem;
+  gap: 1rem;
   flex-wrap: wrap;
+  margin-right: 0rem;
 }
 
 .name {
@@ -187,6 +196,9 @@
   font-weight: 700;
   color: var(--color-white);
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .status {
@@ -227,12 +239,12 @@
   color: var(--color-green-300);
 }
 
-.locationLink {
+.valueLink {
   color: var(--color-green-400);
   text-decoration: none;
 }
 
-.locationLink:hover {
+.valueLink:hover {
   color: var(--color-green-300);
   text-decoration: underline;
 }
@@ -258,10 +270,11 @@
   }
   .imageWrapper {
     height: auto;
-    width: 12rem;
+    width: 18rem;
   }
+
   .nameStatusWrapper {
-    gap: 1rem;
+    margin-right: 2rem;
   }
   .navPrev {
     left: 2rem;
