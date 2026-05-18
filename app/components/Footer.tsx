@@ -13,17 +13,6 @@ export function Footer() {
       >
         Made by Joram Kroon
       </a>
-
-      <div className={styles.settings}>
-        <div className={styles.setting}>
-          <p>Settings</p>
-          <p>Cursor: Rocket / Normal</p>
-        </div>
-        <div className={styles.setting}>
-          <p>Cursor: Sound Effects On/Off</p>
-          <p>Volume 1 2 3 4 5</p>
-        </div>
-      </div>
     </footer>
   );
 }
