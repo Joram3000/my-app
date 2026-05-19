@@ -36,7 +36,7 @@
   position: fixed;
   inset: 0;
   z-index: 50;
-  --modal-dur: 1.2s;
+  --modal-dur: 0.5s;
 }
 
 @keyframes backdropIn {
