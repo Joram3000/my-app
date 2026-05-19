@@ -5,7 +5,7 @@ import { TiltGrid } from "./tilt-grid";
 import { Character } from "@/lib/api/rickMorty/rickMorty.types";
 import { CharacterModal } from "./character-modal";
 import { useCallback, useState } from "react";
-import { useSound } from "@/hooks/use-sound";
+import { useSam } from "@/hooks/use-sam";
 
 interface CharacterGridProps {
   characters: Character[];
@@ -17,14 +17,14 @@ export function CharacterGrid({
   minColWidth = 240,
 }: CharacterGridProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const { play } = useSound();
+  const { speak } = useSam({ speed: 80 });
 
   const handleSelect = useCallback(
     (character: Character) => {
-      play();
+      speak(character.name);
       setSelectedIndex(characters.findIndex((c) => c.id === character.id));
     },
-    [characters, play],
+    [characters, speak],
   );
 
   if (characters.length === 0) {

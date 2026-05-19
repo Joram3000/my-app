@@ -8,7 +8,6 @@ import { Footer } from "./components/Footer";
 import { DevOutlineToggle } from "./components/DevOutlineToggle";
 import { RocketCursor } from "./ui/rocket-cursor";
 import { SplashScreen } from "./ui/splash-screen";
-import { SoundEffects } from "./ui/sound-effects";
 import { UIProvider } from "./context/ui-context";
 
 const isDev = process.env.NODE_ENV === "development";
@@ -29,7 +28,7 @@ export default async function RootLayout({
       <body className={styles.body}>
         <UIProvider>
           <SplashScreen />
-          <SoundEffects />
+
           {isDev && <DevOutlineToggle />}
           <RocketCursor />
           <Header />

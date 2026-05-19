@@ -9,7 +9,7 @@ import {
   BiLeftArrowAlt,
   BiRightArrowAlt,
 } from "react-icons/bi";
-import { useSound } from "@/hooks/use-sound";
+import { useSam } from "@/hooks/use-sam";
 
 interface PaginationProps {
   info: ApiInfo;
@@ -24,7 +24,7 @@ export function Pagination({
   basePath,
   extraParams,
 }: PaginationProps) {
-  const { play } = useSound();
+  const { speak } = useSam();
 
   if (info.pages <= 1) return null;
 
@@ -45,7 +45,7 @@ export function Pagination({
           disabled={currentPage === 1}
           label="First page"
           mobileHidden
-          onPlay={play}
+          speak={speak}
         >
           <BiArrowToLeft />
         </PaginationLink>
@@ -55,7 +55,7 @@ export function Pagination({
         href={buildHref(currentPage - 1)}
         disabled={!info.prev}
         label="Previous"
-        onPlay={play}
+        speak={speak}
       >
         <BiLeftArrowAlt />
       </PaginationLink>
@@ -67,7 +67,7 @@ export function Pagination({
             href={buildHref(p)}
             active={p === currentPage}
             label={`Page ${p}`}
-            onPlay={play}
+            speak={speak}
           >
             {p}
           </PaginationLink>
@@ -78,7 +78,7 @@ export function Pagination({
         href={buildHref(currentPage + 1)}
         disabled={!info.next}
         label="Next"
-        onPlay={play}
+        speak={speak}
       >
         <BiRightArrowAlt />
       </PaginationLink>
@@ -89,7 +89,7 @@ export function Pagination({
           disabled={currentPage === info.pages}
           label="Last page"
           mobileHidden
-          onPlay={play}
+          speak={speak}
         >
           <BiArrowToRight />
         </PaginationLink>
@@ -105,7 +105,7 @@ function PaginationLink({
   label,
   mobileHidden,
   style,
-  onPlay,
+  speak,
   children,
 }: {
   href: string;
@@ -114,10 +114,11 @@ function PaginationLink({
   label: string;
   mobileHidden?: boolean;
   style?: React.CSSProperties;
-  onPlay: () => void;
+  speak: (text: string) => void;
   children: React.ReactNode;
 }) {
   const hiddenClass = mobileHidden ? styles.mobileHidden : "";
+
   if (disabled) {
     return (
       <button
@@ -138,7 +139,7 @@ function PaginationLink({
       className={`${styles.link} tooltip ${active ? styles.linkActive : styles.linkInactive} ${hiddenClass}`}
       data-tooltip={label}
       style={style}
-      onClick={onPlay}
+      onClick={() => speak(label)}
     >
       {children}
     </Link>

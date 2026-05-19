@@ -12,6 +12,7 @@ import {
   BiChevronRight,
   BiX,
 } from "react-icons/bi";
+import { useSam } from "@/hooks/use-sam";
 
 interface CharacterModalProps {
   characters: Character[];
@@ -29,6 +30,7 @@ export function CharacterModal({
   const slidesRef = useRef<HTMLDivElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const { play } = useSound();
+  const { speak } = useSam({ speed: 80 });
 
   const handleClose = useCallback(() => {
     setIsClosing(true);
@@ -62,9 +64,12 @@ export function CharacterModal({
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") {
         scrollTo(Math.max(0, currentIndex - 1));
+        speak("previous");
       } else if (e.key === "ArrowRight") {
         scrollTo(Math.min(characters.length - 1, currentIndex + 1));
+        speak("next");
       } else if (e.key === "Escape") {
+        speak("close");
         handleClose();
       } else if (e.key === "Tab") {
         const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(
@@ -122,12 +127,21 @@ export function CharacterModal({
       <div
         className={`${styles.backdrop} ${isClosing ? styles.backdropClosing : ""}`}
         onClick={handleCloseWithSound}
-        onAnimationEnd={() => { if (isClosing) onClose(); }}
+        onAnimationEnd={() => {
+          if (isClosing) onClose();
+        }}
       />
 
       <NavButton
         direction="prev"
-        onClick={currentIndex > 0 ? () => { play(); scrollTo(currentIndex - 1); } : undefined}
+        onClick={
+          currentIndex > 0
+            ? () => {
+                speak("previous");
+                scrollTo(currentIndex - 1);
+              }
+            : undefined
+        }
         isClosing={isClosing}
       />
 
@@ -135,7 +149,10 @@ export function CharacterModal({
         direction="next"
         onClick={
           currentIndex < characters.length - 1
-            ? () => { play(); scrollTo(currentIndex + 1); }
+            ? () => {
+                speak("next");
+                scrollTo(currentIndex + 1);
+              }
             : undefined
         }
         isClosing={isClosing}

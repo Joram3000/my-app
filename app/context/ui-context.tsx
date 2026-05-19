@@ -27,6 +27,7 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     setSplashDismissed(localStorage.getItem("splashDismissed") === "true");
+    setSoundActive(localStorage.getItem("soundActive") === "true");
   }, []);
 
   function toggleRocket() {
@@ -34,11 +35,15 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
   }
 
   function toggleSound() {
-    setSoundActive((prev) => !prev);
+    setSoundActive((prev) => {
+      localStorage.setItem("soundActive", String(!prev));
+      return !prev;
+    });
   }
 
   function dismissSplash(withSound: boolean) {
     localStorage.setItem("splashDismissed", "true");
+    localStorage.setItem("soundActive", String(withSound));
     setSplashDismissed(true);
     setSoundActive(withSound);
   }
