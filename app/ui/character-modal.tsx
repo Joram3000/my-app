@@ -30,8 +30,13 @@ export function CharacterModal({
   isLoadingPrev,
 }: CharacterModalProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const [isClosing, setIsClosing] = useState(false);
   const slidesRef = useRef<HTMLDivElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
+
+  const handleClose = useCallback(() => {
+    setIsClosing(true);
+  }, []);
 
   useEffect(() => {
     const prev = document.body.style.overflow;
@@ -65,7 +70,7 @@ export function CharacterModal({
       } else if (e.key === "ArrowRight") {
         scrollTo(Math.min(characters.length - 1, currentIndex + 1));
       } else if (e.key === "Escape") {
-        onClose();
+        handleClose();
       } else if (e.key === "Tab") {
         const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(
           "a[href]:not([inert] *), button:not([disabled]):not([inert] *)",
@@ -88,7 +93,7 @@ export function CharacterModal({
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentIndex, characters.length, onClose, scrollTo]);
+  }, [currentIndex, characters.length, handleClose, scrollTo]);
 
   useEffect(() => {
     const container = slidesRef.current;
@@ -120,7 +125,11 @@ export function CharacterModal({
         {characters.length}
       </p>
 
-      <div className={styles.backdrop} onClick={onClose} />
+      <div
+        className={`${styles.backdrop} ${isClosing ? styles.backdropClosing : ""}`}
+        onClick={handleClose}
+        onAnimationEnd={() => { if (isClosing) onClose(); }}
+      />
 
       <NavButton
         direction="prev"
@@ -128,6 +137,7 @@ export function CharacterModal({
           currentIndex > 0 ? () => scrollTo(currentIndex - 1) : undefined
         }
         isLoading={currentIndex === 0 && isLoadingPrev}
+        isClosing={isClosing}
       />
 
       <NavButton
@@ -138,13 +148,14 @@ export function CharacterModal({
             : undefined
         }
         isLoading={currentIndex === characters.length - 1 && isLoadingNext}
+        isClosing={isClosing}
       />
 
       <div
         className={styles.slides}
         ref={slidesRef}
         onScroll={handleScroll}
-        onClick={onClose}
+        onClick={handleClose}
       >
         {characters.map((char, i) => (
           <div
@@ -155,11 +166,9 @@ export function CharacterModal({
             aria-label={`${char.name}, ${i + 1} of ${characters.length}`}
             inert={i !== currentIndex || undefined}
           >
-            <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+            <div className={`${styles.modal} ${isClosing ? styles.modalClosing : ""}`} onClick={(e) => e.stopPropagation()}>
               <button
-                onClick={() => {
-                  onClose();
-                }}
+                onClick={handleClose}
                 className={styles.closeButton}
                 aria-label="Close dialog"
               >
@@ -185,14 +194,14 @@ export function CharacterModal({
                       label="Species"
                       value={char.species}
                       href={`/characters?species=${encodeURIComponent(char.species)}`}
-                      onLinkClick={onClose}
+                      onLinkClick={handleClose}
                     />
                     {char.type && <InfoRow label="Type" value={char.type} />}
                     <InfoRow
                       label="Gender"
                       value={char.gender}
                       href={`/characters?gender=${encodeURIComponent(char.gender)}`}
-                      onLinkClick={onClose}
+                      onLinkClick={handleClose}
                     />
                     <InfoRow
                       label="Origin"
@@ -202,7 +211,7 @@ export function CharacterModal({
                           ? `/locations/${char.origin.url.split("/").pop()}`
                           : undefined
                       }
-                      onLinkClick={onClose}
+                      onLinkClick={handleClose}
                     />
                     <InfoRow
                       label="Location"
@@ -212,7 +221,7 @@ export function CharacterModal({
                           ? `/locations/${char.location.url.split("/").pop()}`
                           : undefined
                       }
-                      onLinkClick={onClose}
+                      onLinkClick={handleClose}
                     />
                     <InfoRow
                       label="Episodes"
@@ -223,7 +232,7 @@ export function CharacterModal({
                   <div className={styles.footer}>
                     <Link
                       href={`/characters/${char.id}`}
-                      onClick={onClose}
+                      onClick={handleClose}
                       className={styles.profileLink}
                     >
                       View full profile
@@ -244,16 +253,18 @@ function NavButton({
   direction,
   onClick,
   isLoading,
+  isClosing,
 }: {
   direction: "prev" | "next";
   onClick?: () => void;
   isLoading?: boolean | null;
+  isClosing?: boolean;
 }) {
   if (!onClick && !isLoading) return null;
   const isPrev = direction === "prev";
   return (
     <button
-      className={`${styles.navButton} ${isPrev ? styles.navPrev : styles.navNext} tooltip`}
+      className={`${styles.navButton} ${isPrev ? styles.navPrev : styles.navNext} ${isClosing ? styles.navButtonClosing : ""} tooltip`}
       onClick={onClick}
       disabled={!!isLoading}
       data-tooltip={isPrev ? "Previous character" : "Next character"}

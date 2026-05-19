@@ -10,10 +10,55 @@
   border: 0;
 }
 
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes modalOut {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+}
+
 .overlay {
   position: fixed;
   inset: 0;
   z-index: 50;
+  --modal-dur: 1.2s;
+}
+
+@keyframes backdropIn {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0px);
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+  }
+}
+
+@keyframes backdropOut {
+  from {
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0px);
+  }
 }
 
 .backdrop {
@@ -21,6 +66,11 @@
   inset: 0;
   background-color: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
+  animation: backdropIn var(--modal-dur) ease forwards;
+}
+
+.backdropClosing {
+  animation: backdropOut var(--modal-dur) ease forwards;
 }
 
 .slides {
@@ -64,6 +114,11 @@
   border: 1px solid var(--color-gray-800);
   background-color: var(--color-gray-950);
   box-shadow: 0 1px 30px -12px var(--color-green-400);
+  animation: modalIn var(--modal-dur) ease forwards;
+}
+
+.modalClosing {
+  animation: modalOut var(--modal-dur) ease forwards;
 }
 
 .closeButton {
@@ -100,6 +155,24 @@
   height: 1.25rem;
 }
 
+@keyframes navButtonIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes navButtonOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 .navButton {
   position: fixed;
   top: 45%;
@@ -121,6 +194,11 @@
   transition:
     background-color 0.15s,
     color 0.15s;
+  animation: navButtonIn var(--modal-dur) ease forwards;
+}
+
+.navButtonClosing {
+  animation: navButtonOut var(--modal-dur) ease forwards;
 }
 
 .navButton:hover:not(:disabled) {
