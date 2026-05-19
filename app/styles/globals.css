@@ -17,12 +17,23 @@
   --color-green-700: #15803d;
   --color-red-400: #f87171;
   --background: #ffffff;
+  --img-background-gradient: linear-gradient(
+    135deg,
+    var(--color-gray-500) 0%,
+    var(--color-gray-950) 100%
+  );
   --foreground: #171717;
   --max-width: 80rem;
   --font-sans:
     ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono:
     ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+}
+
+img {
+  background-image: var(--img-background-gradient);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 *,
@@ -48,7 +59,14 @@ html {
 
 body {
   margin: 0;
-  background: var(--background);
+  /* Layer an optional background image under the gradient. If --background-image is `none`, only the gradient shows. */
+  background-color: var(--background);
+  background-image: var(--background-image), var(--background-gradient);
+  background-position:
+    center center,
+    center center;
+  background-size: cover, cover;
+  background-repeat: no-repeat, no-repeat;
   color: var(--foreground);
 }
 
@@ -66,6 +84,12 @@ button {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --background-gradient: linear-gradient(
+      135deg,
+      #0a0a0a 0%,
+      #141214 50%,
+      #081018 100%
+    );
   }
 }
 
@@ -87,18 +111,21 @@ button {
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
   pointer-events: none;
+  visibility: hidden;
   opacity: 0;
   transition: opacity 1s;
 }
 
 @media (hover: hover) {
   .tooltip:hover::after {
+    visibility: visible;
     opacity: 1;
   }
-}
 
-.tooltip:focus-visible::after {
-  opacity: 1;
+  .tooltip:focus-visible::after {
+    visibility: visible;
+    opacity: 1;
+  }
 }
 
 .tooltip--below::after {

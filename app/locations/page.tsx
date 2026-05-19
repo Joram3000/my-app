@@ -87,7 +87,7 @@ async function LocationsContent({
           <p className="emptyStateText">No locations found.</p>
         </div>
       ) : (
-        <TiltGrid minColWidth={400}>
+        <TiltGrid minColWidth={300}>
           {data.results.map((loc) => (
             <LocationCard key={loc.id} location={loc} />
           ))}

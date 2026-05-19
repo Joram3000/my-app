@@ -34,6 +34,10 @@
   font-size: 1rem;
 }
 
+.logoIcon img {
+  background-image: none;
+}
+
 .logoText {
   font-weight: 700;
   color: var(--color-white);
