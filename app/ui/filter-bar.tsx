@@ -2,7 +2,9 @@
 
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useCallback, useState, useEffect, useRef } from "react";
+import { useSound } from "@/hooks/use-sound";
 import styles from "./filter-bar.module.css";
+import { applyParams } from "@/lib/searchParams";
 
 export type FilterDef =
   | { type: "text"; key: string; placeholder: string }
@@ -16,6 +18,7 @@ export function FilterBar({ filters }: FilterBarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { play } = useSound();
 
   const [textValues, setTextValues] = useState<Record<string, string>>(() => {
     const init: Record<string, string> = {};
@@ -53,12 +56,7 @@ export function FilterBar({ filters }: FilterBarProps) {
 
       if (debounceRef.current) clearTimeout(debounceRef.current);
       debounceRef.current = setTimeout(() => {
-        const params = new URLSearchParams(searchParams.toString());
-        for (const [k, v] of Object.entries(next)) {
-          if (v) params.set(k, v);
-          else params.delete(k);
-        }
-        params.delete("page");
+        const params = applyParams(searchParams.toString(), { ...next, page: undefined });
         router.push(`${pathname}?${params}`);
       }, 300);
     },
@@ -67,19 +65,21 @@ export function FilterBar({ filters }: FilterBarProps) {
 
   const updateSelect = useCallback(
     (key: string, value: string) => {
+      play();
       const params = new URLSearchParams(searchParams.toString());
       if (value) params.set(key, value);
       else params.delete(key);
       params.delete("page");
       router.push(`${pathname}?${params}`);
     },
-    [router, pathname, searchParams],
+    [router, pathname, searchParams, play],
   );
 
   const clearAll = useCallback(() => {
+    play();
     if (debounceRef.current) clearTimeout(debounceRef.current);
     router.push(pathname);
-  }, [router, pathname]);
+  }, [router, pathname, play]);
 
   const hasFilters =
     Object.values(textValues).some(Boolean) ||

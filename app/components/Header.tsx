@@ -10,12 +10,16 @@ import { useSound as useSoundPlayer } from "@/hooks/use-sound";
 export function Header() {
   const { rocketActive, toggleRocket } = useCursor();
   const { soundActive, toggleSound } = useSound();
-  const { playRaw } = useSoundPlayer("/sounds/oowee1.mp3");
+  const { play: playDefault } = useSoundPlayer();
 
   return (
     <header className={styles.header}>
       <div className={styles.headerInner}>
-        <Link href="/characters" className={styles.logoLink}>
+        <Link
+          href="/characters"
+          className={styles.logoLink}
+          onClick={playDefault}
+        >
           <span className={styles.logoIcon}>
             <img src="/image/bananamorty.webp" alt="bananaMorty" />
           </span>
@@ -26,10 +30,7 @@ export function Header() {
             className={`${styles.sound} tooltip tooltip--below`}
             aria-label="Toggle sound"
             data-tooltip={soundActive ? "Toggle Sound off" : "Toggle Sound on"}
-            onClick={() => {
-              if (!soundActive) playRaw();
-              toggleSound();
-            }}
+            onClick={toggleSound}
           >
             {soundActive ? <BiVolumeFull /> : <BiVolume />}
           </button>
@@ -37,7 +38,10 @@ export function Header() {
             className={`${styles.cursor} tooltip tooltip--below`}
             aria-label="Toggle cursor"
             data-tooltip={rocketActive ? "Toggle cursor" : "Toggle rocket"}
-            onClick={toggleRocket}
+            onClick={() => {
+              playDefault();
+              toggleRocket();
+            }}
           >
             {rocketActive ? <BiRocket /> : <BiPointer />}
           </button>

@@ -30,7 +30,8 @@ export async function fetchCharacter(id: number): Promise<Character | null> {
   const res = await fetch(`${BASE_URL}/character/${id}`, {
     next: { revalidate: 3600 },
   });
-  if (!res.ok) return null;
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`Failed to fetch character ${id}`);
   return res.json();
 }
 
@@ -42,7 +43,8 @@ export async function fetchCharactersByUrls(
   const res = await fetch(`${BASE_URL}/character/${ids}`, {
     next: { revalidate: 3600 },
   });
-  if (!res.ok) return [];
+  if (res.status === 404) return [];
+  if (!res.ok) throw new Error("Failed to fetch characters by URLs");
   const data = await res.json();
   return Array.isArray(data) ? data : [data];
 }
@@ -67,7 +69,8 @@ export async function fetchLocation(id: number): Promise<Location | null> {
   const res = await fetch(`${BASE_URL}/location/${id}`, {
     next: { revalidate: 3600 },
   });
-  if (!res.ok) return null;
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`Failed to fetch location ${id}`);
   return res.json();
 }
 
@@ -91,7 +94,8 @@ export async function fetchEpisode(id: number): Promise<Episode | null> {
   const res = await fetch(`${BASE_URL}/episode/${id}`, {
     next: { revalidate: 3600 },
   });
-  if (!res.ok) return null;
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`Failed to fetch episode ${id}`);
   return res.json();
 }
 

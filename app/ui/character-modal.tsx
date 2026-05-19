@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./character-modal.module.css";
 import { Character } from "@/lib/api/rickMorty/rickMorty.types";
+import { useSound } from "@/hooks/use-sound";
 import {
   BiRightArrowAlt,
   BiChevronLeft,
@@ -16,27 +17,27 @@ interface CharacterModalProps {
   characters: Character[];
   initialIndex: number;
   onClose: () => void;
-  onIndexChange?: (index: number) => void;
-  isLoadingNext?: boolean;
-  isLoadingPrev?: boolean;
 }
 
 export function CharacterModal({
   characters,
   initialIndex,
   onClose,
-  onIndexChange,
-  isLoadingNext,
-  isLoadingPrev,
 }: CharacterModalProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [isClosing, setIsClosing] = useState(false);
   const slidesRef = useRef<HTMLDivElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
+  const { play } = useSound();
 
   const handleClose = useCallback(() => {
     setIsClosing(true);
   }, []);
+
+  const handleCloseWithSound = useCallback(() => {
+    play();
+    handleClose();
+  }, [play, handleClose]);
 
   useEffect(() => {
     const prev = document.body.style.overflow;
@@ -47,11 +48,6 @@ export function CharacterModal({
     };
   }, []);
 
-  const onIndexChangeRef = useRef(onIndexChange);
-  useEffect(() => {
-    onIndexChangeRef.current = onIndexChange;
-  }, [onIndexChange]);
-
   const scrollTo = useCallback((index: number) => {
     const container = slidesRef.current;
     if (!container) return;
@@ -60,7 +56,6 @@ export function CharacterModal({
       behavior: "smooth",
     });
     setCurrentIndex(index);
-    onIndexChangeRef.current?.(index);
   }, []);
 
   useEffect(() => {
@@ -109,7 +104,6 @@ export function CharacterModal({
     if (!container) return;
     const index = Math.round(container.scrollLeft / container.clientWidth);
     setCurrentIndex(index);
-    onIndexChangeRef.current?.(index);
   };
 
   return (
@@ -127,16 +121,13 @@ export function CharacterModal({
 
       <div
         className={`${styles.backdrop} ${isClosing ? styles.backdropClosing : ""}`}
-        onClick={handleClose}
+        onClick={handleCloseWithSound}
         onAnimationEnd={() => { if (isClosing) onClose(); }}
       />
 
       <NavButton
         direction="prev"
-        onClick={
-          currentIndex > 0 ? () => scrollTo(currentIndex - 1) : undefined
-        }
-        isLoading={currentIndex === 0 && isLoadingPrev}
+        onClick={currentIndex > 0 ? () => { play(); scrollTo(currentIndex - 1); } : undefined}
         isClosing={isClosing}
       />
 
@@ -144,10 +135,9 @@ export function CharacterModal({
         direction="next"
         onClick={
           currentIndex < characters.length - 1
-            ? () => scrollTo(currentIndex + 1)
+            ? () => { play(); scrollTo(currentIndex + 1); }
             : undefined
         }
-        isLoading={currentIndex === characters.length - 1 && isLoadingNext}
         isClosing={isClosing}
       />
 
@@ -155,7 +145,7 @@ export function CharacterModal({
         className={styles.slides}
         ref={slidesRef}
         onScroll={handleScroll}
-        onClick={handleClose}
+        onClick={handleCloseWithSound}
       >
         {characters.map((char, i) => (
           <div
@@ -166,9 +156,12 @@ export function CharacterModal({
             aria-label={`${char.name}, ${i + 1} of ${characters.length}`}
             inert={i !== currentIndex || undefined}
           >
-            <div className={`${styles.modal} ${isClosing ? styles.modalClosing : ""}`} onClick={(e) => e.stopPropagation()}>
+            <div
+              className={`${styles.modal} ${isClosing ? styles.modalClosing : ""}`}
+              onClick={(e) => e.stopPropagation()}
+            >
               <button
-                onClick={handleClose}
+                onClick={handleCloseWithSound}
                 className={styles.closeButton}
                 aria-label="Close dialog"
               >
@@ -194,14 +187,14 @@ export function CharacterModal({
                       label="Species"
                       value={char.species}
                       href={`/characters?species=${encodeURIComponent(char.species)}`}
-                      onLinkClick={handleClose}
+                      onLinkClick={handleCloseWithSound}
                     />
                     {char.type && <InfoRow label="Type" value={char.type} />}
                     <InfoRow
                       label="Gender"
                       value={char.gender}
                       href={`/characters?gender=${encodeURIComponent(char.gender)}`}
-                      onLinkClick={handleClose}
+                      onLinkClick={handleCloseWithSound}
                     />
                     <InfoRow
                       label="Origin"
@@ -211,7 +204,7 @@ export function CharacterModal({
                           ? `/locations/${char.origin.url.split("/").pop()}`
                           : undefined
                       }
-                      onLinkClick={handleClose}
+                      onLinkClick={handleCloseWithSound}
                     />
                     <InfoRow
                       label="Location"
@@ -221,7 +214,7 @@ export function CharacterModal({
                           ? `/locations/${char.location.url.split("/").pop()}`
                           : undefined
                       }
-                      onLinkClick={handleClose}
+                      onLinkClick={handleCloseWithSound}
                     />
                     <InfoRow
                       label="Episodes"
@@ -232,7 +225,7 @@ export function CharacterModal({
                   <div className={styles.footer}>
                     <Link
                       href={`/characters/${char.id}`}
-                      onClick={handleClose}
+                      onClick={handleCloseWithSound}
                       className={styles.profileLink}
                     >
                       View full profile
@@ -252,37 +245,22 @@ export function CharacterModal({
 function NavButton({
   direction,
   onClick,
-  isLoading,
   isClosing,
 }: {
   direction: "prev" | "next";
   onClick?: () => void;
-  isLoading?: boolean | null;
   isClosing?: boolean;
 }) {
-  if (!onClick && !isLoading) return null;
+  if (!onClick) return null;
   const isPrev = direction === "prev";
   return (
     <button
       className={`${styles.navButton} ${isPrev ? styles.navPrev : styles.navNext} ${isClosing ? styles.navButtonClosing : ""} tooltip`}
       onClick={onClick}
-      disabled={!!isLoading}
       data-tooltip={isPrev ? "Previous character" : "Next character"}
-      aria-label={
-        isLoading
-          ? "Loading more characters"
-          : isPrev
-            ? "Previous character"
-            : "Next character"
-      }
+      aria-label={isPrev ? "Previous character" : "Next character"}
     >
-      {isLoading ? (
-        <span className={styles.spinner} />
-      ) : isPrev ? (
-        <BiChevronLeft />
-      ) : (
-        <BiChevronRight />
-      )}
+      {isPrev ? <BiChevronLeft /> : <BiChevronRight />}
     </button>
   );
 }

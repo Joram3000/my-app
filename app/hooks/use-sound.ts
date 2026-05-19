@@ -13,7 +13,7 @@ function getAudioContext(): AudioContext | null {
   return sharedContext;
 }
 
-export function useSound(src: string) {
+export function useSound(src = "/sounds/laser1.mp3") {
   const { soundActive } = useSoundContext();
   const bufferRef = useRef<AudioBuffer | null>(null);
 
@@ -57,11 +57,5 @@ export function useSound(src: string) {
     playBuffer(bufferRef.current);
   }, [soundActive, playBuffer]);
 
-  // Play regardless of soundActive — for the toggle itself
-  const playRaw = useCallback(() => {
-    if (!bufferRef.current) return;
-    playBuffer(bufferRef.current);
-  }, [playBuffer]);
-
-  return { play, playRaw };
+  return { play };
 }

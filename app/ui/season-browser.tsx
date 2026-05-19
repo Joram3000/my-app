@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect, useCallback } from "react";
+import { useSound } from "@/hooks/use-sound";
 import Link from "next/link";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Episode, ApiInfo } from "@/lib/api/rickMorty/rickMorty.types";
@@ -38,6 +39,7 @@ export function SeasonBrowser({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const rowRefs = useRef<Map<number, HTMLElement>>(new Map());
+  const { play } = useSound();
   const sentinelRef = useRef<HTMLDivElement>(null);
 
   const [episodes, setEpisodes] = useState<Episode[]>(initialEpisodes);
@@ -85,6 +87,7 @@ export function SeasonBrowser({
   }, [loadMore]);
 
   function selectSeason(season: number | null) {
+    play();
     const params = new URLSearchParams(searchParams.toString());
     if (season === null) {
       params.delete("season");

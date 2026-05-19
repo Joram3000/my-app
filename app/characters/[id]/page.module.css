@@ -92,7 +92,7 @@
   .cardInner {
     flex-direction: row;
   }
-  .imageWrapper {
+.imageWrapper {
     height: auto;
     width: 16rem;
   }

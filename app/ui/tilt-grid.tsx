@@ -16,14 +16,24 @@ export function TiltGrid({ children, minColWidth }: TiltGridProps) {
     const el = gridRef.current;
     if (!el) return;
 
-    const loop = () => {
+    const update = () => {
       const top = el.getBoundingClientRect().top;
       el.style.setProperty("--origin-y", `${window.innerHeight / 2 - top}px`);
-      rafRef.current = requestAnimationFrame(loop);
     };
 
-    rafRef.current = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(rafRef.current);
+    const onScroll = () => {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
   return (

@@ -4,22 +4,19 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import styles from "./nav-links.module.css";
-
-const links = [
-  { href: "/characters", label: "Characters" },
-  { href: "/locations", label: "Locations" },
-  { href: "/episodes", label: "Episodes" },
-];
+import { ROUTES } from "@/lib/routes";
+import { useSound } from "@/hooks/use-sound";
 
 export function NavLinks() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const { play } = useSound();
 
   return (
     <>
       <button
         className={styles.burgerButton}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => { play(); setIsOpen(!isOpen); }}
         aria-label="Toggle menu"
         aria-expanded={isOpen}
       >
@@ -35,12 +32,12 @@ export function NavLinks() {
       </button>
 
       <nav className={`${styles.nav} ${isOpen ? styles.navOpen : ""}`}>
-        {links.map(({ href, label }) => (
+        {ROUTES.map(({ href, label }) => (
           <Link
             key={href}
             href={href}
             className={`${styles.link} ${pathname.startsWith(href) ? styles.active : styles.inactive}`}
-            onClick={() => setIsOpen(false)}
+            onClick={() => { play(); setIsOpen(false); }}
           >
             {label}
           </Link>

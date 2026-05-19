@@ -5,6 +5,7 @@ import { BiRightArrowAlt } from "react-icons/bi";
 
 import styles from "./page.module.css";
 import listStyles from "@/ui/episode-list.module.css";
+import { applyParams } from "@/lib/searchParams";
 import { fetchEpisodes } from "@/lib/api/rickMorty/rickMorty";
 import { toApiPage, sliceForPage, buildLocalInfo } from "@/lib/customPagination";
 import { SeasonBrowser } from "@/ui/season-browser";
@@ -174,9 +175,6 @@ function buildToggleHref(
   currentView: "season" | "list",
 ): string {
   const nextView = currentView === "season" ? "list" : "season";
-  const search = new URLSearchParams();
-  if (params.name) search.set("name", params.name);
-  if (params.episode) search.set("episode", params.episode);
-  search.set("view", nextView);
-  return `/episodes?${search.toString()}`;
+  const search = applyParams({}, { name: params.name, episode: params.episode, view: nextView });
+  return `/episodes?${search}`;
 }
