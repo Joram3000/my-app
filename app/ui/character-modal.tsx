@@ -180,12 +180,7 @@ export function CharacterModal({
                   <h1 className={styles.name}>{char.name}</h1>
 
                   <dl className={styles.dl}>
-                    <InfoRow
-                      label="Status"
-                      value={char.status}
-                      href={`/characters?status=${encodeURIComponent(char.status)}`}
-                      onLinkClick={onClose}
-                    />
+                    <InfoRow label="Status" value={char.status} />
                     <InfoRow
                       label="Species"
                       value={char.species}

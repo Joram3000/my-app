@@ -81,10 +81,10 @@
   background: none;
   border: none;
   cursor: pointer;
-  filter: drop-shadow(1px 0px 0px rgba(0, 0, 0, 0.6))
-    drop-shadow(-1px 0px 0px rgba(0, 0, 0, 0.6))
-    drop-shadow(0px 1px 0px rgba(0, 0, 0, 0.6))
-    drop-shadow(0px -1px 0px rgba(0, 0, 0, 0.6));
+  filter: drop-shadow(1px 0px 1px rgba(0, 0, 0, 0.6))
+    drop-shadow(-1px 0px 1px rgba(0, 0, 0, 0.6))
+    drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.6))
+    drop-shadow(0px -1px 1px rgba(0, 0, 0, 0.6));
 
   transition:
     color 0.3s,
@@ -92,7 +92,6 @@
 }
 
 .closeButton:hover {
-  background-color: var(--color-gray-800);
   color: var(--color-white);
 }
 
@@ -132,6 +131,11 @@
 .navButton:disabled {
   opacity: 0.6;
   cursor: default;
+}
+
+.navButton:active,
+.closeButton:active {
+  scale: 0.95;
 }
 
 @keyframes spin {
@@ -189,13 +193,10 @@
 }
 
 .name {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: var(--color-white);
   margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .status {
@@ -272,7 +273,7 @@
 
   .name {
     padding: 0;
-    width: 90%;
+    width: 85%;
   }
 
   .navButton {

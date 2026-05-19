@@ -46,6 +46,7 @@ export default async function CharacterPage({ params }: { params: Params }) {
             </div>
 
             <dl className={`${shared.infoGrid} ${shared.infoGrid2col}`}>
+              <InfoCard label="Status" value={character.status} />
               <InfoCard
                 label="Species"
                 value={character.species}

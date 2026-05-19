@@ -20,7 +20,7 @@
   transition:
     color 0.15s,
     background-color 0.15s,
-    transform 0.15s;
+    scale 0.15s;
 }
 
 .linkActive {
@@ -35,9 +35,13 @@
 }
 
 .linkInactive:hover {
-  background-color: var(--color-gray-500);
+  background-color: var(--color-gray-900);
   color: var(--color-white);
-  transform: perspective(300px) rotateX(15deg);
+  scale: 1.05;
+}
+
+.linkInactive:active {
+  scale: 0.9;
 }
 
 @media (max-width: 640px) {

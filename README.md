@@ -46,6 +46,7 @@ Location-Characters op mobile een kleiner kaartje geven
 To DO's
 Hover state constant maken, of global maken, kijken of die niet beter kan
 Loader maken
-Status badge
+Status badge ? (dead, alive, unknown kleur)
 UI styling aanpassen, minder kleuren, leesbaarder
 Splashscreen & Son of a bitch I'm in sample als je op 'met Audio' drukt
+Alleen audio laden als er audio aan wordt geklikt in Splashscreen

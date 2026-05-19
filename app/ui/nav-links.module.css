@@ -36,7 +36,6 @@
 .nav {
   display: flex;
   align-items: center;
-
   gap: 0.25rem;
   margin-left: 1rem;
 }
@@ -50,6 +49,10 @@
   transition:
     color 0.15s,
     background-color 0.15s;
+}
+
+.link:active {
+  scale: 0.95;
 }
 
 .active {
