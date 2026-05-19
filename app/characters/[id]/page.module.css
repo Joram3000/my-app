@@ -93,7 +93,7 @@
     flex-direction: row;
   }
   .imageWrapper {
-    height: auto;
     width: 16rem;
+    aspect-ratio: 1;
   }
 }

@@ -53,24 +53,12 @@ export function Pagination({
       </PaginationLink>
 
       {pages.map((p, i) => {
-        const mid = (pages.length - 1) / 2;
-        const dist = i - mid;
-        const perspective = Math.abs(dist) > 0 ? 800 - Math.abs(dist) * 150 : 0;
-        const rotateY = dist * 12;
         return (
           <PaginationLink
             key={p}
             href={buildHref(p)}
             active={p === currentPage}
             label={`Page ${p}`}
-            style={
-              p !== currentPage
-                ? ({
-                    "--perspective": `${perspective}px`,
-                    "--rotateY": `${rotateY}deg`,
-                  } as React.CSSProperties)
-                : undefined
-            }
           >
             {p}
           </PaginationLink>

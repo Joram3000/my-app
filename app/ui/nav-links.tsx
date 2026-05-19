@@ -4,12 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import styles from "./nav-links.module.css";
-
-const links = [
-  { href: "/characters", label: "Characters" },
-  { href: "/locations", label: "Locations" },
-  { href: "/episodes", label: "Episodes" },
-];
+import { ROUTES } from "@/lib/routes";
 
 export function NavLinks() {
   const pathname = usePathname();
@@ -35,7 +30,7 @@ export function NavLinks() {
       </button>
 
       <nav className={`${styles.nav} ${isOpen ? styles.navOpen : ""}`}>
-        {links.map(({ href, label }) => (
+        {ROUTES.map(({ href, label }) => (
           <Link
             key={href}
             href={href}

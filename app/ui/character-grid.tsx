@@ -8,6 +8,7 @@ import {
   CharacterFilters,
 } from "@/lib/api/rickMorty/rickMorty.types";
 import { BASE_URL } from "@/lib/api/rickMorty/rickMorty";
+import { applyParams } from "@/lib/searchParams";
 import { CharacterModal } from "./character-modal";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -55,10 +56,7 @@ export function CharacterGrid({
   const fetchPage = useCallback(
     async (page: number) => {
       if (!filters) return null;
-      const params = new URLSearchParams({ page: String(page) });
-      for (const [key, value] of Object.entries(filters)) {
-        if (value) params.set(key, value);
-      }
+      const params = applyParams({ page: String(page) }, filters as Record<string, string | undefined>);
       const res = await fetch(`${BASE_URL}/character?${params}`);
       if (!res.ok) return null;
       return res.json();

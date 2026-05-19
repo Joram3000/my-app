@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import Image from "next/image";
 import styles from "./character-card.module.css";
 import { Character } from "@/lib/api/rickMorty/rickMorty.types";
@@ -9,7 +10,7 @@ interface CharacterCardProps {
   onClick: (character: Character) => void;
 }
 
-export function CharacterCard({ character, onClick }: CharacterCardProps) {
+export const CharacterCard = memo(function CharacterCard({ character, onClick }: CharacterCardProps) {
   return (
     <button
       onClick={() => onClick(character)}
@@ -34,4 +35,4 @@ export function CharacterCard({ character, onClick }: CharacterCardProps) {
       </div>
     </button>
   );
-}
+});

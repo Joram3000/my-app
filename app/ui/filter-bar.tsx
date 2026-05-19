@@ -3,6 +3,7 @@
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useCallback, useState, useEffect, useRef } from "react";
 import styles from "./filter-bar.module.css";
+import { applyParams } from "@/lib/searchParams";
 
 export type FilterDef =
   | { type: "text"; key: string; placeholder: string }
@@ -53,12 +54,7 @@ export function FilterBar({ filters }: FilterBarProps) {
 
       if (debounceRef.current) clearTimeout(debounceRef.current);
       debounceRef.current = setTimeout(() => {
-        const params = new URLSearchParams(searchParams.toString());
-        for (const [k, v] of Object.entries(next)) {
-          if (v) params.set(k, v);
-          else params.delete(k);
-        }
-        params.delete("page");
+        const params = applyParams(searchParams.toString(), { ...next, page: undefined });
         router.push(`${pathname}?${params}`);
       }, 300);
     },
