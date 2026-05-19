@@ -43,7 +43,6 @@ export default async function CharacterPage({ params }: { params: Params }) {
           <div className={styles.infoSection}>
             <div className={styles.nameStatusWrapper}>
               <h1 className={styles.name}>{character.name}</h1>
-              <p className={styles.status}>({character.status})</p>
             </div>
 
             <dl className={`${shared.infoGrid} ${shared.infoGrid2col}`}>

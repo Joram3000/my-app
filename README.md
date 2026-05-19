@@ -40,14 +40,12 @@ Tooltip bij cursor
 Modal Kruisje is niet mooi en status label wrapt nog niet goed
 2 bugs op mobile: tooltip blijft staan, en kan niet verdr naar rechts dan de
 volgende page, hoe komt dat?
-
-To DO's
-Hover state constant maken, of global maken
-Loader maken
-UI styling aanpassen, minder kleuren, leesbaarder
-Splashscreen & Son of a bitch I'm in sample als je op 'met Audio' drukt
-Select dingetje is niet mooi, evt laten
+Custom pagination voor 10 stuks
 Location-Characters op mobile een kleiner kaartje geven
 
-Concerns:
-pagination op location moet op 10?
+To DO's
+Hover state constant maken, of global maken, kijken of die niet beter kan
+Loader maken
+Status badge
+UI styling aanpassen, minder kleuren, leesbaarder
+Splashscreen & Son of a bitch I'm in sample als je op 'met Audio' drukt

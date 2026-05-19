@@ -102,7 +102,7 @@ async function LocationResidents({
 
   return (
     <>
-      <CharacterGrid characters={characters} minColWidth={105} />
+      <CharacterGrid characters={characters} minColWidth={215} />
       <Pagination
         info={info}
         currentPage={currentPage}

@@ -98,7 +98,7 @@ export function EpisodeListSkeleton({ seasons = 5, cardsPerSeason = 6 }: { seaso
       {Array.from({ length: seasons }, (_, s) => (
         <div key={s} className={styles.episodeSeason}>
           <Bone className={styles.episodeSeasonTitle} />
-          <div className={styles.episodeScrollRow}>
+          <div className={styles.episodeTiltGrid}>
             {Array.from({ length: cardsPerSeason }, (_, i) => <EpisodeCardSkeleton key={i} />)}
           </div>
         </div>
