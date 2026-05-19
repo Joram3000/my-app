@@ -11,13 +11,19 @@ interface PaginationProps {
   info: ApiInfo;
   currentPage: number;
   basePath: string;
+  extraParams?: Record<string, string>;
 }
 
-export function Pagination({ info, currentPage, basePath }: PaginationProps) {
+export function Pagination({
+  info,
+  currentPage,
+  basePath,
+  extraParams,
+}: PaginationProps) {
   if (info.pages <= 1) return null;
 
   function buildHref(page: number) {
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(extraParams);
     params.set("page", String(page));
 
     return `${basePath}?${params}`;

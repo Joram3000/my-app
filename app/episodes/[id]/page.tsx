@@ -4,7 +4,10 @@ import { type Metadata } from "next";
 
 import styles from "./page.module.css";
 import shared from "@/ui/detail-page.module.css";
-import { fetchCharactersByUrls, fetchEpisode } from "@/lib/api/rickMorty/rickMorty";
+import {
+  fetchCharactersByUrls,
+  fetchEpisode,
+} from "@/lib/api/rickMorty/rickMorty";
 import { CharacterGrid } from "@/ui/character-grid";
 import { InfoCard } from "@/ui/info-card";
 import { BiLeftArrowAlt } from "react-icons/bi";
@@ -18,7 +21,9 @@ export default async function EpisodePage({ params }: { params: Params }) {
   const episode = await fetchEpisode(Number(id));
   if (!episode) notFound();
 
-  const characters = await fetchCharactersByUrls(episode.characters.slice(0, 20));
+  const characters = await fetchCharactersByUrls(
+    episode.characters.slice(0, 20),
+  );
 
   return (
     <div className={shared.container}>
@@ -38,7 +43,10 @@ export default async function EpisodePage({ params }: { params: Params }) {
         <dl className={`${shared.infoGrid} ${shared.infoGrid3col}`}>
           <InfoCard label="Episode" value={episode.episode} />
           <InfoCard label="Air date" value={episode.air_date} />
-          <InfoCard label="Characters" value={String(episode.characters.length)} />
+          <InfoCard
+            label="Characters"
+            value={String(episode.characters.length)}
+          />
         </dl>
       </div>
 
@@ -52,7 +60,7 @@ export default async function EpisodePage({ params }: { params: Params }) {
               </span>
             )}
           </h2>
-          <CharacterGrid characters={characters} />
+          <CharacterGrid characters={characters} minColWidth={200} />
         </section>
       )}
     </div>
