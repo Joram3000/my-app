@@ -63,11 +63,15 @@ export function CharacterModal({
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") {
-        scrollTo(Math.max(0, currentIndex - 1));
-        speak("previous");
+        if (currentIndex > 0) {
+          scrollTo(currentIndex - 1);
+          speak("previous");
+        }
       } else if (e.key === "ArrowRight") {
-        scrollTo(Math.min(characters.length - 1, currentIndex + 1));
-        speak("next");
+        if (currentIndex < characters.length - 1) {
+          scrollTo(currentIndex + 1);
+          speak("next");
+        }
       } else if (e.key === "Escape") {
         speak("close");
         handleClose();
