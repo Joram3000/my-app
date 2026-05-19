@@ -11,6 +11,7 @@ export function Header() {
   const { rocketActive, toggleRocket } = useCursor();
   const { soundActive, toggleSound } = useSound();
   const { play: playDefault } = useSoundPlayer();
+  const { playDirect: playOowee } = useSoundPlayer("/sounds/oowee1.mp3");
 
   return (
     <header className={styles.header}>
@@ -30,7 +31,7 @@ export function Header() {
             className={`${styles.sound} tooltip tooltip--below`}
             aria-label="Toggle sound"
             data-tooltip={soundActive ? "Toggle Sound off" : "Toggle Sound on"}
-            onClick={toggleSound}
+            onClick={() => { if (!soundActive) playOowee(); toggleSound(); }}
           >
             {soundActive ? <BiVolumeFull /> : <BiVolume />}
           </button>

@@ -1,10 +1,12 @@
 Start tech assesment
 
-aanpak:
+# Aanpak:
 
 - opbouwen aan de hand van de tech briefing
 - Agentic werken om bepaalde patterns te verkennen
 - Alles zelf bouwen om 100% goede code te kunnen garanderen.
+
+# Afgerond:
 
 - Deployen en initialization
 - Footer & Header
@@ -46,10 +48,12 @@ aanpak:
 - Terug draaien endless modal next en prev character, te buggy
 - Splashscreen & Son of a bitch I'm in sample als je op 'met Audio' drukt
 
-  To DO's
+# To DO's
 
 - Hover state constant maken, of global maken, kijken of die niet beter kan
 - Loader maken
 - Status badge ? (dead, alive, unknown kleur)
 - Location-Characters op mobile een kleiner kaartje geven
+- Episode label bij Characters is lelijk
+- TTS SAM installeren, (tegen beter weten in maar YOLO)
 - UI styling aanpassen, minder kleuren, leesbaarder

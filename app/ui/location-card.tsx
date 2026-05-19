@@ -1,7 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import { BiRightArrowAlt } from "react-icons/bi";
 import { Location } from "@/lib/api/rickMorty/rickMorty.types";
 import styles from "./location-card.module.css";
+import { useSam } from "@/hooks/use-sam";
 
 function Tag({ label, value }: { label: string; value: string }) {
   return (
@@ -13,8 +16,13 @@ function Tag({ label, value }: { label: string; value: string }) {
 }
 
 export function LocationCard({ location }: { location: Location }) {
+  const { speak } = useSam();
   return (
-    <Link href={`/locations/${location.id}`} className={styles.card}>
+    <Link
+      href={`/locations/${location.id}`}
+      className={styles.card}
+      onClick={() => speak(`check out ${location.name}`)}
+    >
       <div className={styles.cardHeader}>
         <h3 className={styles.name}>{location.name}</h3>
         <span className={styles.arrow}>

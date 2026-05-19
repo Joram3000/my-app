@@ -57,5 +57,10 @@ export function useSound(src = "/sounds/laser1.mp3") {
     playBuffer(bufferRef.current);
   }, [soundActive, playBuffer]);
 
-  return { play };
+  const playDirect = useCallback(() => {
+    if (!bufferRef.current) return;
+    playBuffer(bufferRef.current);
+  }, [playBuffer]);
+
+  return { play, playDirect };
 }
