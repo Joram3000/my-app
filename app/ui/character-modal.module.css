@@ -158,18 +158,22 @@
 @keyframes navButtonIn {
   from {
     opacity: 0;
+    scale: 0.8;
   }
   to {
     opacity: 1;
+    scale: 1;
   }
 }
 
 @keyframes navButtonOut {
   from {
     opacity: 1;
+    scale: 1;
   }
   to {
     opacity: 0;
+    scale: 0.8;
   }
 }
 

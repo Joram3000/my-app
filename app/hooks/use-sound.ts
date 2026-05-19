@@ -13,7 +13,7 @@ function getAudioContext(): AudioContext | null {
   return sharedContext;
 }
 
-export function useSound(src: string) {
+export function useSound(src = "/sounds/laser1.mp3") {
   const { soundActive } = useSoundContext();
   const bufferRef = useRef<AudioBuffer | null>(null);
 

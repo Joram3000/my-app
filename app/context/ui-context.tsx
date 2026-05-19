@@ -7,6 +7,8 @@ type UIContextType = {
   toggleRocket: () => void;
   soundActive: boolean;
   toggleSound: () => void;
+  splashDismissed: boolean;
+  dismissSplash: (withSound: boolean) => void;
 };
 
 const UIContext = createContext<UIContextType>({
@@ -14,11 +16,20 @@ const UIContext = createContext<UIContextType>({
   toggleRocket: () => {},
   soundActive: false,
   toggleSound: () => {},
+  splashDismissed: false,
+  dismissSplash: () => {},
 });
 
-export function UIProvider({ children }: { children: React.ReactNode }) {
+type UIProviderProps = {
+  children: React.ReactNode;
+  initialSplashDismissed: boolean;
+  initialSoundActive: boolean;
+};
+
+export function UIProvider({ children, initialSplashDismissed, initialSoundActive }: UIProviderProps) {
   const [rocketActive, setRocketActive] = useState(false);
-  const [soundActive, setSoundActive] = useState(false);
+  const [soundActive, setSoundActive] = useState(initialSoundActive);
+  const [splashDismissed, setSplashDismissed] = useState(initialSplashDismissed);
 
   function toggleRocket() {
     setRocketActive((prev) => !prev);
@@ -28,9 +39,16 @@ export function UIProvider({ children }: { children: React.ReactNode }) {
     setSoundActive((prev) => !prev);
   }
 
+  function dismissSplash(withSound: boolean) {
+    setSoundActive(withSound);
+    setSplashDismissed(true);
+    document.cookie = "splashDismissed=true; path=/; samesite=strict";
+    document.cookie = `splashSound=${withSound}; path=/; samesite=strict`;
+  }
+
   return (
     <UIContext.Provider
-      value={{ rocketActive, toggleRocket, soundActive, toggleSound }}
+      value={{ rocketActive, toggleRocket, soundActive, toggleSound, splashDismissed, dismissSplash }}
     >
       {children}
     </UIContext.Provider>
@@ -45,4 +63,9 @@ export function useCursor() {
 export function useSound() {
   const { soundActive, toggleSound } = useContext(UIContext);
   return { soundActive, toggleSound };
+}
+
+export function useSplash() {
+  const { splashDismissed, dismissSplash } = useContext(UIContext);
+  return { splashDismissed, dismissSplash };
 }
