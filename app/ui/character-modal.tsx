@@ -66,8 +66,13 @@ export function CharacterModal({
     prevWindowStartRef.current = liveWindowStart;
     if (prepended > 0) {
       const container = slidesRef.current;
-      if (container) container.scrollLeft += prepended * container.clientWidth;
+      if (container) {
+        ignoreScrollEnd.current = true;
+        // Absolute: avoids double-adjustment if scrollLeft drifted before this fires.
+        container.scrollLeft = currentIndex * container.clientWidth;
+      }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [liveWindowStart]);
   const dialogRef = useRef<HTMLDivElement>(null);
   const { play } = useSound();
