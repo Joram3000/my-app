@@ -56,6 +56,7 @@ export function CharacterModal({
   const [isClosing, setIsClosing] = useState(false);
   const slidesRef = useRef<HTMLDivElement>(null);
   const currentCharNameRef = useRef(initialCharacters[initialIndex]?.name ?? "");
+  const ignoreScrollEnd = useRef(initialIndex > 0);
 
   // When items are prepended, liveWindowStart decreases.
   // Shift scroll instantly so the visible slide doesn't jump.
@@ -155,7 +156,13 @@ export function CharacterModal({
   useEffect(() => {
     const container = slidesRef.current;
     if (!container) return;
-    const handleScrollEnd = () => speak(currentCharNameRef.current);
+    const handleScrollEnd = () => {
+      if (ignoreScrollEnd.current) {
+        ignoreScrollEnd.current = false;
+        return;
+      }
+      speak(currentCharNameRef.current);
+    };
     container.addEventListener("scrollend", handleScrollEnd);
     return () => container.removeEventListener("scrollend", handleScrollEnd);
   }, [speak]);
