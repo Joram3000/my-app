@@ -28,7 +28,6 @@ export default async function RootLayout({
       <body className={styles.body}>
         <UIProvider>
           <SplashScreen />
-
           {isDev && <DevOutlineToggle />}
           <RocketCursor />
           <Header />
