@@ -2,7 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import styles from "./character-modal.module.css";
 import { Character } from "@/lib/api/rickMorty/rickMorty.types";
 import { useSound } from "@/hooks/use-sound";
@@ -13,24 +19,58 @@ import {
   BiX,
 } from "react-icons/bi";
 import { useSam } from "@/hooks/use-sam";
+import { useCharacterWindow } from "@/hooks/use-character-window";
 
 interface CharacterModalProps {
   characters: Character[];
   initialIndex: number;
   onClose: () => void;
+  windowStart?: number;
+  totalCount?: number;
+  onFetchMore?: (page: number) => Promise<Character[]>;
 }
 
 export function CharacterModal({
-  characters,
+  characters: initialCharacters,
   initialIndex,
   onClose,
+  windowStart = 0,
+  totalCount,
+  onFetchMore,
 }: CharacterModalProps) {
-  const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const noop = useCallback(async (_page: number) => [] as Character[], []);
+  const {
+    items: characters,
+    currentIndex,
+    setCurrentIndex,
+    windowStart: liveWindowStart,
+    hasNext,
+    hasPrev,
+  } = useCharacterWindow(
+    initialCharacters,
+    initialIndex,
+    windowStart,
+    totalCount ?? initialCharacters.length,
+    onFetchMore ?? noop,
+  );
   const [isClosing, setIsClosing] = useState(false);
   const slidesRef = useRef<HTMLDivElement>(null);
+  const currentCharNameRef = useRef(initialCharacters[initialIndex]?.name ?? "");
+
+  // When items are prepended, liveWindowStart decreases.
+  // Shift scroll instantly so the visible slide doesn't jump.
+  const prevWindowStartRef = useRef(windowStart);
+  useLayoutEffect(() => {
+    const prepended = prevWindowStartRef.current - liveWindowStart;
+    prevWindowStartRef.current = liveWindowStart;
+    if (prepended > 0) {
+      const container = slidesRef.current;
+      if (container) container.scrollLeft += prepended * container.clientWidth;
+    }
+  }, [liveWindowStart]);
   const dialogRef = useRef<HTMLDivElement>(null);
   const { play } = useSound();
-  const { speak } = useSam({ speed: 80 });
+  const { speak } = useSam({ speed: 50 });
 
   const handleClose = useCallback(() => {
     setIsClosing(true);
@@ -68,7 +108,7 @@ export function CharacterModal({
           speak("previous");
         }
       } else if (e.key === "ArrowRight") {
-        if (currentIndex < characters.length - 1) {
+        if (hasNext) {
           scrollTo(currentIndex + 1);
           speak("next");
         }
@@ -97,7 +137,7 @@ export function CharacterModal({
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentIndex, characters.length, handleClose, scrollTo]);
+  }, [currentIndex, hasNext, handleClose, scrollTo]);
 
   useEffect(() => {
     const container = slidesRef.current;
@@ -107,6 +147,18 @@ export function CharacterModal({
       behavior: "instant" as ScrollBehavior,
     });
   }, []);
+
+  useEffect(() => {
+    currentCharNameRef.current = characters[currentIndex]?.name ?? "";
+  }, [characters, currentIndex]);
+
+  useEffect(() => {
+    const container = slidesRef.current;
+    if (!container) return;
+    const handleScrollEnd = () => speak(currentCharNameRef.current);
+    container.addEventListener("scrollend", handleScrollEnd);
+    return () => container.removeEventListener("scrollend", handleScrollEnd);
+  }, [speak]);
 
   const handleScroll = () => {
     const container = slidesRef.current;
@@ -139,10 +191,12 @@ export function CharacterModal({
       <NavButton
         direction="prev"
         onClick={
-          currentIndex > 0
+          hasPrev
             ? () => {
-                speak("previous");
-                scrollTo(currentIndex - 1);
+                if (currentIndex > 0) {
+                  speak("previous");
+                  scrollTo(currentIndex - 1);
+                }
               }
             : undefined
         }
@@ -152,7 +206,7 @@ export function CharacterModal({
       <NavButton
         direction="next"
         onClick={
-          currentIndex < characters.length - 1
+          hasNext
             ? () => {
                 speak("next");
                 scrollTo(currentIndex + 1);
