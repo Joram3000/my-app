@@ -9,7 +9,7 @@ import type {
 } from "./rickMorty.types";
 
 export const BASE_URL = "https://rickandmortyapi.com/api";
-
+export const API_PAGE_SIZE = 20;
 export async function fetchCharacters(
   page = 1,
   filters: CharacterFilters = {},

@@ -2,7 +2,7 @@ import { ApiInfo } from "./api/rickMorty/rickMorty.types";
 
 const PAGE_SIZE = 10;
 const API_PAGE_SIZE = 20;
-const RATIO = API_PAGE_SIZE / PAGE_SIZE; // how many local pages fit in one API page
+const RATIO = API_PAGE_SIZE / PAGE_SIZE;
 
 export function toApiPage(localPage: number): number {
   return Math.ceil(localPage / RATIO);

@@ -1,6 +1,5 @@
 "use client";
 
-import { useSound } from "@/hooks/use-sound";
 import { useEffect } from "react";
 import { useCursor } from "@/context/ui-context";
 

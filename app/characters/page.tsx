@@ -62,6 +62,7 @@ async function CharactersContent({
   };
 
   const data = await fetchCharacters(currentPage, filters);
+  const windowStart = (currentPage - 1) * 20;
 
   return (
     <>
@@ -70,7 +71,12 @@ async function CharactersContent({
           ? `${data.info.count} characters found`
           : "No characters found"}
       </p>
-      <CharacterGrid characters={data.results} />
+      <CharacterGrid
+        characters={data.results}
+        windowStart={windowStart}
+        totalCount={data.info.count}
+        filters={filters}
+      />
       <Pagination
         info={data.info}
         currentPage={currentPage}
