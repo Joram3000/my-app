@@ -10,7 +10,7 @@ import {
 } from "@/lib/api/rickMorty/rickMorty";
 import { CharacterGrid } from "@/ui/character-grid";
 import { InfoCard } from "@/ui/info-card";
-import { BiLeftArrowAlt } from "react-icons/bi";
+import { Backlink } from "@/ui/backlink";
 
 export const metadata: Metadata = { title: "Rick & Morty - Episode" };
 
@@ -27,9 +27,7 @@ export default async function EpisodePage({ params }: { params: Params }) {
 
   return (
     <div className={shared.container}>
-      <Link href="/episodes" className={shared.backLink}>
-        <BiLeftArrowAlt /> Back to episodes
-      </Link>
+      <Backlink label={"Back to episodes"} href={"/episodes"} />
 
       <div className={shared.card}>
         <div className={styles.cardHeader}>

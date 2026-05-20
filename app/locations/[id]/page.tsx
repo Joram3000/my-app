@@ -1,8 +1,6 @@
 import { Suspense } from "react";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { type Metadata } from "next";
-import { BiLeftArrowAlt } from "react-icons/bi";
 
 import styles from "./page.module.css";
 import shared from "@/ui/detail-page.module.css";
@@ -14,6 +12,7 @@ import { CharacterGrid } from "@/ui/character-grid";
 import { InfoCard } from "@/ui/info-card";
 import { CharacterGridSkeleton } from "@/ui/skeletons";
 import { Pagination } from "@/ui/pagination";
+import { Backlink } from "@/ui/backlink";
 
 export const metadata: Metadata = { title: "Rick & Morty - Location" };
 
@@ -37,9 +36,7 @@ export default async function LocationPage({
 
   return (
     <div className={shared.container}>
-      <Link href="/locations" className={shared.backLink}>
-        <BiLeftArrowAlt /> Back to locations
-      </Link>
+      <Backlink label={"Back to locations"} href={"/locations"} />
 
       <div className={shared.card}>
         <div className={styles.cardHeader}>
@@ -102,7 +99,13 @@ async function LocationResidents({
 
   return (
     <>
-      <CharacterGrid characters={characters} minColWidth={215} />
+      <CharacterGrid
+        characters={characters}
+        minColWidth={215}
+        windowStart={start}
+        totalCount={totalResidents}
+        residentUrls={residents}
+      />
       <Pagination
         info={info}
         currentPage={currentPage}

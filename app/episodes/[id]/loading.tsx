@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { BiLeftArrowAlt } from "react-icons/bi";
-import styles from "./page.module.css";
+import shared from "@/ui/detail-page.module.css";
 import { EpisodeDetailSkeleton } from "@/ui/skeletons";
 
 export default function Loading() {
   return (
-    <div className={styles.container}>
-      <Link href="/episodes" className={styles.backLink}>
+    <div className={shared.container}>
+      <Link href="/episodes" className={shared.backLink} >
         <BiLeftArrowAlt /> Back to episodes
       </Link>
       <EpisodeDetailSkeleton />
