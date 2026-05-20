@@ -49,7 +49,8 @@ Start tech assesment
 - Splashscreen & Son of a bitch I'm in sample als je op 'met Audio' drukt
 
 # To DO's
-
+- Endless modal functie terug zetten
+- Pagination van 10 herschrijven
 - Hover state constant maken, of global maken, kijken of die niet beter kan
 - Loader maken
 - Status badge ? (dead, alive, unknown kleur)
