@@ -2,13 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
 import styles from "./character-modal.module.css";
 import { Character } from "@/lib/api/rickMorty/rickMorty.types";
 import { useSound } from "@/hooks/use-sound";
@@ -20,6 +14,8 @@ import {
 } from "react-icons/bi";
 import { useSam } from "@/hooks/use-sam";
 import { useCharacterWindow } from "@/hooks/use-character-window";
+import { useModalKeyboard } from "@/hooks/use-modal-keyboard";
+import { useCloseAnimation } from "@/hooks/use-close-animation";
 
 interface CharacterModalProps {
   characters: Character[];
@@ -53,16 +49,61 @@ export function CharacterModal({
     totalCount ?? initialCharacters.length,
     onFetchMore ?? noop,
   );
-  const [isClosing, setIsClosing] = useState(false);
+
   const slidesRef = useRef<HTMLDivElement>(null);
-  const currentCharNameRef = useRef(
-    initialCharacters[initialIndex]?.name ?? "",
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const { speak } = useSam({ speed: 50 });
+
+  const { isClosing, triggerClose, handleAnimationEnd } = useCloseAnimation({
+    onClose,
+    dialogRef,
+  });
+
+  const handleCloseWithSound = useCallback(() => {
+    triggerClose();
+  }, [triggerClose]);
+
+  const scrollTo = useCallback(
+    (index: number) => {
+      const container = slidesRef.current;
+      if (!container) return;
+      container.scrollTo({
+        left: index * container.clientWidth,
+        behavior: "smooth",
+      });
+      setCurrentIndex(index);
+    },
+    [setCurrentIndex],
   );
-  const ignoreScrollEnd = useRef(initialIndex > 0);
+
+  const handlePrev = useCallback(() => {
+    speak("previous");
+    scrollTo(currentIndex - 1);
+  }, [speak, scrollTo, currentIndex]);
+
+  const handleNext = useCallback(() => {
+    speak("next");
+    scrollTo(currentIndex + 1);
+  }, [speak, scrollTo, currentIndex]);
+
+  const handleCloseWithSpeak = useCallback(() => {
+    speak("close");
+    triggerClose();
+  }, [speak, triggerClose]);
+
+  useModalKeyboard({
+    currentIndex,
+    hasNext,
+    dialogRef,
+    onPrev: handlePrev,
+    onNext: handleNext,
+    onClose: handleCloseWithSpeak,
+  });
 
   // When items are prepended, liveWindowStart decreases.
   // Shift scroll instantly so the visible slide doesn't jump.
   const prevWindowStartRef = useRef(windowStart);
+  const ignoreScrollEnd = useRef(initialIndex > 0);
   useLayoutEffect(() => {
     const prepended = prevWindowStartRef.current - liveWindowStart;
     prevWindowStartRef.current = liveWindowStart;
@@ -70,84 +111,11 @@ export function CharacterModal({
       const container = slidesRef.current;
       if (container) {
         ignoreScrollEnd.current = true;
-        // Absolute: avoids double-adjustment if scrollLeft drifted before this fires.
         container.scrollLeft = currentIndex * container.clientWidth;
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [liveWindowStart]);
-  const dialogRef = useRef<HTMLDivElement>(null);
-  const { play } = useSound();
-  const { speak } = useSam({ speed: 50 });
-
-  const handleClose = useCallback(() => {
-    setIsClosing(true);
-  }, []);
-
-  const handleCloseWithSound = useCallback(() => {
-    play();
-    handleClose();
-  }, [play, handleClose]);
-
-  useEffect(() => {
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    dialogRef.current?.querySelector<HTMLElement>("button, a[href]")?.focus();
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, []);
-
-  const scrollTo = useCallback((index: number) => {
-    const container = slidesRef.current;
-    if (!container) return;
-    container.scrollTo({
-      left: index * container.clientWidth,
-      behavior: "smooth",
-    });
-    setCurrentIndex(index);
-  }, []);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") {
-        if (currentIndex > 0) {
-          scrollTo(currentIndex - 1);
-          speak("previous");
-          dialogRef.current?.focus();
-        }
-      } else if (e.key === "ArrowRight") {
-        if (hasNext) {
-          scrollTo(currentIndex + 1);
-          speak("next");
-          dialogRef.current?.focus();
-        }
-      } else if (e.key === "Escape") {
-        speak("close");
-        handleClose();
-      } else if (e.key === "Tab") {
-        const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(
-          "a[href]:not([inert] *), button:not([disabled]):not([inert] *)",
-        );
-        if (!focusable?.length) return;
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
-        if (e.shiftKey) {
-          if (document.activeElement === first) {
-            e.preventDefault();
-            last.focus();
-          }
-        } else {
-          if (document.activeElement === last) {
-            e.preventDefault();
-            first.focus();
-          }
-        }
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentIndex, hasNext, handleClose, scrollTo]);
 
   useEffect(() => {
     const container = slidesRef.current;
@@ -156,8 +124,12 @@ export function CharacterModal({
       left: initialIndex * container.clientWidth,
       behavior: "instant" as ScrollBehavior,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const currentCharNameRef = useRef(
+    initialCharacters[initialIndex]?.name ?? "",
+  );
   useEffect(() => {
     currentCharNameRef.current = characters[currentIndex]?.name ?? "";
   }, [characters, currentIndex]);
@@ -176,12 +148,12 @@ export function CharacterModal({
     return () => container.removeEventListener("scrollend", handleScrollEnd);
   }, [speak]);
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     const container = slidesRef.current;
     if (!container) return;
     const index = Math.round(container.scrollLeft / container.clientWidth);
     setCurrentIndex(index);
-  };
+  }, [setCurrentIndex]);
 
   return (
     <div
@@ -200,36 +172,18 @@ export function CharacterModal({
       <div
         className={`${styles.backdrop} ${isClosing ? styles.backdropClosing : ""}`}
         onClick={handleCloseWithSound}
-        onAnimationEnd={() => {
-          if (isClosing) onClose();
-        }}
+        onAnimationEnd={handleAnimationEnd}
       />
 
       <NavButton
         direction="prev"
-        onClick={
-          hasPrev
-            ? () => {
-                if (currentIndex > 0) {
-                  speak("previous");
-                  scrollTo(currentIndex - 1);
-                }
-              }
-            : undefined
-        }
+        onClick={hasPrev ? handlePrev : undefined}
         isClosing={isClosing}
       />
 
       <NavButton
         direction="next"
-        onClick={
-          hasNext
-            ? () => {
-                speak("next");
-                scrollTo(currentIndex + 1);
-              }
-            : undefined
-        }
+        onClick={hasNext ? handleNext : undefined}
         isClosing={isClosing}
       />
 
@@ -279,7 +233,10 @@ function CharacterSlide({
       onClick={(e) => e.stopPropagation()}
     >
       <button
-        onClick={onClose}
+        onClick={() => {
+          speak("close");
+          onClose();
+        }}
         className={styles.closeButton}
         aria-label="Close dialog"
       >
@@ -305,14 +262,20 @@ function CharacterSlide({
               label="Species"
               value={char.species}
               href={`/characters?species=${encodeURIComponent(char.species)}`}
-              onLinkClick={onClose}
+              onLinkClick={() => {
+                speak(char.species);
+                onClose();
+              }}
             />
             {char.type && <InfoRow label="Type" value={char.type} />}
             <InfoRow
               label="Gender"
               value={char.gender}
               href={`/characters?gender=${encodeURIComponent(char.gender)}`}
-              onLinkClick={onClose}
+              onLinkClick={() => {
+                speak(char.gender);
+                onClose();
+              }}
             />
             <InfoRow
               label="Origin"
@@ -322,7 +285,10 @@ function CharacterSlide({
                   ? `/locations/${char.origin.url.split("/").pop()}`
                   : undefined
               }
-              onLinkClick={onClose}
+              onLinkClick={() => {
+                speak(char.origin.name);
+                onClose();
+              }}
             />
             <InfoRow
               label="Location"
@@ -332,7 +298,10 @@ function CharacterSlide({
                   ? `/locations/${char.location.url.split("/").pop()}`
                   : undefined
               }
-              onLinkClick={onClose}
+              onLinkClick={() => {
+                speak(char.location.name);
+                onClose();
+              }}
             />
             <InfoRow
               label="Episodes"
@@ -344,8 +313,8 @@ function CharacterSlide({
             <Link
               href={`/characters/${char.id}`}
               onClick={() => {
-                onClose();
                 speak("view full profile");
+                onClose();
               }}
               className={styles.profileLink}
             >
