@@ -31,6 +31,12 @@ export function FilterBar({ filters }: FilterBarProps) {
   const textValuesRef = useRef(textValues);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+  }, []);
+
   // Sync local text state when URL changes externally (clear filters, browser back/forward)
   useEffect(() => {
     const fromUrl: Record<string, string> = {};
@@ -44,8 +50,6 @@ export function FilterBar({ filters }: FilterBarProps) {
       textValuesRef.current = fromUrl;
       setTextValues(fromUrl);
     }
-    // filters is a stable constant defined outside the page component
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   const handleTextChange = useCallback(
@@ -56,7 +60,10 @@ export function FilterBar({ filters }: FilterBarProps) {
 
       if (debounceRef.current) clearTimeout(debounceRef.current);
       debounceRef.current = setTimeout(() => {
-        const params = applyParams(searchParams.toString(), { ...next, page: undefined });
+        const params = applyParams(searchParams.toString(), {
+          ...next,
+          page: undefined,
+        });
         router.push(`${pathname}?${params}`);
       }, 300);
     },

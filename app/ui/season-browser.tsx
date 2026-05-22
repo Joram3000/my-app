@@ -71,20 +71,23 @@ export function SeasonBrowser({
     }
   }, [loading, info.next, page, nameFilter, episodeFilter]);
 
+  const loadMoreRef = useRef(loadMore);
+  useEffect(() => { loadMoreRef.current = loadMore; }, [loadMore]);
+
   useEffect(() => {
     const sentinel = sentinelRef.current;
     if (!sentinel) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) loadMore();
+        if (entries[0].isIntersecting) loadMoreRef.current();
       },
       { rootMargin: "200px" },
     );
 
     observer.observe(sentinel);
     return () => observer.disconnect();
-  }, [loadMore]);
+  }, []);
 
   function selectSeason(season: number | null) {
     play();
