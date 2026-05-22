@@ -271,12 +271,18 @@ function CharacterSlide({
   isClosing: boolean;
   onClose: () => void;
 }) {
+  const { speak } = useSam({ speed: 50 });
+
   return (
     <div
       className={`${styles.modal} ${isClosing ? styles.modalClosing : ""}`}
       onClick={(e) => e.stopPropagation()}
     >
-      <button onClick={onClose} className={styles.closeButton} aria-label="Close dialog">
+      <button
+        onClick={onClose}
+        className={styles.closeButton}
+        aria-label="Close dialog"
+      >
         <BiX />
       </button>
       <div className={styles.body}>
@@ -335,7 +341,14 @@ function CharacterSlide({
           </dl>
 
           <div className={styles.footer}>
-            <Link href={`/characters/${char.id}`} onClick={onClose} className={styles.profileLink}>
+            <Link
+              href={`/characters/${char.id}`}
+              onClick={() => {
+                onClose();
+                speak("view full profile");
+              }}
+              className={styles.profileLink}
+            >
               View full profile
               <BiRightArrowAlt />
             </Link>

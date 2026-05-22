@@ -2,9 +2,9 @@
 
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useCallback, useState, useEffect, useRef } from "react";
-import { useSound } from "@/hooks/use-sound";
 import styles from "./filter-bar.module.css";
 import { applyParams } from "@/lib/searchParams";
+import { useSam } from "@/hooks/use-sam";
 
 export type FilterDef =
   | { type: "text"; key: string; placeholder: string }
@@ -18,8 +18,7 @@ export function FilterBar({ filters }: FilterBarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { play } = useSound();
-
+  const { speak } = useSam({ speed: 80 });
   const [textValues, setTextValues] = useState<Record<string, string>>(() => {
     const init: Record<string, string> = {};
     for (const f of filters) {
@@ -72,21 +71,23 @@ export function FilterBar({ filters }: FilterBarProps) {
 
   const updateSelect = useCallback(
     (key: string, value: string) => {
-      play();
+      speak(value);
+
       const params = new URLSearchParams(searchParams.toString());
       if (value) params.set(key, value);
       else params.delete(key);
       params.delete("page");
       router.push(`${pathname}?${params}`);
     },
-    [router, pathname, searchParams, play],
+    [router, pathname, searchParams, speak],
   );
 
   const clearAll = useCallback(() => {
-    play();
+    speak("Clear filters");
+
     if (debounceRef.current) clearTimeout(debounceRef.current);
     router.push(pathname);
-  }, [router, pathname, play]);
+  }, [router, pathname, speak]);
 
   const hasFilters =
     Object.values(textValues).some(Boolean) ||
