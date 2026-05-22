@@ -114,11 +114,13 @@ export function CharacterModal({
         if (currentIndex > 0) {
           scrollTo(currentIndex - 1);
           speak("previous");
+          dialogRef.current?.focus();
         }
       } else if (e.key === "ArrowRight") {
         if (hasNext) {
           scrollTo(currentIndex + 1);
           speak("next");
+          dialogRef.current?.focus();
         }
       } else if (e.key === "Escape") {
         speak("close");
@@ -188,6 +190,7 @@ export function CharacterModal({
       role="dialog"
       aria-modal="true"
       aria-label={characters[currentIndex].name}
+      tabIndex={-1}
     >
       <p className={styles.srOnly} aria-live="polite" aria-atomic="true">
         {characters[currentIndex].name}, {currentIndex + 1} of{" "}
