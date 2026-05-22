@@ -55,7 +55,9 @@ export function CharacterModal({
   );
   const [isClosing, setIsClosing] = useState(false);
   const slidesRef = useRef<HTMLDivElement>(null);
-  const currentCharNameRef = useRef(initialCharacters[initialIndex]?.name ?? "");
+  const currentCharNameRef = useRef(
+    initialCharacters[initialIndex]?.name ?? "",
+  );
   const ignoreScrollEnd = useRef(initialIndex > 0);
 
   // When items are prepended, liveWindowStart decreases.
@@ -72,7 +74,7 @@ export function CharacterModal({
         container.scrollLeft = currentIndex * container.clientWidth;
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [liveWindowStart]);
   const dialogRef = useRef<HTMLDivElement>(null);
   const { play } = useSound();
@@ -243,87 +245,99 @@ export function CharacterModal({
             aria-label={`${char.name}, ${i + 1} of ${characters.length}`}
             inert={i !== currentIndex || undefined}
           >
-            <div
-              className={`${styles.modal} ${isClosing ? styles.modalClosing : ""}`}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                onClick={handleCloseWithSound}
-                className={styles.closeButton}
-                aria-label="Close dialog"
-              >
-                <BiX />
-              </button>
-              <div className={styles.body}>
-                <div className={styles.imageWrapper}>
-                  <Image
-                    src={char.image}
-                    alt={char.name}
-                    fill
-                    className={styles.image}
-                    sizes="(max-width: 640px) 100vw, 192px"
-                  />
-                </div>
-
-                <div className={styles.infoSection}>
-                  <h1 className={styles.name}>{char.name}</h1>
-
-                  <dl className={styles.dl}>
-                    <InfoRow label="Status" value={char.status} />
-                    <InfoRow
-                      label="Species"
-                      value={char.species}
-                      href={`/characters?species=${encodeURIComponent(char.species)}`}
-                      onLinkClick={handleCloseWithSound}
-                    />
-                    {char.type && <InfoRow label="Type" value={char.type} />}
-                    <InfoRow
-                      label="Gender"
-                      value={char.gender}
-                      href={`/characters?gender=${encodeURIComponent(char.gender)}`}
-                      onLinkClick={handleCloseWithSound}
-                    />
-                    <InfoRow
-                      label="Origin"
-                      value={char.origin.name}
-                      href={
-                        char.origin.url
-                          ? `/locations/${char.origin.url.split("/").pop()}`
-                          : undefined
-                      }
-                      onLinkClick={handleCloseWithSound}
-                    />
-                    <InfoRow
-                      label="Location"
-                      value={char.location.name}
-                      href={
-                        char.location.url
-                          ? `/locations/${char.location.url.split("/").pop()}`
-                          : undefined
-                      }
-                      onLinkClick={handleCloseWithSound}
-                    />
-                    <InfoRow
-                      label="Episodes"
-                      value={`Appears in ${char.episode.length} episode(s)`}
-                    />
-                  </dl>
-
-                  <div className={styles.footer}>
-                    <Link
-                      href={`/characters/${char.id}`}
-                      onClick={handleCloseWithSound}
-                      className={styles.profileLink}
-                    >
-                      View full profile
-                      <BiRightArrowAlt />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {Math.abs(i - currentIndex) <= 1 && (
+              <CharacterSlide
+                char={char}
+                isClosing={isClosing}
+                onClose={handleCloseWithSound}
+              />
+            )}
           </div>
         ))}
+      </div>
+    </div>
+  );
+}
+
+function CharacterSlide({
+  char,
+  isClosing,
+  onClose,
+}: {
+  char: Character;
+  isClosing: boolean;
+  onClose: () => void;
+}) {
+  return (
+    <div
+      className={`${styles.modal} ${isClosing ? styles.modalClosing : ""}`}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <button onClick={onClose} className={styles.closeButton} aria-label="Close dialog">
+        <BiX />
+      </button>
+      <div className={styles.body}>
+        <div className={styles.imageWrapper}>
+          <Image
+            src={char.image}
+            alt={char.name}
+            fill
+            className={styles.image}
+            sizes="(max-width: 640px) 100vw, 192px"
+          />
+        </div>
+
+        <div className={styles.infoSection}>
+          <h1 className={styles.name}>{char.name}</h1>
+
+          <dl className={styles.dl}>
+            <InfoRow label="Status" value={char.status} />
+            <InfoRow
+              label="Species"
+              value={char.species}
+              href={`/characters?species=${encodeURIComponent(char.species)}`}
+              onLinkClick={onClose}
+            />
+            {char.type && <InfoRow label="Type" value={char.type} />}
+            <InfoRow
+              label="Gender"
+              value={char.gender}
+              href={`/characters?gender=${encodeURIComponent(char.gender)}`}
+              onLinkClick={onClose}
+            />
+            <InfoRow
+              label="Origin"
+              value={char.origin.name}
+              href={
+                char.origin.url
+                  ? `/locations/${char.origin.url.split("/").pop()}`
+                  : undefined
+              }
+              onLinkClick={onClose}
+            />
+            <InfoRow
+              label="Location"
+              value={char.location.name}
+              href={
+                char.location.url
+                  ? `/locations/${char.location.url.split("/").pop()}`
+                  : undefined
+              }
+              onLinkClick={onClose}
+            />
+            <InfoRow
+              label="Episodes"
+              value={`Appears in ${char.episode.length} episode(s)`}
+            />
+          </dl>
+
+          <div className={styles.footer}>
+            <Link href={`/characters/${char.id}`} onClick={onClose} className={styles.profileLink}>
+              View full profile
+              <BiRightArrowAlt />
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );
