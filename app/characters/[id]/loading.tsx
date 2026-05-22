@@ -1,14 +1,11 @@
-import Link from "next/link";
-import { BiLeftArrowAlt } from "react-icons/bi";
-import styles from "./page.module.css";
+import shared from "@/ui/detail-page.module.css";
 import { CharacterDetailSkeleton } from "@/ui/skeletons";
+import { Backlink } from "@/ui/backlink";
 
 export default function Loading() {
   return (
-    <div className={styles.container}>
-      <Link href="/characters" className={styles.backLink}>
-        <BiLeftArrowAlt /> Back to characters
-      </Link>
+    <div className={shared.container}>
+      <Backlink label={"Back to characters"} href={"/characters"} />
       <CharacterDetailSkeleton />
     </div>
   );
