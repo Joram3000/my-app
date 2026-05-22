@@ -15,7 +15,8 @@ export function Backlink({ label, href }: BacklinkProps) {
 
   return (
     <Link href={href} className={shared.backLink} onClick={() => speak(label)}>
-      <BiLeftArrowAlt /> {label}
+      <BiLeftArrowAlt />
+      {label}
     </Link>
   );
 }
