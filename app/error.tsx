@@ -18,7 +18,7 @@ export default function GlobalError({
   useEffect(() => {
     console.error(error);
     speak("OOH NOOO ERROR ERROR ERROR ERROR ERROR");
-  }, [error]);
+  }, [error, speak]);
 
   return (
     <div className={styles.wrapper}>

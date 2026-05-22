@@ -5,6 +5,7 @@ import { type Metadata } from "next";
 import styles from "./page.module.css";
 import shared from "@/ui/detail-page.module.css";
 import {
+  API_PAGE_SIZE,
   fetchCharactersByUrls,
   fetchEpisode,
 } from "@/lib/api/rickMorty/rickMorty";
@@ -22,7 +23,7 @@ export default async function EpisodePage({ params }: { params: Params }) {
   if (!episode) notFound();
 
   const characters = await fetchCharactersByUrls(
-    episode.characters.slice(0, 20),
+    episode.characters.slice(0, API_PAGE_SIZE),
   );
 
   return (
