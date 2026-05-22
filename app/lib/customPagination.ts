@@ -1,7 +1,7 @@
+import { API_PAGE_SIZE } from "./api/rickMorty/rickMorty";
 import { ApiInfo } from "./api/rickMorty/rickMorty.types";
 
 const PAGE_SIZE = 10;
-const API_PAGE_SIZE = 20;
 const RATIO = API_PAGE_SIZE / PAGE_SIZE;
 
 export function toApiPage(localPage: number): number {

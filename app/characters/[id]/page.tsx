@@ -6,7 +6,7 @@ import styles from "./page.module.css";
 import shared from "@/ui/detail-page.module.css";
 import { fetchCharacter } from "@/lib/api/rickMorty/rickMorty";
 import { InfoCard } from "@/ui/info-card";
-import { BiLeftArrowAlt } from "react-icons/bi";
+import { Backlink } from "@/ui/backlink";
 
 export const metadata: Metadata = { title: "Rick & Morty - Character" };
 
@@ -24,9 +24,7 @@ export default async function CharacterPage({ params }: { params: Params }) {
 
   return (
     <div className={shared.container}>
-      <Link href="/characters" className={shared.backLink}>
-        <BiLeftArrowAlt /> Back to characters
-      </Link>
+      <Backlink label={"Back to characters"} href={"/characters"} />
 
       <div className={styles.card}>
         <div className={styles.cardInner}>

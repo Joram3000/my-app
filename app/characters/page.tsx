@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { type Metadata } from "next";
 
-import { API_PAGE_SIZE, fetchCharacters } from "@/lib/api/rickMorty/rickMorty";
+import { fetchCharacters } from "@/lib/api/rickMorty/rickMorty";
 import { CharacterGrid } from "@/ui/character-grid";
 import { Pagination } from "@/ui/pagination";
 import { FilterBar } from "@/ui/filter-bar";
@@ -62,7 +62,7 @@ async function CharactersContent({
   };
 
   const data = await fetchCharacters(currentPage, filters);
-  const windowStart = (currentPage - 1) * API_PAGE_SIZE;
+  const windowStart = (currentPage - 1) * 20;
 
   return (
     <>

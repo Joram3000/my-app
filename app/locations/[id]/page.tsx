@@ -5,6 +5,7 @@ import { type Metadata } from "next";
 import styles from "./page.module.css";
 import shared from "@/ui/detail-page.module.css";
 import {
+  API_PAGE_SIZE,
   fetchCharactersByUrls,
   fetchLocation,
 } from "@/lib/api/rickMorty/rickMorty";
@@ -16,7 +17,6 @@ import { Backlink } from "@/ui/backlink";
 
 export const metadata: Metadata = { title: "Rick & Morty - Location" };
 
-const PAGE_SIZE = 20;
 
 type Params = Promise<{ id: string }>;
 type SearchParams = Promise<{ page?: string }>;
@@ -83,11 +83,11 @@ async function LocationResidents({
   const { page: pageParam } = await searchParams;
   const currentPage = Math.max(1, Number(pageParam) || 1);
   const totalResidents = residents.length;
-  const totalPages = Math.ceil(totalResidents / PAGE_SIZE);
-  const start = (currentPage - 1) * PAGE_SIZE;
+  const totalPages = Math.ceil(totalResidents / API_PAGE_SIZE);
+  const start = (currentPage - 1) * API_PAGE_SIZE;
 
   const characters = await fetchCharactersByUrls(
-    residents.slice(start, start + PAGE_SIZE),
+    residents.slice(start, start + API_PAGE_SIZE),
   );
 
   const info = {
